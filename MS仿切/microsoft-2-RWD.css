@@ -1,0 +1,1266 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /* 預設去貼copy-rule = 複製規則 */
+    margin: 0;
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000;
+    background-color: #fff;
+
+}
+nav{
+    z-index: 6;
+}
+h1 {
+
+    font-size: 1.8rem;
+}
+
+p {
+    font-size: 16px;
+}
+
+a {
+    color: #0067b8;
+    text-decoration: none;
+}
+
+/* 用container容器，控制固定寬度 */
+/* 必須先用電腦版來寫，給客戶看，最後才用手機板 */
+
+ul {
+    list-style-type: none;
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 這個w-100一定要放 100%寬，不然會有空白處 */
+.w-100 {
+    width: 100%;
+}
+
+img {
+    /* 垂直-對齊:底部，把圖片對著底部 */
+    vertical-align: bottom;
+}
+
+
+.container-normal {
+    /* background-color: pink; */
+    width: 90%;
+    margin: auto;
+    max-width: 1600px;
+}
+
+@media (max-width:860px) {
+
+    /* 做nav的時候 單獨的container-normal寬度要變100% */
+    .container-normal {
+        width: 100%;
+        padding: 0 10px;
+    }
+}
+
+.container-full {
+    width: 100%;
+    margin: auto;
+    max-width: 1920px;
+}
+
+nav {
+    width: 100%;
+    height: 54px;
+    /* background-color: skyblue; */
+    /* 文字太大，容易放不下。依照ms需求F12查 */
+    font-size: 13px;
+
+    display: flex;
+    justify-content: space-between;
+    /* 讓搜索鏡可以auto到最左邊邊 */
+    position: relative;
+}
+
+/* 再做一次 padding : 0 ? */
+@media (max-width:860px) {
+    nav.container-normal {
+        padding: 0;
+    }
+}
+
+
+/* 查看F12=>padding:16px 6px 16px 10px */
+nav.container-normal .logo {
+    /* background-color: antiquewhite; */
+    padding: 16px 6px 16px 10px;
+}
+
+
+
+@media (max-width:860px) {
+
+    /* 讓logo在860px時置中， 但是要記得控制nav當relative */
+    nav.container-normal .logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+nav.container-normal .logo img {
+    /* html 已經有插入圖片了，就不要再插入一次背景圖，。重疊。 */
+    width: 108px;
+    height: 23px;
+
+}
+
+nav ul {
+    list-style-type: none;
+    /* background-color: darkkhaki; */
+    /* 顏色背景都必須要有，不然每次都會點不到 */
+    width: 100%;
+    height: 100%;
+    /* ul 必須調整為0 不然每次文字都會內縮!!! */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+}
+
+nav ul.function-menu .ham-small {
+    display: none;
+}
+
+/* 原本是消失的，指定860px寬度才開啟按鈕。 */
+@media (max-width:860px) {
+    nav ul.function-menu .ham-small {
+        display: flex;
+    }
+}
+
+nav ul.function-menu .ham-small label.ham-btn {
+    /* background-color: aquamarine; */
+    width: 48px;
+    height: 48px;
+    /* 因為有設定大小，不用再給他區塊 */
+    /* display: block; */
+}
+
+/* .ham-small label.ham-btn .ham-small{
+    width: 100px;
+} */
+/* +第一個兄弟  直接把 漢堡條三條 img 貼上即可*/
+nav ul.function-menu .ham-small label.ham-btn {
+    /* background-color: blue; */
+    /* background-image: url(./img/micro專用/漢堡條三條.jpg); */
+    background-size: cover;
+    display: block;
+    position: relative;
+    margin-left: 25px;
+
+}
+
+nav ul.function-menu .ham-small label.ham-btn .line {
+    width: 40px;
+    height: 5px;
+    background-color: #000;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.1s;
+}
+
+nav ul.function-menu .ham-small label.ham-btn .line-1 {
+    top: 25%;
+}
+
+nav ul.function-menu .ham-small label.ham-btn .line-2 {
+    top: 50%;
+}
+
+nav ul.function-menu .ham-small label.ham-btn .line-3 {
+    top: 75%;
+}
+
+nav ul.function-menu #ham-btn-switch:checked+label .line-2 {
+    display: none;
+}
+
+nav ul.function-menu #ham-btn-switch:checked+label .line-1 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+nav ul.function-menu #ham-btn-switch:checked+label .line-3 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+
+nav ul.function-menu .ham-small ul.mobile-menu {
+    width: 100%;
+    height: 420px;
+    background-color: lightgray;
+    border-bottom: 2px solid black;
+    position: absolute;
+    left: 0;
+    /* 這是nav本來的高度 */
+    top: 54px;
+    /* 按下去要消失 */
+    display: none;
+    /* 前面被nav的display flex 占用，要轉column */
+    flex-direction: column;
+
+
+}
+
+/* 每個li都要寬100% 延展 上面都需要一條灰白線 */
+ul.mobile-menu li {
+    width: 100%;
+    border-top: 1px solid #e6e6e6;
+}
+
+ul.mobile-menu li a {
+    padding: 20px 30px;
+    color: black;
+    display: block;
+
+}
+
+li.ham-small:hover span
+
+/*整個漢堡條都被hover蓋住，單獨漢堡條的hover單獨關 */
+    {
+    border-bottom: none;
+}
+
+ul.mobile-menu a:focus,
+/* 在按鈕裡面被focus =>一定要寫focus 不然都永久出現點點*/
+label.chevron-switch-label:focus {
+    outline: 2px dotted black;
+    outline-offset: -5px;
+}
+
+ul.mobile-menu li,
+.ham-btn {
+    border-bottom: none;
+}
+
+ul.mobile-menu li {
+    background-color: lightgray;
+}
+
+/* ~後面的兄弟
++label 第一個兄弟 */
+#ham-btn-switch:checked~ul.mobile-menu {
+    /* 顯示 */
+    display: flex;
+}
+
+
+/* //////////子-下拉式選單////////// */
+/* 手機menu的子menu */
+ul.mobile-menu ul.sub-dropDown-menu {
+    /* background-color: plum; */
+    /* 本來ul就有display-flex 直接變直排 */
+    flex-direction: column;
+    /* 先消失確認排序正確，下面真的按了再出現就好 */
+    display: none;
+    padding: 0px 30px;
+}
+
+
+/* 子-下拉式選單 第一個  被按下去後面~兄弟 出現 紅背景測試*/
+/* 因為子選單超過2個以上，把input單獨設跟label一樣的class名稱。多個子可以被單獨點開+點關  */
+.chevron-switch:checked~ul.sub-dropDown-menu {
+    /* background-color: red; */
+    /* 按了要出現畫面 因為本來是column 有設flex ，開啟必須flex */
+    display: flex;
+}
+
+ul.mobile-menu label.chevron-switch-label {
+    padding: 20px 30px;
+    /* label是行內元素，要變區塊元素才可以變化 */
+    display: flex;
+    /* background-color: lightgray;
+    margin-top: -10px; */
+
+    justify-content: space-between;
+    /* 讓上箭頭先消失，然後分散對齊 */
+    cursor: pointer;
+}
+
+ul.mobile-menu label.chevron-switch-label li {
+    cursor: pointer;
+
+}
+
+ul.mobile-menu label.chevron-switch-label .fa-chevron-up {
+    display: none;
+}
+
+/* 權限問題，必須按下去比上一個值大 */
+.chevron-switch:checked+label.chevron-switch-label .fa-chevron-down {
+    display: none;
+}
+
+/* 箭頭不用排版，所以用block開啟顯示就好 */
+.chevron-switch:checked+label.chevron-switch-label .fa-chevron-up {
+    display: block;
+}
+
+nav ul li a {
+    padding: 16px 8px 16px;
+    /* background-color: yellow; */
+    color: #000;
+}
+
+
+nav ul a:focus span {
+    border-bottom: 2px solid black;
+}
+
+nav ul li:hover span {
+    border-bottom: 2px solid black;
+}
+
+nav ul li a:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted black;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: -5px;
+}
+
+nav ul.pc-menu {
+    /* 最小跟最大都要依照RWD 860 px 左右推擠來確認 */
+    /* 限制在一個範圍內固定畫面 強制不爆版  */
+    min-width: 320px;
+    max-width: 800px;
+}
+
+@media (max-width:860px) {
+
+    /* 860px時，讓左邊nav消失 */
+    nav ul.pc-menu {
+        display: none;
+    }
+}
+
+nav ul.function-menu {
+
+    justify-content: end;
+    /* 最小寬度，避免爆版 */
+    flex: 1;
+    min-width: 220px;
+
+}
+
+/* 把i con 的class拿來用 就能蒐的到 */
+nav ul.function-menu .fa-magnifying-glass {
+    transform: rotateY(180deg);
+}
+
+@media (max-width:1400px) {
+    nav ul.function-menu .text-hide {
+        display: none;
+    }
+}
+
+
+@media (max-width:860px) {
+
+    nav ul.function-menu .all-ms {
+        display: none;
+    }
+
+    nav ul.function-menu .search {
+        margin-right: auto;
+    }
+}
+
+nav ul.function-menu .all-ms-label {
+    cursor: pointer;
+    padding: 16px 8px 10px;
+    z-index: 20;
+}
+
+nav ul.function-menu .all-ms-label:focus span {
+    outline: 3px dotted black;
+    outline-offset: 14px;
+}
+
+/* nav ul.function-menu .all-ms-label li:hover span{
+    border-bottom: 2px solid black;
+} */
+
+nav ul.function-menu .all-ms-label:hover span {
+    border-bottom: 2px solid black;
+}
+
+/* 把all-ms的後代先放外面 ，絕對定位是對著nav移動，因為function沒有relative，要清楚自己跟誰跑*/
+nav ul.function-menu .all-ms .all-ms-dropDown {
+    background-color: lightgray;
+    color: black;
+    width: 1170px;
+    /* height: 500px; 
+    因威高度設置導致wrap掉下去了，要先關閉*/
+    position: absolute;
+    /* 因為灰背景擋住nav 所以需要top:100% 讓他剛好貼在nav下面 */
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    z-index: 1;
+    /* 主要下拉選單先隱藏關閉，按下去才讓選單打開 */
+    /* display: flex; */
+    display: none;
+    flex-wrap: wrap;
+    font-size: 13px;
+    padding: 0 80px;
+    justify-content: flex-start;
+}
+
+.all-ms #all-ms-switch:checked~.all-ms-dropDown {
+    display: flex;
+}
+
+@media (max-width:1200px) {
+    nav ul.function-menu .all-ms .all-ms-dropDown {
+        width: 100%;
+    }
+}
+
+nav ul.function-menu .all-ms .all-ms-dropDown .review {
+    width: 108%;
+    /* 原本看不到字，置中就可以看到 */
+    text-align: center;
+    height: 38px;
+    background-color: #e6e6e6;
+    line-height: 38px;
+    border-bottom: 2px solid #000;
+}
+
+
+
+nav ul.function-menu .all-ms .all-ms-dropDown ul li {
+    /* 不要上下左右padding ，上下10px 就好 */
+    /* padding: 10px; */
+    color: black;
+    padding: 5px 0;
+
+    /* 讓整個虛線可以往左偏移，並且文字也可以剛好貼齊左邊 */
+    margin: -8px;
+}
+
+nav ul.function-menu .all-ms .all-ms-dropDown ul li a {
+    /* 虛線的高度是第一個5px位置 */
+    padding: 12px 8px 12px;
+    /* background-color: yellow; */
+    color: #606060;
+    font-size: 11px;
+    display: block;
+}
+
+nav ul.function-menu .all-ms .all-ms-dropDown ul a:focus span,
+nav ul.function-menu .all-ms .all-ms-dropDown ul li:hover span {
+    border-bottom: 0.5px solid black;
+}
+
+nav ul.function-menu .all-ms .all-ms-dropDown ul a:hover {
+    background-color: #b7b6b6;
+}
+
+/* 找源頭 li.all-ms 被hover，的span文字none取消 */
+li.all-ms:hover span {
+    border-bottom: none;
+}
+
+/* 讓ul 設置寬度 100% 平均分6塊，並且轉直向 */
+nav ul.function-menu .all-ms .all-ms-dropDown ul {
+    width: calc(100%/6);
+    flex-direction: column;
+
+}
+
+/* 1200px寬的時候，在wrap 變5塊，掉一塊 */
+@media (max-width:1200px) {
+    nav ul.function-menu .all-ms .all-ms-dropDown ul {
+        width: calc(100%/5);
+
+    }
+}
+
+@media (max-width:1000px) {
+    nav ul.function-menu .all-ms .all-ms-dropDown ul {
+        width: calc(100%/4);
+
+    }
+}
+
+
+
+
+header.container-full {
+    /* background-color: sandybrown; */
+    width: 100%;
+    margin-bottom: 50px;
+    /* height: 450px; */
+}
+
+main {
+    /* background-color: rgb(148, 240, 221); */
+    width: 100%;
+    /* height: 5000px; */
+    position: relative;
+}
+
+main section {
+    margin-bottom: 50px;
+}
+
+main section.three-choice {
+    /* background-color: pink; */
+    width: 100%;
+    /* height: 150px; => 要wrap 掉下來就不要設固定高度*/
+    padding: 50px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /*  先轉column 在置中
+    
+    align-items: center; */
+    /* 均分gap:10px */
+    /* text-align: center; 這個寫法也可，但是flex首選 */
+}
+
+
+
+/* img是後代 */
+main section.three-choice .one-choice {
+    /* background-color: yellow; */
+    width: 170px;
+    height: 72px;
+    /* 在做一次對齊-與文字對齊 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    text-align: center;
+}
+
+main section.three-choice .one-choice img {
+
+    /* 針對圖片做寬高設定 */
+    background-color: pink;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+main .three-choice .one-choice a:focus .text {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted #0067b8;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: 0px;
+}
+
+
+main section.three-choice .text {
+    /* background-color: aqua/marine; */
+    /* 單獨加底線: underline */
+    text-decoration: underline;
+}
+
+main section.four-card {
+    margin-top: -15px;
+    /* background-color: rgb(239, 241, 67); */
+    width: 100%;
+    /* height: 480px;  這高度固定會讓我縮小時圖片全部漂浮在上空 */
+    display: flex;
+    /* 以下兩種做法都可以。因為已經計算好calc */
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* gap:20px; */
+}
+
+main section.four-card .one-card {
+    /* 100%寬 中間三個大約20px * 3 條 / 4張圖片 */
+    width: calc((100% - 20px * 3) / 4);
+    /* height: 480px; */
+    background-color: white;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 5px lightgray;
+}
+
+@media (max-width:1084px) {
+    main section.four-card .one-card {
+        width: calc((100% - 20px) / 2);
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width:540px) {
+    main section.four-card .one-card {
+        width: 100%;
+    }
+}
+
+main section.four-card .one-card .one-card-text {
+    width: 100%;
+    padding: 0 20px;
+    height: 190px;
+    /* background-color: aquamarine; */
+}
+
+main section.four-card .one-card .one-card-text-2 {
+    width: 100%;
+    padding: 0 20px;
+    height: 260px;
+    /* background-color: aquamarine; */
+}
+
+main section.four-card .one-card .one-card-text-3 {
+    width: 100%;
+    padding: 0 20px;
+    height: 225px;
+    /* background-color: aquamarine; */
+}
+
+
+
+main section.four-card .one-card .btn-out-a {
+    margin: 8px 24px 8px 12px;
+    text-align: center;
+    line-height: 50px;
+
+}
+
+main section.four-card .one-card .btn-out-a:hover {
+
+    text-decoration: underline;
+}
+
+main section.four-card .one-card-text-out .btn-out-a {
+    padding: 12px 8px;
+}
+
+main section.four-card .one-card-text-out .btn-out-a:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted #015da3;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: -5px;
+}
+
+
+main section.four-card .one-card .fa-chevron-right:hover {
+    border-bottom: unset;
+    transform: scale(1.3);
+}
+
+main section.four-card .one-card .btn {
+    width: auto;
+    height: 48px;
+    margin-left: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    text-align: left;
+    background-color: #0067b8;
+    border-radius: 2px;
+
+}
+
+main section.four-card .one-card .btn:hover {
+    background-color: #015da3;
+}
+
+
+
+main section.four-card ul li a {
+    padding: 16px 8px 16px;
+    /* background-color: yellow; */
+    color: #000;
+}
+
+/* main section.four-card ul a:focus span {
+    border-bottom: 2px solid white;
+}
+
+main section.four-card ul li:hover span {
+    border-bottom: 2px solid white;
+} */
+
+main section.four-card ul li a:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted white;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: -5px;
+}
+
+
+main section.four-card .one-card .btn-out {
+    width: 100%;
+    height: 40px;
+    /* height: 40%; */
+    /* background-color: pink; */
+}
+
+/* main的後代，語意更清楚 */
+main.container-normal section.big-img {
+    width: 100%;
+    /* height: 600px; ❌ 拿掉 */
+    margin: 100px 0 30px 0;
+}
+
+main section.others {
+    /* background-color: aqua; */
+    width: 100%;
+    /* height: 300px; */
+}
+
+
+.sticky-go-top:hover {
+    background-color: white;
+    border: 1px solid lightgray;
+    box-shadow: 0.5px 0.5px 1px gray;
+    /* text-shadow: 1px 1px 50px gray; */
+}
+
+.sticky-go-top:hover {
+    background-color: white;
+}
+
+.go-top-ul li a {
+    padding: 16px 8px 10px;
+    /* background-color: yellow; */
+    color: #000;
+}
+
+.sticky-area {
+    width: 125px;
+    height: 70%;
+    position: absolute;
+    /* background-color: yellow; */
+    right: 0;
+    top: 31%;
+}
+
+/* 這個要放在li，的位置才吃的到  滑動效果*/
+.sticky-go-top {
+    width: 125px;
+    height: 40px;
+    background-color: lightgray;
+    color: #000;
+    position: sticky;
+    /* background-color: red; */
+    /* 你不用calc的話，他根本不動，要把它自己的40h扣掉才會剛好貼在底部 */
+    top: calc(100% - 40px);
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: px;
+
+
+}
+
+.go-top-ul li a:focus {
+
+    background-color: lightgray;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted black;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: -5px;
+}
+
+footer {
+    background-color: gainsboro;
+    width: 100%;
+    /* height: 500px; */
+    display: flex;
+    justify-content: space-between;
+}
+
+footer .container-normal {
+    /* width: 100%; */
+    /* height: 500px; */
+    /* background-color: pink; */
+}
+
+footer .container-normal .menu {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* background-color: #0067b8; */
+}
+
+footer ul {
+    /* 查看F12之後發現 ul 本身自己就帶設定值，必須給他關閉 */
+    margin: 0;
+    padding: 0;
+    color: rgb(93, 93, 93);
+    /* 要讓右邊有空隙 不能黏牆壁太緊，所以要除6 */
+    width: calc(100% / 6);
+    font-size: 16px;
+}
+
+footer ul li {
+    /* 不要上下左右padding ，上下10px 就好 */
+    /* padding: 10px; */
+    color: black;
+    padding: 5px 0;
+
+    /* 讓整個虛線可以往左偏移，並且文字也可以剛好貼齊左邊 */
+    margin: -8px;
+}
+
+footer ul li a {
+    /* 虛線的高度是第一個5px位置 */
+    padding: 8px 8px 15px;
+    /* background-color: yellow; */
+    color: #606060;
+    font-size: 11px;
+
+}
+
+footer ul a:focus span,
+footer ul li:hover span {
+    border-bottom: 0.5px solid black;
+}
+
+
+
+footer ul li a:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 2px dotted black;
+    /* 可調整內圈的距離offset -10px */
+    /* 縮比較緊用offset 位移 */
+    outline-offset: -7px;
+}
+
+/* 推到他變得前1px */
+@media (max-width:1084px) {
+
+    footer ul {
+        width: calc(100% / 3);
+    }
+}
+
+@media (max-width:540px) {
+    footer ul {
+        width: 100%;
+    }
+}
+
+footer .bottom-out {
+    width: 100%;
+    background-color: red;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer .bottom-left {
+
+    width: 30%;
+    background-color: antiquewhite;
+}
+
+footer .bottom-left-ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+footer .bottom-left-ul li {
+    padding: 0 30px;
+    background-color: blue;
+    gap: 10px;
+    width: 200px;
+    font-size: 20px;
+}
+
+footer .bottom-right {
+    width: 40%;
+    background-color: darkgrey;
+}
+
+footer .bottom-right .bottom-right-ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+footer .bottom-right .bottom-right-ul li {
+    padding: 0 30px;
+}
+
+section.others .about {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+section.others .about span {
+    font-size: 16px;
+    padding: 0 20px;
+}
+
+section.others .about img {
+    width: 32px;
+    height: 32px;
+    margin: 10px;
+}
+
+section.others .about .about-img:hover {
+    border-bottom: 1px solid #0067b8;
+    border: 3px dotted #015da3;
+}
+
+section.others .about .about-img:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted #015da3;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: 0px;
+}
+
+
+section.others .id-number {
+    padding-top: 48px;
+}
+
+footer section .nav .nav-out {
+    /* background-color: antiquewhite; */
+    width: calc((100% -10px) / 2);
+    height: 83px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer section .nav .nav-out .nav-left,
+footer section .nav .nav-out .nav-right {
+    /* background-color: red; */
+    height: 31px;
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+    padding: 5px 0;
+
+}
+
+@media (max-width:898px) {
+    footer section .nav .nav-out .nav-left {
+        flex: 1;
+        justify-content: start;
+        margin-top: 15px;
+    }
+
+    footer section .nav .nav-out {
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+    }
+}
+
+
+footer section .nav .nav-out .nav-left span,
+footer section .nav .nav-out .nav-right span {
+    margin-right: 20px;
+    color: #616161;
+}
+
+footer section .nav .nav-out .nav-left .world {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(88, 87, 87);
+    border-radius: 50%;
+}
+
+footer section .nav .nav-out .nav-left .check {
+    width: 28px;
+
+    /* border: 2px solid rgb(91, 91, 246); */
+    /* background-color: rgb(146, 145, 145); */
+    border-radius: 15px;
+}
+
+
+
+footer section .nav .nav-out .nav-left a,
+footer section .nav .nav-out .nav-right a {
+    padding: 16px 8px 16px;
+    color: #000;
+}
+
+footer section .nav .nav-out .nav-left a:focus span,
+footer section .nav .nav-out .nav-right a:focus span {
+    border-bottom: 2px solid #616161;
+}
+
+
+footer section .nav .nav-out span:hover {
+    border-bottom: 2px solid #616161;
+}
+
+
+footer section .nav .nav-out .nav-left a:focus,
+footer section .nav .nav-out .nav-right a:focus {
+    background-color: transparent;
+    /* 輪廓=外面的線(包boder外的線)，跟boder完全不同 */
+    outline: 3px dotted #616161;
+    /* 可調整內圈的距離offset -10px */
+    outline-offset: -5px;
+}
+
+.five-icon ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.five-icon ul li {
+    width: 44px;
+    height: 44px;
+}
+
+.ms-unset-line {
+    border: none;
+    text-decoration: none;
+}
+
+.five-icon-big img {
+    width: 20px;
+}
+
+.five-icon-big img:hover {
+    transform: scale(1.5);
+}
+
+.five-icon-small img {
+    width: 10px;
+    margin-bottom: 5px;
+}
+
+.five-icon-small img:hover {
+    transform: scale(1.4);
+    background-color: black;
+    border-radius: 50%;
+}
+
+/* 當加上 .active 時，這整頁（連圖帶字）一起秀出來 */
+.banner-item.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 5;
+    /* 確保在最上層 */
+}
+
+
+.banner-item {
+    position: relative;
+    /* 讓內部的絕對定位有基準點 */
+    width: 100%;
+}
+
+.banner-item picture img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* 1920px~1084px 的文字：在左半邊，垂直置中 */
+.banner-item .slide-text {
+    position: absolute;
+    left: 5%;
+    /* 距離左圖片邊框內縮 20px */
+    top: 50%;
+    transform: translateY(-50%);
+    /* 完美的垂直置中 */
+    width: 45%;
+    /* 佔據大約左半邊 */
+
+    text-align: left;
+    color: #000000;
+    /* 如果字看不清，桌機版可以先改白色 */
+    background-color: transparent;
+    /* 無背景框 */
+    border: none;
+    z-index: 10;
+}
+
+/* 預設的按鈕樣式 */
+.banner-item .slide-text .banner-btn {
+    display: inline-block;
+    /* 讓按鈕寬度由字決定，或設定固定寬 */
+    background-color: #086cb8;
+    color: white;
+    width: 150px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 15px;
+}
+.banner-item .slide-text .banner-btn:active {
+    outline: 3px dotted white;
+    outline-offset: -5px;
+}
+
+@media (max-width: 1083px) {
+
+    /* 為了不讓漂浮的白底框壓到下方的 .five-icon 插圖 */
+    /* 我們讓整個 header 產生一個向下的推力，留位置給文字框 */
+    header .container-full {
+        margin-bottom: 80px;
+        /* 數值可以依你白底框彈出的高度做調整 */
+    }
+
+    .banner-item {
+        margin-bottom: 250px;
+    }
+
+    .banner-item .slide-text {
+        position: absolute;
+        left: 2.5%;
+        bottom: -40%;
+        /* 用負的值，讓它「往外彈出」稍微壓到 Banner 底部 */
+        top: auto;
+        /* 解除桌機版的 top: 50% */
+        transform: none;
+        /* 解除桌機版的垂直置中位移 */
+
+        width: 95%;
+        /* 寬度鋪滿一點 */
+        background-color: white;
+        border: 1px solid #d6d4d4;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* 加點微陰影，更有漂浮感 */
+    }
+
+    /* 加上你原本設定的內距 */
+    .banner-item .slide-text h2 {
+        padding: 20px 20px 0 20px;
+    }
+
+    .banner-item .slide-text p {
+        padding: 10px 20px;
+    }
+
+    .banner-item .slide-text .banner-btn {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 859px) {
+    .banner-item {
+        margin-bottom: 0px;
+    }
+    /* 手機版不需要額外推開下方的空間了，因為它已經不是絕對定位了 */
+    header .container-full {
+        margin-bottom: 0;
+    }
+
+    .banner-item .slide-text {
+        position: static;
+        /* 關鍵！解除 absolute 絕對定位，回到正常的網頁流 */
+        width: 100%;
+        /* 寬度 100% 滿版 */
+        border: none;
+        border-bottom: 1px solid #d6d4d4;
+        /* 只留底部邊框 */
+        box-shadow: none;
+        /* 拿掉漂浮陰影 */
+
+        /* 內距調整，讓它貼齊底部排版 */
+        padding: 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+@media (max-width:1083px) {
+    .slide-text {
+        position: absolute;
+        left: 2.5%;
+        bottom: 20%;
+
+        text-align: left;
+        color: black;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        width: 95%;
+        z-index: 10;
+        background-color: white;
+        border: 1px solid #d6d4d4;
+
+    }
+
+    .slide-text p {
+        padding: 0 20px 20px 20px;
+    }
+
+    .slide-text h2 {
+        padding: 20px 20px 0 20px;
+    }
+
+    .slide-text .banner-btn {
+        margin-bottom: 20px;
+        margin-left: 20px;
+        background-color: #086cb8;
+        color: white;
+        width: 150px;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+    }
+} */
+
+/* 文字定位：直接在外框裡置中 */
+/* 
+@media (max-width:859px) {
+    .slide-text {
+        position: none;
+        left: none;
+        bottom: none;
+        text-align: left;
+        color: black;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        z-index: 10;
+        background-color: white;
+        border-bottom: 1px solid #d6d4d4;
+
+    }
+
+} */
