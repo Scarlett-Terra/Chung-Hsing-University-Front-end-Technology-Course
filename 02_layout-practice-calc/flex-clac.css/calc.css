@@ -1,0 +1,48 @@
+*,::before::after{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+}
+.all{
+    width: 80%;
+    margin: auto;
+    height: 600px;
+    background-color: pink;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box-all{
+    background-color: paleturquoise;
+    width: 100%;
+    height: calc((100% - 10px*2) / 3);
+    
+    
+}
+.box-1{
+    background-color: palegreen;
+}
+.box-2{
+    background-color: palegreen;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.box-3{
+    background-color: blue;
+}
+
+.box-4{
+    width: calc(50% - 5px);
+    height: 100%;
+    
+    background-color: peru;
+}
+
+.box-5{
+    width: calc(50% - 5px);
+    height: 100%;
+    background-color: papayawhip;
+}
