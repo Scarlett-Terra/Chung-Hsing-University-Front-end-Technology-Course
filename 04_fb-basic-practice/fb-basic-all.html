@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仿切FB</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 3000px;
+        }
+
+        /* 有position只能用一次，不能再多加 */
+        #nav {
+            background-color: salmon;
+            width: 100%;
+            height: 56px;
+            top: 0;
+            left: 0;
+            position: fixed;
+            z-index: 1;
+        }
+
+        #all {
+
+            width: 100%;
+            height: 600px;
+            margin-top: 56px;
+            background: linear-gradient(to top, pink, white);
+        }
+
+        #banner {
+            background-color: bisque;
+            width: 70%;
+            height: 400px;
+            margin: auto;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-image: url(./img/背景.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* 想做absolute的時候，上層父層是誰，就是基準點relative */
+        #avatar {
+            background-color: bisque;
+            width: 168px;
+            height: 168px;
+            position: absolute;
+            border-radius: 50%;
+            bottom: -90px;
+            left: 35px;
+            background-image: url(./img/男主.png);
+            background-size: cover;
+            background-position: -2px -5px;
+            border: 3px solid white;
+            background-repeat: no-repeat;
+        }
+
+        #avatar-camara {
+            background-color: rgb(227, 226, 226);
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: -2px;
+            bottom: 3px;
+            border-radius: 50%;
+            font-size: 12px;
+            color: aliceblue;
+            line-height: 18px;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-image: url(./fb/camara.svg);
+            background-size: 24px;
+            background-position: center;
+        }
+
+        #nav-left {
+            background-color: rgb(6, 6, 6);
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #fb {
+            background-color: rgb(27, 61, 235);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            position: absolute;
+            left: 20px;
+            top: 8px;
+            background-image: url(./fb/fb.svg);
+        }
+
+        /* 只要固定fixd內的話，要用position 去給他絕對位置固定起來 */
+        #search {
+            background-color: rgb(72, 71, 71);
+            width: 42%;
+            height: 40px;
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            border-radius: 30px;
+
+        }
+
+        /* 不要用cover，否則圖示太大 */
+        #search-img {
+
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/serch.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #search-text {
+
+            width: 80%;
+            height: 40px;
+            position: absolute;
+            left: 25%;
+            top: 0px;
+            color: rgb(170, 171, 171);
+            line-height: 40px;
+        }
+
+        #nav-center {
+            background-color: rgb(176, 253, 159);
+            width: 40%;
+            height: 100%;
+            position: absolute;
+            left: 30%;
+            top: 0;
+        }
+
+        #nav-center-home {
+            background-color: rgb(7, 7, 7);
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-image: url(./fb/home.svg);
+            background-repeat: no-repeat;
+            background-size: 24px;
+            background-position: center;
+        }
+
+        #nav-center-friend {
+            background-color: rgb(7, 7, 7);
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            left: 20%;
+            top: 0;
+            background-image: url(./fb/friend.svg);
+            background-repeat: no-repeat;
+            background-size: 24px;
+            background-position: center;
+        }
+
+        #nav-center-reel {
+            background-color: rgb(7, 7, 7);
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            left: 40%;
+            top: 0;
+            background-image: url(./fb/reel.svg);
+            background-repeat: no-repeat;
+            background-size: 24px;
+            background-position: center;
+        }
+
+        #nav-center-shop {
+            background-color: rgb(7, 7, 7);
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            right: 20%;
+            top: 0;
+            background-image: url(./fb/shop.svg);
+            background-repeat: no-repeat;
+            background-size: 24px;
+            background-position: center;
+        }
+
+        #nav-center-game {
+            background-color: rgb(7, 7, 7);
+            width: 20%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-image: url(./fb/game.svg);
+            background-repeat: no-repeat;
+            background-size: 24px;
+            background-position: center;
+        }
+
+
+
+
+        /* ///////照相機位置////// */
+        #carama {
+            background-color: rgb(255, 254, 254);
+            width: 150px;
+            height: 30px;
+            position: absolute;
+            bottom: 20px;
+            right: 35px;
+            border-radius: 10px;
+
+        }
+
+        /* 不要用cover，否則圖示太大 */
+        #carama-img {
+
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/camara.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #carama-text {
+            width: 60%;
+            height: 30px;
+            position: absolute;
+            font-size: 15px;
+            left: 25%;
+            top: 0px;
+            color: rgb(54, 54, 55);
+            line-height: 30px;
+        }
+
+        /* 右上角的右半段 */
+        #nav-right {
+            background-color: rgb(12, 12, 12);
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+
+        #nav-right-myselfHomepage {
+
+            width: 10%;
+            height: 100%;
+            position: absolute;
+            right: 5%;
+            top: 0;
+            background-image: url(./img/男主.png);
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            padding: 0.5px;
+            background-size: 62px;
+            background-position: -2px 0px;
+            border: 0.5px solid snow;
+        }
+
+        #nav-right-dingdong-arror {
+            background-color: rgb(115, 114, 114);
+            width: 11px;
+            height: 11px;
+            position: absolute;
+            right: -2px;
+            bottom: 3px;
+            border-radius: 50%;
+            font-size: 12px;
+            color: aliceblue;
+            line-height: 18px;
+            text-align: center;
+            background-image: url(./fb/arrow.svg);
+            background-size: cover;
+            background-position: 0px;
+            border: 1px solid rgb(248, 248, 247);
+        }
+
+        #nav-right-dingdong {
+            background-color: rgb(49, 48, 48);
+            width: 8%;
+            height: 80%;
+            position: absolute;
+            right: 20%;
+            top: 8px;
+            background-image: url(./fb/dingdong.svg);
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        #nav-right-message {
+            background-color: rgb(49, 48, 48);
+            width: 8%;
+            height: 80%;
+            position: absolute;
+            right: 30%;
+            top: 8px;
+            background-image: url(./fb/message.svg);
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        #nav-right-message-number {
+            background-color: rgb(232, 47, 47);
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            border-radius: 50%;
+            font-size: 12px;
+            color: aliceblue;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        #nav-right-ninedot {
+            background-color: rgb(49, 48, 48);
+            width: 8%;
+            height: 80%;
+            position: absolute;
+            right: 40%;
+            top: 8px;
+            background-image: url(./fb/ninedot.svg);
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        #nav-right-dingdong-number {
+            background-color: rgb(232, 47, 47);
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            border-radius: 50%;
+            font-size: 12px;
+            color: aliceblue;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        /* ////// 新增區塊 add /// */
+        #add {
+            background-color: #0866ff;
+            width: 160px;
+            height: 30px;
+            position: absolute;
+            bottom: -60px;
+            right: 255px;
+            border-radius: 10px;
+
+        }
+
+        /* 不要用cover，否則圖示太大 */
+        #add-img {
+
+            width: 40px;
+            height: 30px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/plus.png);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #add-text {
+            font-size: 12px;
+            line-height: 10px;
+            text-align: left;
+            color: white;
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            left: 25%;
+            top: 0px;
+            line-height: 30px;
+        }
+
+        /* ///編輯個人檔案/// */
+        /* ////// 新增區塊 add /// */
+        #eddit {
+            background-color: #616060;
+            width: 160px;
+            height: 30px;
+            position: absolute;
+            bottom: -60px;
+            right: 90px;
+            border-radius: 10px;
+
+        }
+
+        /* 不要用cover，否則圖示太大 */
+        #eddit-img {
+
+            width: 40px;
+            height: 30px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/eddit.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #eddit-text {
+            font-size: 12px;
+            line-height: 10px;
+            text-align: left;
+            color: white;
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            left: 25%;
+            top: 0px;
+            line-height: 30px;
+        }
+
+
+        /* ///箭頭上//// */
+        #arrow {
+            background-color: #616060;
+            width: 50px;
+            height: 30px;
+            position: absolute;
+            bottom: -60px;
+            right: 35px;
+            border-radius: 10px;
+        }
+
+        /* 不要用cover，否則圖示太大 */
+        #arrow-img {
+
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/arrow.svg);
+            background-position: right;
+            background-repeat: no-repeat;
+        }
+
+        /* ///取名字/// */
+        #name {
+            width: 200px;
+            height: 50px;
+            bottom: -60px;
+            left: 220px;
+            position: absolute;
+        }
+
+        #myName {
+            color: #060606;
+            font-size: 30px;
+            font-weight: bolder;
+            font-family: '標楷體';
+        }
+
+        #friendNumber {
+
+            color: #706f6f;
+            font-size: 18px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        #footer-button {
+            margin: auto;
+            width: 95%;
+            height: 90px;
+            position: absolute;
+            bottom: -200px;
+            left: 35px;
+            border-top: 1px solid rgb(198, 197, 197);
+        }
+
+        #footer-button-left {
+            float: left;
+            width: 60%;
+            height: 100%;
+            position: absolute;
+        }
+
+
+
+        /* ///底層文字// */
+        #footer-button-left-post {
+            width: 12%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 0;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-about {
+            width: 14%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 8%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-friend {
+            width: 14%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 16%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-photo {
+            width: 14%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 24%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-reel {
+            width: 14%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 32%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-status {
+            width: 14%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: center;
+            left: 42%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-more {
+            width: 10%;
+            height: 100%;
+            position: absolute;
+            line-height: 100px;
+            text-align: left;
+            left: 58%;
+            top: 0;
+            font-size: 15px;
+            color: #545454;
+            font-weight: bolder;
+        }
+
+        #footer-button-left-more-arrow {
+            background-color: rgb(134, 131, 133);
+            width: 11px;
+            height: 11px;
+            position: absolute;
+            right: calc(50% - 11px);
+            bottom: calc(50% - 11px);
+            font-size: 12px;
+            color: aliceblue;
+            line-height: 18px;
+            text-align: center;
+            background-image: url(./fb/arrow.svg);
+            background-size: cover;
+            background-position: 0px;
+        }
+
+        #footer-button-right {
+            float: right;
+            width: 40%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        #footer-button-right-threeDot {
+            background-color: #616060;
+            width: 50px;
+            height: 30px;
+            position: absolute;
+            bottom: 28px;
+            right: 3px;
+            border-radius: 10px;
+        }
+
+        #footer-button-right-threeDot-img {
+
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-image: url(./fb/colon.svg);
+            background-position: right;
+            background-repeat: no-repeat;
+
+        }
+    </style>
+</head>
+<!-- 超重要!!!!!!!! 檔案上傳過後，需要在下載 -> 在解壓縮zip -> 在重新打開，最後確認是否為正常狀態能開啟 -->
+
+<body>
+    <div id="nav">
+        <!-- &nbsp;這是空白建 -->
+        <div id="nav-left">
+            <div id="fb"></div>
+            <div id="search">
+                <div id="search-img"></div>
+                <div id="search-text">搜尋 &nbsp;&nbsp;Facebook</div>
+            </div>
+        </div>
+        <!-- nav-center 已經有postion-absulution，所小孩也可以依樣有postion-absulution -->
+        <div id="nav-center">
+            <div id="nav-center-home"></div>
+            <div id="nav-center-friend"></div>
+            <div id="nav-center-reel"></div>
+            <div id="nav-center-shop"></div>
+            <div id="nav-center-game"></div>
+        </div>
+        <div id="nav-right">
+            <div id="nav-right-myselfHomepage">
+                <div id="nav-right-dingdong-arror"></div>
+            </div>
+            <div id="nav-right-dingdong">
+                <div id="nav-right-dingdong-number">13</div>
+            </div>
+            <div id="nav-right-message">
+                <div id="nav-right-message-number">7</div>
+            </div>
+            <div id="nav-right-ninedot"></div>
+        </div>
+    </div>
+    <!-- 藍色的顏色#0866ff -->
+    <div id="all">
+        <div id="banner">
+            <div id="carama">
+                <div id="carama-img"></div>
+                <div id="carama-text">編輯封面相片</div>
+            </div>
+            <div id="add">
+                <div id="add-img"></div>
+                <div id="add-text">新增到限時動態</div>
+            </div>
+            <div id="eddit">
+                <div id="eddit-img"></div>
+                <div id="eddit-text">編輯個人檔案</div>
+            </div>
+            <div id="arrow">
+                <div id="arrow-img"></div>
+            </div>
+            <div id="name">
+                <div id="myName">仙逆·王林</div>
+                <div id="friendNumber">3550 位朋友</div>
+            </div>
+
+            <div id="avatar">
+                <div id="avatar-camara"></div>
+            </div>
+            <div id="footer-button">
+                <div id="footer-button-left">
+                    <div id="footer-button-left-post">貼文</div>
+                    <div id="footer-button-left-about">關於</div>
+                    <div id="footer-button-left-friend">朋友</div>
+                    <div id="footer-button-left-photo">相片</div>
+                    <div id="footer-button-left-reel">Reel</div>
+                    <div id="footer-button-left-status">打卡狀態</div>
+                    <div id="footer-button-left-more">更多
+                        <div id="footer-button-left-more-arrow"></div>
+                    </div>
+                </div>
+                <div id="footer-button-right">
+                    <div id="footer-button-right-threeDot">
+                        <div id="footer-button-right-threeDot-img"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

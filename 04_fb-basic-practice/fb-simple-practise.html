@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.fb-position仿切</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 3000px;
+        }
+
+        /* position:fixed 固定後，塗層跟普通圖是不同位階 */
+        #nav {
+            background-color: aquamarine;
+            width: 100%;
+            height: 56px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9;
+        }
+
+        /* 往上推56px的 導覽頁-臉書的搜索高度56px */
+        #nav-left {
+            background-color: rgb(130, 236, 109);
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #fb {
+
+            width: 40px;
+            height: 40px;
+            background-image: url(./facebook-com/fb.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            left: 20px;
+            top: 8px;
+        }
+
+        #nav-center {
+            background-color: rgb(121, 155, 230);
+            width: 40%;
+            height: 100%;
+            position: absolute;
+            left: 30%;
+            top: 0;
+        }
+
+        #nav-right {
+            background-color: rgb(210, 85, 245);
+            width: 30%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        #all {
+            background-color: rgb(209, 210, 210);
+            width: 100%;
+            height: 700px;
+            margin-top: 56px;
+            background: linear-gradient(to top, purple, white);
+        }
+
+        /* 廣告頁，需要自己去感受置中視多少% */
+        #banner {
+            background-color: sandybrown;
+            width: 70%;
+            height: 500px;
+            margin: auto;
+            background-image: url(./img/如何睡一場美容覺.png);
+            /* 不重複圖片 */
+            background-repeat: no-repeat;
+            /* cover = 覆蓋整張圖片 */
+            background-size: cover;
+            /* 背景置中 */
+            background-position: top;
+            /* 線的下左邊做圓 : 10px; */
+            border-bottom-left-radius: 10px;
+            /* 線的下右邊做圓 : 10px; */
+            border-bottom-right-radius: 10px;
+            position: relative;
+        }
+
+        /* 下載chrom的應用程式商店 -> 下載SVG Export   */
+
+        #avatar {
+            background-color: sandybrown;
+            width: 168px;
+            height: 168px;
+            position: absolute;
+            background-image: url(./img/釉.jpg);
+            border-radius: 50%;
+            background-size: cover;
+            background-position: top;
+            bottom: -100px;
+            left: 30px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav">
+        <div id="nav-left">
+            <div id="fb"></div>
+        </div>
+        <div id="nav-center"></div>
+        <div id="nav-right"></div>
+    </div>
+    <div id="all">
+        <div id="banner">
+            <div id="avatar"></div>
+        </div>
+    </div>
+</body>
+
+</html>
