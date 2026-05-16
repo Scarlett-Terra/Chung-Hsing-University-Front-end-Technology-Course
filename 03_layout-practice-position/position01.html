@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靠左靠右 點中心</title>
+    <style>
+        #all-1 {
+            background-color: rgb(224, 238, 106);
+            width: 50px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            float: left;
+        }
+
+        #box-1 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: calc(50% - 20px / 2);
+            left: calc(50% - 20px / 2);
+            line-height: 20px;
+            text-align: center;
+
+        }
+
+        #all-2 {
+            background-color: rgb(122, 245, 161);
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+        }
+
+        #box-2 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: calc(50% - 20px/2);
+            left: calc(100% - 20px);
+            line-height: 20px;
+            text-align: center;
+        }
+
+        #all-3 {
+            background-color: rgb(122, 161, 245);
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: 10px;
+            clear: right;
+
+        }
+
+        #box-3 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(100% - 20px);
+            left: calc(100% - 20px);
+            clear: right;
+        }
+
+        #all-6 {
+            background-color: rgb(37, 163, 21);
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: 10px;
+            float: left;
+        }
+
+        #box-6 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(50% - 20px/2);
+
+        }
+
+        #all-4 {
+            background-color: rgb(247, 154, 61);
+            width: 80px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+        }
+
+        #box-4 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(100% - 20px/2);
+
+        }
+
+        #all-5 {
+            background-color: purple;
+            width: 100px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+            clear: right;
+        }
+
+        #box-5 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(100% - 20px/2);
+            left: calc(50% - 20px/2);
+        }
+
+        #all-7 {
+            background-color: rgb(122, 245, 229);
+            width: 80px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            clear: right;
+            float: left;
+        }
+
+        #box-7 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(0px - 20px/2);
+            left: calc(50% - 20px/2);
+        }
+         
+
+        #all-8 {
+            background-color: rgb(124, 122, 245);
+            width: 100px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            clear: left;
+            float: left;
+        }
+
+        #box-8 {
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(0px - 20px/2);
+        }
+       #all-9{
+            background-color: rgb(240, 139, 246);
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+            clear: right;
+        }
+        #box-9{
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(50% - 20px/2);
+            left: calc(0px - 20px/2);
+        }
+        #all-10{
+            background-color: rgb(139, 246, 176);
+            width: 100px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            float: left;
+            clear: right;
+        }
+        #box-10{
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(0px - 20px/2);
+            left: calc(100% - 20px/2);
+        }
+        #all-11{
+            background-color: rgb(163, 152, 239);
+            width: 50px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            clear: left;
+            float: left;
+
+        }
+        #box-11{
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(50% - 20px/2);
+            left: calc(50% - 20px/2);
+        }
+        #all-12{
+            background-color: goldenrod;
+            width: 80px;
+            height: 30px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+        }
+        #box-12{
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(50% - 20px/2);
+            left: calc(100% - 20px);
+        }
+        #all-13{
+            background-color: rgb(230, 201, 222);
+            width: 100px;
+            height: 50px;
+            position: relative;
+            margin-bottom: 10px;
+            float: right;
+            clear: left;
+        }
+        #box-13{
+            background-color: rgb(247, 68, 19);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            line-height: 20px;
+            text-align: center;
+            top: calc(50% - 20px/2);
+            left: calc(50% - 20px/2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="all-1">
+        <div id="box-1">A</div>
+    </div>
+
+    <div id="all-2">
+        <div id="box-2">B</div>
+    </div>
+
+    <div id="all-3">
+        <div id="box-3">C</div>
+    </div>
+
+    <div id="all-6">
+        <div id="box-6">F</div>
+    </div>
+    <div id="all-4">
+        <div id="box-4">D</div>
+    </div>
+
+    <div id="all-5">
+        <div id="box-5">E</div>
+    </div>
+    <div id="all-7">
+        <div id="box-7">G</div>
+    </div>
+    <div id="all-8">
+        <div id="box-8">H</div>
+    </div>
+    <div id="all-9">
+        <div id="box-9">I</div>
+    </div>
+    <div id="all-10">
+        <div id="box-10">J</div>
+    </div>
+    <div id="all-11">
+        <div id="box-11">K</div>
+    </div>
+    <div id="all-12">
+        <div id="box-12">L</div>
+    </div>
+    <div id="all-13">
+        <div id="box-13">M</div>
+    </div>
+</body>
+
+</html>
