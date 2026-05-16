@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parallax 背景滾動頁</title>
+    <style>
+        body {
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+        }
+
+        /* .all {
+            width: 100%;
+        } */
+
+        .banner-one {
+            background-image: url(./img/img_parallax.jpg);
+            height: 100vh;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.65;
+            background-position: center;
+            position: relative;
+            background-attachment: fixed;
+        }
+
+        .banner-one-btn {
+            height: 45px;
+            font-size: 25px;
+            background-color: rgb(28, 27, 27);
+            color: rgb(250, 249, 249);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 45px;
+            text-align: center;
+            padding: 18px;
+            position: absolute;
+            letter-spacing: 8px;
+            font-weight: bolder;
+        }
+
+        .contener-one {
+            background-color: white;
+            height: 34vh;
+            width: 100%;
+        }
+
+        .contener-one-title {
+            font-size: 23px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-align: center;
+            padding-top: 30px;
+            text-transform: uppercase;
+        }
+
+        .contener-one-text {
+            color: #777;
+            text-align: justify;
+            padding: 50px 80px;
+        }
+
+        /* 第二層 */
+        .banner-one-2 {
+            background-image: url(./img/img_parallax2.jpg);
+            height: 40vh;
+        }
+
+        .banner-one-btn-2 {
+            background-color: transparent;
+        }
+
+        .contener-one-2 {
+            background-color: rgb(47, 46, 46);
+            height: 16vh;
+        }
+
+        .contener-one-text-2 {
+            color: #DDDD;
+            line-height: 70px;
+        }
+
+        /* 第三層 */
+        .banner-one-3 {
+            background-image: url(./img/img_parallax3.jpg);
+            height: 40vh;
+        }
+
+        .banner-one-btn-3 {
+            background-color: transparent;
+        }
+
+        .contener-one-3 {
+            background-color: rgb(47, 46, 46);
+            height: 16vh;
+        }
+
+        .contener-one-text-3 {
+            color: #DDDD;
+            line-height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="all">
+        <div class="banner-one">
+            <div class="banner-one-btn">SCROLL DOWN
+            </div>
+        </div>
+        <div class="contener-one">
+            <div class="contener-one-title">Parallax Demo</div>
+            <div class="contener-one-text">Parallax scrolling is a web site trend where the background content is moved
+                at a different speed than the foreground content while scrolling. Nascetur per nec posuere turpis,
+                lectus nec libero turpis nunc at, sed posuere mollis ullamcorper libero ante lectus, blandit
+                pellentesque a, magna turpis est sapien duis blandit dignissim. Viverra interdum mi magna mi, morbi
+                sociis. Condimentum dui ipsum consequat morbi, curabitur aliquam pede, nullam vitae eu placerat eget et
+                vehicula. Varius quisque non molestie dolor, nunc nisl dapibus vestibulum at, sodales tincidunt mauris
+                ullamcorper, dapibus pulvinar, in in neque risus odio. Accumsan fringilla vulputate at quibusdam sociis
+                eleifend, aenean maecenas vulputate, non id vehicula lorem mattis, ratione interdum sociis ornare.
+                Suscipit proin magna cras vel, non sit platea sit, maecenas ante augue etiam maecenas, porta porttitor
+                placerat leo.
+            </div>
+        </div>
+        <!-- 以上為第一層 -->
+        <div class="banner-one banner-one-2">
+            <div class="banner-one-btn banner-one-btn-2">LESS HEIGHT
+
+            </div>
+        </div>
+        <div class="contener-one contener-one-2">
+            <!-- <div class="contener-one-title-2">Parallax Demo</div> -->
+            <div class="contener-one-text contener-one-text-2">Scroll up and down to really get the feeling of how
+                Parallax Scrolling
+                works.
+            </div>
+        </div>
+        <!-- 以上為第二層 -->
+        <div class="banner-one banner-one-3">
+            <div class="banner-one-btn banner-one-btn-3">SCROLL UP
+
+            </div>
+        </div>
+        <div class="contener-one contener-one-3">
+            <!-- <div class="contener-one-title-3">Parallax Demo</div> -->
+            <div class="contener-one-text contener-one-text-3">Scroll up and down to really get the feeling of how
+                Parallax Scrolling
+                works.
+            </div>
+        </div>
+        <!-- 以上為第三層 -->
+         <div class="banner-one">
+            <div class="banner-one-btn">COOL!
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

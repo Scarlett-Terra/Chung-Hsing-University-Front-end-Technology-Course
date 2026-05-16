@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己練習五方塊圖</title>
+    <style>
+        body{
+            margin: 0;
+            width: 100vw;
+            height: calc(100vh - (100vh - 80vh) / 2) ;
+            padding-top: calc((100vh - 80vh) / 2);
+        }
+
+     /* 100vh = 螢幕高度
+        80vh = 內容高度
+        (100vh - 80vh) / 2 = 上下平均空間
+
+        👉 效果：
+        👉 .all 內容高度會垂直置中 */
+        .all{
+            width: 80vw;
+            height: 80vh;
+            margin: auto;
+            padding-top: 10vh;
+        }
+        /* 除以3等分 */
+        .box-outside{
+            width: 100%;
+            height: calc(100% / 3);
+            
+        }
+        /* 學習如何善用class */
+        .brown-left{
+            background-color: brown;
+            float: left;
+            width: 40%;
+            height: 100%;
+        }
+        .purple-right{
+            background-color: purple;
+            float: right;
+            width: 40%;
+            height: 100%;
+        }
+        .blue-green-mid{
+            background-color: aquamarine;
+            margin: auto;
+            width: 40%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 因為div佔據整個圖層，所以擺放位置正確，自動會到那個位置 -->
+    <div class="all">
+        <div class="box-outside">
+            <div class="brown-left "></div>
+            <div class="purple-right"></div>
+        </div>
+        <div class="box-outside">
+            <div class="blue-green-mid"></div>
+        </div>
+        <div class="box-outside">
+            <div class="brown-left"></div>
+            <div class="purple-right"></div>
+        </div>
+    </div>
+    
+</body>
+</html>
