@@ -1,0 +1,243 @@
+/* ================================================= */
+/* ================= 基本設定 ======================= */
+/* ================================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ================================================= */
+/* ================= 主容器 ========================= */
+/* ================================================= */
+.all {
+    /* background-color: sandybrown; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgb(250, 230, 234);
+    background: linear-gradient(to bottom , white , rgb(251, 156, 109));
+}
+
+
+/* ================================================= */
+/* ================= 導覽列 ========================= */
+/* ================================================= */
+.nav {
+    background-color: skyblue;
+    width: 366px;
+    height: 100%;
+    flex-shrink: 0;
+    padding: 80px 70px;
+    background-image: url(../img/直立背景-1.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+
+/* LOGO */
+.logo {
+    width: 150px;
+    height: 150px;
+    /* background-color: sandybrown; */
+    margin: auto;
+    margin-bottom: 50px;
+    background-image: url(../img/Q-profile-2.jpg);
+    background-size: cover;
+    border-radius: 50%;
+    border: 2px solid palevioletred;
+}
+
+/* hover 動畫 */
+.logo:hover {
+    transform: scale(0.8) rotateY(360deg);
+    transition: 1s;
+}
+
+
+/* ================================================= */
+/* ================= 導覽按鈕 ======================= */
+/* ================================================= */
+.nav-btn-all {
+    width: 100%;
+}
+
+.nav-btn {
+    width: auto;
+    height: 70px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+    background-color: rgb(252, 246, 143);
+
+    font-size: 32px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgb(39, 1, 255);
+    font-weight: bolder;
+    border: 4px inset;
+    
+}
+.nav-btn:hover{
+    transform: scale(0.9);
+    color: rgb(238, 43, 235);
+    text-shadow: -1px 0px 1px blue,1px 0px 1px blue,0px -1px 1px blue,0px 1px 1px blue;
+
+}
+
+
+
+/* ================================================= */
+/* ================= 漢堡按鈕 ======================= */
+/* ================================================= */
+.ham-label {
+    width: 80px;
+    height: 80px;
+    background-color: pink;
+    display: none;
+    position: relative;
+    opacity: 0.8;
+    border-radius: 20px;
+    
+}
+.ham-label:hover{
+    border: 3px solid black;
+    background-color: rgb(252, 246, 143);
+}
+
+.ham-label .line {
+    background-color: rgb(39, 1, 255);;
+    width: 65px;
+    height: 8px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+}
+
+
+.ham-label .line-1 { top: 25%; }
+.ham-label .line-2 { top: 50%; }
+.ham-label .line-3 { top: 75%; }
+
+/* 漢堡動畫 */
+#hamSwitch:checked+label .line-2 {
+    display: none;
+}
+
+#hamSwitch:checked+label .line-1 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#hamSwitch:checked+label .line-3 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+
+/* ================================================= */
+/* ================= 1380px ========================= */
+/* ================================================= */
+
+
+
+/* ================================================= */
+/* ================= 1200px ========================= */
+/* ================================================= */
+/* @media (max-width:1200px) { */
+
+    .all {
+        flex-direction: column;
+    }
+
+    .nav {
+        width: 100%;
+        height: 100px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin: unset;
+    }
+
+    .nav-btn-all {
+        width: auto;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .nav-btn {
+        padding: 0 10px;
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+
+  
+/* } */
+
+
+/* ================================================= */
+/* ================= 640px ========================== */
+/* ================================================= */
+/* @media (max-width:640px) { */
+
+    .nav {
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* hover 要保留 translate */
+    .logo:hover {
+        transform: translate(-50%, -50%) scale(0.8) rotateY(360deg);
+    }
+
+    .ham-label {
+        display: block;
+    }
+
+    .nav-btn-all {
+        width: 100%;
+        flex-wrap: wrap;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        display: none;
+    }
+
+    #hamSwitch:checked~.nav-btn-all {
+        display: block;
+    }
+
+    .nav-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+/* } */
