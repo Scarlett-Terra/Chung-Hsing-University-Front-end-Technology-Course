@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.text-shadow陰影字</title>
+    <style>
+        .text-1{
+            font-size: 24px;
+            /*     x y (的陰影) 半徑  顏色 ， 可以有多重色，用逗號隔開 {一定要#字號，數字顏色不理}*/ 
+            text-shadow: 0 2px 1px  #ff662d , 0 0 16px #6016ff ;
+        }
+        .text-2{
+            font-size: 24px;
+            /*     x y (的陰影) 半徑  顏色 ， 可以有多重色，用逗號隔開 {一定要#字號，數字顏色不理}*/ 
+            text-shadow: 0 0 1px  #ff662d , 0 0 16px #fff216 ;
+        }
+        /* 多重陰影 */
+        .text-3{
+            font-size: 24px;
+            /*     x y (的陰影) 半徑  顏色 ， 可以有多重色，用逗號隔開 {一定要#字號，數字顏色不理}*/ 
+            text-shadow: 1px 1px 2px  #f0f , 0 0 25px #ff16 ;
+        }
+        /* 中空字經常用 左-1，右1，上-1，下1 */
+        .text-4{
+            font-size: 24px;
+            color: #f4f3f3;
+            
+            /*     x y (的陰影) 半徑  顏色 ， 可以有多重色，用逗號隔開 {一定要#字號，數字顏色不理}*/ 
+            text-shadow: -1px 0 0  #fa0202 , 1px 0 0 #fc2701, 0 -1px 0 #030bfe,0 1px 0 #fb3002;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-1">AAAAAAAAA</div>
+    <div class="text-2">AAAAAAAAA</div>
+    <div class="text-3">AAAAAAAAA</div>
+    <div class="text-4">AAAAAAAAA 一路狂飆 中空字實作</div>
+</body>
+</html>

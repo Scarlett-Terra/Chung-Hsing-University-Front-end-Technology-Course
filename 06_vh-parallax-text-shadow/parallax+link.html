@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.私人練狗狗圖層專區</title>
+    <style>
+        body {
+            margin: 0;
+
+        }
+
+        /* 導覽列 */
+        .nav {
+            width: calc(80% - 20px*2);
+            height: calc(100px - 10px*2);
+            position: fixed;
+            left: 10%;
+            top: 0;
+            z-index: 1;
+            /* 多出來的空間需要扣回來calc才會置中 */
+            padding: 10px 20px;
+        }
+
+        /* 要讓內層的圖置中，就必須得padding */
+        .nav-img {
+            background-image: url(./img/man-1.jpg);
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+            border-radius: 50%;
+            transition: 1.5s;
+            float: left;
+        }
+
+        .nav-img:hover {
+            /* 旋轉的秒數控制，務必放在原始層 無hover的CSS內容 */
+            position: absolute;
+            transform: scale(1.5) rotateY(360deg);
+            background-image: url(./img/bg-1.jpg);
+            border: 2px dashed rgb(255, 49, 3);
+        }
+
+        .nav-outside {
+            width: 400px;
+            height: 50px;
+            /* background-color: #fff; */
+            float: right;
+            margin-top: 15px;
+            
+        }
+
+        .nav-left{
+            width: 100px;
+            height: 50px;
+            background-color: rgb(78, 78, 78);
+            font-size: 35px;
+            line-height: 50px;
+            text-align: center;
+            color: red;
+            margin-left: 25px;
+            border-radius: 15px;
+            float: left;
+            opacity: 0.6;
+        }
+        .nav-left:hover{
+            color: rgb(67, 248, 188);
+            padding: 2px;
+        }
+
+        .all-outside {
+            /* background-color: darkmagenta; */
+            width: 80%;
+            height: 3000px;
+            margin: auto;
+        }
+
+        .banner {
+            background-image: url(./img/A.jpg);
+            width: 100%;
+            background-repeat: no-repeat;
+            height: 50vh;
+            padding-top: 50vh;
+            background-attachment: fixed;
+            background-size: cover;
+            opacity: 0.8;
+        }
+
+        .mask {
+            background-color: black;
+            opacity: 0.5;
+            width: 100%;
+            height: 50vh;
+            position: relative;
+        }
+
+        .mask-text {
+            font-size: 50px;
+            position: absolute;
+            background-color: #fff;
+            border-radius: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mask-text:hover {
+            color: red;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .banner-2 {
+            background-image: url(./img/B.jpg);
+        }
+
+        .banner-3 {
+            background-image: url(./img/C.jpg);
+        }
+        .go-top{
+            background-color: yellow;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+            font-size: 50px;
+            line-height: 100px;
+            text-align: center;
+            color: rgb(127, 139, 237);
+            opacity: 0.9;
+            cursor: pointer;
+        }
+        .go-top:hover{
+            padding: 2px;
+            transform: scale(1.2);
+            color: rgb(250, 247, 113);
+            background-color: chocolate;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav-img"></div>
+        <div class="nav-outside">
+            <a href="#banner">
+                <div class="nav-left">一區</div>
+            </a>
+            <a href="#banner-2">
+                <div class="nav-left nav-mid">二區</div>
+            </a>
+            <a href="#banner-3">
+                <div class="nav-left nav-right">三區</div>
+            </a>
+            
+        </div>
+
+    </div>
+    <div class="all-outside">
+        <div id="banner" class="banner">
+            <div class="mask">
+                <div class="mask-text">一區</div>
+            </div>
+        </div>
+        <div id="banner-2" class="banner banner-2">
+            <div class="mask mask-2">
+                <div class="mask-text mask-text-2">二區</div>
+            </div>
+        </div>
+        <div id="banner-3" class="banner banner-3">
+            <div class="mask mask-3">
+                <div class="mask-text mask-text-3">三區</div>
+            </div>
+        </div>
+        <a href="#banner">
+            <div class="go-top">Top</div>
+        </a>
+        
+    </div>
+</body>
+
+</html>
