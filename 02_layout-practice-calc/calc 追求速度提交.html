@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calc的速度提升5分鐘內</title>
+    <style>
+     #all{
+        background-color: darkcyan;
+        width: calc(80% - 10px*2) ;
+        height: calc(800px - 10px*2) ;  
+        padding: 10px;
+     }
+     #header{background-color: salmon;
+        width: 100%;
+        height: calc(20% - 10px);
+        margin-bottom: 10px;
+    }
+    #main{
+        background-color: darkgoldenrod;
+        width: 100%;
+        height: 60%;
+    }
+    #footer{background-color: salmon;
+        width: 100%;
+        height: calc(20% - 10px);
+        margin-top: 10px;
+    }
+    #main-out{
+        background-color: fuchsia;
+        width: 100%;
+        height: 100%;
+    }
+    #main-out-left{
+        width: calc(66% - 10px);
+        height: 100%;
+        float: left;
+        margin-right: 10px;
+        background-color: rgb(246, 214, 133);
+    }
+    #main-out-right{
+        width: 34%;
+        height: 100%;
+        float: left;
+        background-color: rgb(170, 244, 159);
+    }
+    #main-out-left-out{
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+    }
+    #main-out-left-out-top{
+        background-color: burlywood;
+        width: 100%;
+        height: calc(60% - 10px);
+        margin-bottom: 10px;
+
+    }
+    #main-out-left-out-mid{
+        background-color: rgb(159, 163, 243);
+        width: 100%;
+        height: calc(20% - 10px);
+        margin-bottom: 10px;
+        
+    }
+    #main-out-left-out-btm{
+        background-color: rgb(215, 222, 135);
+        width: 100%;
+        height: 20%;
+        
+    }
+    #main-out-left-out-top-out{
+        background-color: rgb(243, 210, 210);
+        width: 100%;
+        height: 100%;
+    }
+    #main-out-left-out-top-out-left{
+        background-color: rgb(240, 240, 240);
+        width: calc(34% - 10px);
+        height: 100%;
+        float: left;
+        margin-right: 10px;
+    }
+    #main-out-left-out-top-out-right{
+        background-color: rgb(127, 216, 238);
+        width: 66%;
+        height: 100%;
+        float: left;
+    }
+
+    #main-out-left-out-top-out-right-top{
+        background-color: seagreen;
+        width: 100%;
+        height: calc(34% - 10px);
+        margin-bottom: 10px;
+    }
+    #main-out-left-out-top-out-right-mid{
+        background-color: darksalmon;
+        width: 100%;
+        height: 32%;
+    }
+    #main-out-left-out-top-out-right-btm{
+        background-color: rgb(238, 196, 141);
+        width: 100%;
+        height: calc(34% - 10px);
+        margin-top: 10px;
+
+    }
+    </style>
+</head>
+<body>
+    <div id="all">
+        <div id="header"></div>
+        <div id="main">
+            <div id="main-out">
+                <div id="main-out-left">
+                    <div id="main-out-left-out">
+                        <div id="main-out-left-out-top">
+                            <div id="main-out-left-out-top-out">
+                                <div id="main-out-left-out-top-out-left"></div>
+                                <div id="main-out-left-out-top-out-right">
+                                    <div id="main-out-left-out-top-out-right-top"></div>
+                                    <div id="main-out-left-out-top-out-right-mid"></div>
+                                    <div id="main-out-left-out-top-out-right-btm"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="main-out-left-out-mid"></div>
+                        <div id="main-out-left-out-btm"></div>
+                    </div>
+                </div>
+                <div id="main-out-right"></div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+    
+
+</body>
+</html>
