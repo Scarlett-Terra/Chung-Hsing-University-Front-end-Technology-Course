@@ -1,0 +1,308 @@
+/* ================================================= */
+/* ================= 基本設定 ======================= */
+/* ================================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ================================================= */
+/* ================= 主容器 ========================= */
+/* ================================================= */
+.all {
+    background-color: sandybrown;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+
+/* ================================================= */
+/* ================= 導覽列 ========================= */
+/* ================================================= */
+.nav {
+    background-color: skyblue;
+    width: 366px;
+    height: 100%;
+    flex-shrink: 0;
+    padding: 80px 70px;
+}
+
+
+/* LOGO */
+.logo {
+    width: 150px;
+    height: 150px;
+    background-color: sandybrown;
+    margin: auto;
+    margin-bottom: 50px;
+    background-image: url(../img/man-1.jpg);
+    background-size: cover;
+    border-radius: 50%;
+}
+
+/* hover 動畫 */
+.logo:hover {
+    transform: scale(0.8) rotateY(360deg);
+    transition: 1s;
+}
+
+
+/* ================================================= */
+/* ================= 導覽按鈕 ======================= */
+/* ================================================= */
+.nav-btn-all {
+    width: 100%;
+}
+
+.nav-btn {
+    width: auto;
+    height: 70px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+    background-color: rgb(252, 246, 143);
+
+    font-size: 32px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgb(39, 1, 255);
+    font-weight: bolder;
+    border: 4px inset;
+}
+
+
+/* ================================================= */
+/* ================= 內容區 ========================= */
+/* ================================================= */
+.container {
+    background-color: slateblue;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-outside {
+    width: 957px;
+    height: 570px;
+    background-color: seagreen;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* ================================================= */
+/* ================= 圖片 =========================== */
+/* ================================================= */
+.img {
+    width: calc((100% - 10px*2)/3);
+    height: 100%;
+    background-color: chartreuse; /* 防圖片壞掉 */
+    background-size: cover;
+    background-position: top;
+    border-radius: 20px;
+}
+
+/* hover 旋轉 */
+.img:hover {
+    transform: rotateY(180deg);
+    transition: 1s;
+}
+
+/* 個別圖片 */
+.img-left {
+    background-color: salmon;
+    background-image: url(../img/A.jpg);
+}
+
+.img-mid {
+    background-color: red;
+    background-image: url(../img/B.jpg);
+}
+
+.img-right {
+    background-color: purple;
+    background-image: url(../img/C.jpg);
+}
+
+
+/* ================================================= */
+/* ================= 漢堡按鈕 ======================= */
+/* ================================================= */
+.ham-label {
+    width: 80px;
+    height: 80px;
+    background-color: violet;
+    display: none;
+    position: relative;
+}
+
+.ham-label .line {
+    background-color: black;
+    width: 80px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+}
+
+.ham-label .line-1 { top: 25%; }
+.ham-label .line-2 { top: 50%; }
+.ham-label .line-3 { top: 75%; }
+
+/* 漢堡動畫 */
+#hamSwitch:checked+label .line-2 {
+    display: none;
+}
+
+#hamSwitch:checked+label .line-1 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#hamSwitch:checked+label .line-3 {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+
+/* ================================================= */
+/* ================= 1380px ========================= */
+/* ================================================= */
+@media(max-width:1380px) {
+
+    .container-outside {
+        width: 800px;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+
+    .img {
+        height: calc((100% - 10px)/2);
+    }
+
+    .img-left {
+        width: 100%;
+    }
+
+    .img-mid,
+    .img-right {
+        width: calc(50% - 10px / 2);
+    }
+}
+
+
+/* ================================================= */
+/* ================= 1200px ========================= */
+/* ================================================= */
+@media (max-width:1200px) {
+
+    .all {
+        flex-direction: column;
+    }
+
+    .nav {
+        width: 100%;
+        height: 100px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin: unset;
+    }
+
+    .nav-btn-all {
+        width: auto;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .nav-btn {
+        padding: 0 10px;
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+
+    .container-outside {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+
+/* ================================================= */
+/* ================= 640px ========================== */
+/* ================================================= */
+@media (max-width:640px) {
+
+    .nav {
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* hover 要保留 translate */
+    .logo:hover {
+        transform: translate(-50%, -50%) scale(0.8) rotateY(360deg);
+    }
+
+    .ham-label {
+        display: block;
+    }
+
+    .nav-btn-all {
+        width: 100%;
+        flex-wrap: wrap;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        display: none;
+    }
+
+    #hamSwitch:checked~.nav-btn-all {
+        display: block;
+    }
+
+    .nav-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .container-outside {
+        width: 100%;
+        height: 100%;
+    }
+
+    .img {
+        width: 100%;
+        height: calc(100%/3);
+    }
+}

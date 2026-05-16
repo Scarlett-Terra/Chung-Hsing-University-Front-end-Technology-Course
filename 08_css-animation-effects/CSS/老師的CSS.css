@@ -1,0 +1,334 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+}
+
+.all {
+  background-color: aqua;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+@media (max-width:1200px) {
+  .all {
+    flex-direction: column;
+  }
+}
+
+.nav {
+  background-color: lightgray;
+  width: 366px;
+  height: 100%;
+
+  flex-shrink: 0;
+  padding: 80px 70px;
+}
+
+@media (max-width:1200px) {
+  .nav {
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width:640px) {
+  .nav {
+    position: relative;
+  }
+}
+
+.logo {
+  background-color: aqua;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  margin-bottom: 50px;
+
+  background-image: url(../img/man-1.jpg);
+  background-size: cover;
+
+}
+
+@media (max-width:1200px) {
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin: unset;
+  }
+}
+
+@media (max-width:640px) {
+  .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.logo:hover {
+  transform: scale(0.8) rotateY(180deg);
+  transition: 1s;
+}
+
+@media (max-width:640px) {
+  .logo:hover {
+    transform: translate(-50%, -50%) scale(0.8) rotateY(180deg);
+  }
+}
+
+.nav-btn-all {
+  /* background-color: purple; */
+  width: 100%;
+}
+
+@media (max-width:1200px) {
+  .nav-btn-all {
+    width: auto;
+
+    display: flex;
+    /* 靠右 */
+    justify-content: end;
+    align-items: center;
+  }
+}
+
+@media (max-width:640px) {
+  .nav-btn-all {
+    display: none;
+  }
+}
+
+.nav-btn {
+  background-color: pink;
+  width: auto;
+  height: 70px;
+  /* padding: 10px 0; */
+  margin-bottom: 10px;
+  font-size: 32px;
+  border-radius: 20px;
+  color: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px inset white;
+}
+
+@media (max-width:1200px) {
+  .nav-btn {
+    padding: 0 10px;
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
+}
+
+.container {
+  background-color: lightblue;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  /* background-color: blue; */
+  width: 957px;
+  height: 570px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width:1380px) {
+  .content {
+    width: 800px;
+    flex-wrap: wrap;
+    align-content: space-between;
+  }
+}
+
+@media (max-width:1200px) {
+  .content {
+    width: 80%;
+    height: 80%;
+  }
+}
+
+@media (max-width:640px) {
+  .content {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.img {
+  background-color: purple;
+  /* width: calc(100%/3); */
+  /* 扣除兩個空隙 */
+  width: calc((100% - 10px*2)/3);
+  height: 100%;
+  background-size: cover;
+  background-position: top;
+  border-radius: 30px;
+  /* transition: 1s; */
+}
+
+@media (max-width:1380px) {
+  .img {
+    height: calc((100% - 10px)/2);
+    /* height: calc((50% - 5px)/2); */
+  }
+}
+
+@media (max-width:640px) {
+  .img {
+    height: calc((100% - 10px)/2);
+    /* height: calc((50% - 5px)/2); */
+  }
+}
+
+.img:hover {
+  transform: rotateY(180deg);
+  transition: 1s;
+}
+
+.img-1 {
+  background-color: red;
+  /* ./ 現在這個位置
+  ../現在這個位置的外層 */
+  background-image: url(../img/A.jpg);
+}
+
+.img-2 {
+  background-color: rgb(145, 197, 148);
+  /* margin: 0 10px; */
+  background-image: url(../img/B.jpg);
+}
+
+.img-3 {
+  background-color: green;
+  background-image: url(../img/C.jpg);
+}
+
+@media (max-width:1380px) {
+  .img-1 {
+    width: 100%;
+  }
+
+  .img-2,
+  .img-3 {
+    width: calc(50% - 5px);
+  }
+}
+
+@media (max-width:640px) {
+  .img {
+    width: 100%;
+    height: calc(100%/3);
+  }
+}
+
+/* <!-- =============漢堡按鈕================= --> */
+.ham-label {
+  background-color: aqua;
+  width: 80px;
+  height: 80px;
+  /* 因為 label 是 行內元素無法定大小 => 
+      所以變更顯示模式=>區塊元素 */
+  /* display: block; */
+  /* 一開始先隱藏 */
+  display: none;
+  position: relative;
+}
+
+@media (max-width:640px) {
+  .ham-label {
+    display: block;
+  }
+}
+
+/* xxx yyy => xxx 的後代 yyy 
+    空格代表後代 */
+.ham-label .line {
+  background-color: black;
+  width: 80%;
+  height: 10px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: 1s;
+}
+
+.ham-label .line-1 {
+  top: 25%;
+}
+
+.ham-label .line-2 {
+  top: 50%;
+}
+
+.ham-label .line-3 {
+  top: 75%;
+}
+
+#ham-switch:checked+label .line-1 {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* checkox 被按下去 */
+/* + 後面第一個兄弟姊妹 */
+#ham-switch:checked+label .line-2 {
+  /* 隱藏消失 */
+  display: none;
+}
+
+#ham-switch:checked+label .line-3 {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* 按下去 */
+@media (max-width:640px) {
+  .nav-btn-all {
+    width: 100%;
+    /* display: block; */
+    flex-wrap: wrap;
+
+    position: absolute;
+    top: 100px;
+    left: 0;
+  }
+
+  .nav-btn {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  #ham-switch:checked~.nav-btn-all {
+    display: block;
+  }
+}
+
+/* <!-- =============漢堡按鈕 end ============ --> */

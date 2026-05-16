@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.繞著方塊跑</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            background-color: salmon;
+            /* 善用display:flex 去置中，就少用margin:auto; */
+            /* margin: auto; */
+            position: relative;
+            background-image: url(./img/對話框.jpg);
+            background-size: cover;
+            border-radius: 50%;
+        }
+
+        /* 繞球的話，要依照爸爸為基準去跑， */
+        .box-1 {
+            background-color: aquamarine;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            /* 把box位置移到 左上的對角線 */
+            transform: translate(-100%, -100%);
+            /* 執行動畫的名字 */
+            animation-name: roll-box;
+            animation-duration:10s;
+
+            
+            background-image: url(./img/miaoMi.jpg);
+            background-size: cover;
+            border-radius: 50%;
+        }
+
+        /* /////// 動畫 ////// */
+        @keyframes roll-box {
+            /* 先做起始值 */
+            0% {
+                left: 0;
+                top: 0;
+                transform: translate(-100%, -100%);
+                background-image: url(./img/miaoMi.jpg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+            /* 從左上往右跑到爸爸右上 
+            left的底就是100%，因為原本是0*/
+            25% {
+                left: 100%;
+                top: 0;
+                /* x不動，只有y在動 */
+                transform: translate(0, -100%);
+                background-image: url(./img/miaoMi.jpg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+            /* 原本是left:0，推到底=100% =>到 右上角
+            top:0，推到底=100% = 會跑到右下角 ，其餘得歸0 因為要跟一開始相反*/
+            50% {
+                left: 100%;
+                top: 100%;
+                /* x不動，只有y在動 */
+                transform: translate(0, 0);
+                background-image: url(./img/miaoMi.jpg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+
+            75% {
+                left: 0;
+                top: 100%;
+                /* x不動，只有y在動 */
+                transform: translate(-100%, 0);
+                background-image: url(./img/miaoMi.jpg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+            100% {
+                left: 0;
+                top: 0;
+                transform: translate(-100%, -100%);
+                background-image: url(./img/miaoMi.jpg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="box-1"></div>
+    </div>
+
+</body>
+
+</html>

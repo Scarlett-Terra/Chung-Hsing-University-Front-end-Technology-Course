@@ -1,0 +1,403 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+}
+
+/* //////骨架//////*/
+.all {
+    width: 100%;
+    height: 100%;
+    background-color: seashell;
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* //////左側導覽//////*/
+.nav {
+    width: 370px;
+    height: 100px;
+    background-color: peachpuff;
+    flex-shrink: 0;
+    padding: 70px 100px;
+}
+
+/* //////左側logo圖//////*/
+.logo {
+    background-image: url(../img/Q-profile-2.jpg);
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    border-radius: 50%;
+    border: 3px solid rgb(251, 165, 245);
+    margin: auto;
+    margin-bottom: 60px;
+}
+
+/* //////左側 按鈕 全底背景//////*/
+.nav-btn-all {
+    width: 100%;
+    /* background-color: peru; */
+
+}
+
+/* //////左側共用 btn 按鈕//////*/
+.nav-btn {
+    /* 寬度必須自由伸展，不要px更可以置中 */
+
+    width: auto;
+    height: 50px;
+    background-color: rgb(232, 190, 235);
+    line-height: 50px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 20px;
+    color: rgb(252, 31, 227);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 5px inset;
+}
+
+.nav-btn:hover {
+    background-color: rgb(229, 240, 126);
+    padding: 2px;
+}
+
+/* //////右側容器頁-讓裡面物件置中//////*/
+.container {
+    flex: 1;
+    height: 100%;
+    background-color: palegreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* //////右側內容頁//////*/
+.content {
+    background-color: paleturquoise;
+    width: 950px;
+    height: 570px;
+    display: flex;
+    /* 子層img 已扣除寬度的縫隙，這裡父層需要外推 */
+    justify-content: space-between;
+}
+
+/* //////共用img//////*/
+.img {
+    width: calc((100% - 10px*2) / 3);
+    /* margin-right: 10px; */
+    height: 100%;
+    background-color: palevioletred;
+    background-size: cover;
+    background-position: top;
+    border-radius: 30px;
+    transition: 1s;
+
+}
+
+
+.img-1 {
+    background-image: url(../img/Q-milaoxu-7.jpg);
+}
+
+.img-1:hover {
+    transform: rotateY(180deg);
+    background-size: contain;
+    background-image: url(../img/Q-breakfirst.jpg);
+}
+
+.img-2 {
+    /* margin: 0 10px; */
+    background-image: url(../img/Q-milaoxu-4.jpg);
+
+}
+
+.img-2:hover {
+    transform: rotateY(180deg);
+    background-size: contain;
+    background-image: url(../img/Q-lunch.jpg);
+}
+
+.img-3 {
+    background-image: url(../img/Q-milaoxu-2.jpg);
+}
+
+.img-3:hover {
+    transform: rotateY(360deg);
+    background-size: contain;
+    background-image: url(../img/Q-dinner.jpg);
+}
+
+
+/* //////1380px 進行變化@media//////*/
+@media (max-width:1380px) {
+
+    /* //////右側內容頁//////*/
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        width: 800px;
+        /* 因為是兩排的Y軸縱向，所以選align-content */
+        align-content: space-between;
+
+    }
+
+    /* //////共用img//////*/
+    .img {
+        height: calc(50% - 10px / 2);
+
+    }
+
+
+    .img-1 {
+        width: 100%;
+        background-image: url(../img/Q-milaoxu-3.jpg);
+        background-size: contain;
+
+    }
+
+    .img-2,
+    .img-3 {
+        /* margin: 0 10px; */
+        width: calc(50% - 10px / 2);
+        /* margin-right: 5px; */
+        background-image: url(../img/Q-milaoxu-4.jpg);
+        justify-content: space-between;
+    }
+
+    .img-3 {
+        background-image: url(../img/Q-milaoxu-2.jpg);
+    }
+}
+
+/* /////1230px 進行變化 @media///// */
+
+@media (max-width:1230px) {
+    .all {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* //////左側導覽 => 轉到上排導覽頁//////*/
+    .nav {
+        width: 100%;
+        height: 100px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* //////左上角logo圖//////*/
+    .logo {
+        width: 80px;
+        height: 80px;
+        /* margin是一個嚴重關鍵，有打開的紀錄，後面@media就必須親自關閉!! */
+        margin: 0;
+    }
+    .logo:hover{
+        transform: scale(0.8) rotateY(180deg);
+        transition: 1s;
+        background-image: url(../img/Q-milaoxu-6.jpg);
+    }
+
+    /* //////左側 按鈕 全底背景//////*/
+    .nav-btn-all {
+        /* 這個寬度必須要自由伸縮btn紐才可以推margin */
+        width: auto;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    /* //////右上方 btn 按鈕//////*/
+    .nav-btn {
+        padding: 0 10px;
+        line-height: 45px;
+        margin-right: 10px;
+        margin-bottom: 0;
+    }
+
+    /* //////內容頁 縮小 變80%//////*/
+    .content {
+        width: 80%;
+        height: 80%;
+    }
+
+    .img-1 {
+        background-size: cover;
+        border: 5px inset rgb(238, 247, 105);
+        box-shadow: -5px -5px 50px 5px rgb(46, 45, 45);
+        background-image: url(../img/Q-milaoxu-5.jpg);
+        background-size: contain;
+    }
+
+    .img-2,
+    .img-3 {
+        border: 5px inset rgb(244, 249, 176);
+        box-shadow: -5px -5px 50px 2px rgb(46, 45, 45);
+    }
+
+}
+
+/* logo = wh 55*55 、漢堡紐 = w40 h50 、nav高 80 上下推10 ，左右推20。 Logo置中 */
+/* img*3 寬度滿版高度/3份。 連結-*3條也滿版 */
+
+/* ////////漢堡條按鈕 骨架/////////// */
+
+        .ham-label {
+            width: 40px;
+            /* background-color: violet; */
+            height: 50px;
+            display: none;
+            position: relative;
+            
+            margin-top: 10px;
+        }
+
+        /* xxx yyy => y是後代，空格代表後代 
+        .ham-label 的裡面項目 .line*/
+        .ham-label .line {
+            background-color:  rgb(247, 135, 241);
+            width: 80px;
+            height: 10px;
+            position: absolute;
+            left: 50%;
+            /* top: 50%; */
+            transform: translate(-50%, -50%);
+            transition: 0.3s;
+        }
+
+        .ham-label .line-1 {
+            top: 25%;
+        }
+
+        .ham-label .line-2 {
+            top: 50%;
+        }
+
+        .ham-label .line-3 {
+            top: 75%;
+        }
+
+        /* id的 checked 被按下去了+後面第一個兄弟姊妹sibling 同層級 的後代,.line-2 要顯示消失 */
+        #hamSwitch:checked+label .line-2 {
+            display: none;
+        }
+
+        #hamSwitch:checked+label .line-1 {
+            /* 先移到正中央，才設旋轉 */
+            top: 50%;
+            /* 原本已有做的translate動作，必須先做 */
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        #hamSwitch:checked+label .line-3 {
+            /* 先移到正中央，才設旋轉 */
+            top: 50%;
+            /* 原本已有做的translate動作，必須先做，負度數 */
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+/* ////////漢堡條按鈕 骨架/////////// */
+
+
+/* /////740px 進行變化 @media///// */
+
+
+@media (max-width:740px) {
+
+    /* //////左側導覽 => 轉到上排導覽頁//////*/
+    .nav {
+        /* display: unset; */
+        position: relative;
+
+    }
+
+    /* //////中間 logo圖//////*/
+    .logo {
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        /* margin是一個嚴重關鍵，有打開的紀錄，後面@media就必須親自關閉!! */
+    }
+    .logo:hover{
+        transform: translate( -50%,-50%) scale(0.8) rotateY(180deg);
+    }
+
+    
+
+    /* //////右上方 btn 按鈕//////*/
+    .nav-btn {
+        width: auto;
+        margin-right: 0;
+        margin-bottom: 10px;
+        /* position: unset; */
+        top: 100px;
+    }
+
+    /* //////內容頁 縮小 變80%//////*/
+    .content {
+        width: 100%;
+        height: 100%;
+    }
+
+    .img {
+        width: 100%;
+        height: calc(100% / 3);
+    }
+
+    .img-1 {
+        box-shadow: -5px -5px 50px 5px transparent;
+    }
+
+    .img-2,
+    .img-3 {
+        box-shadow: -5px -5px 50px 2px transparent;
+    }
+
+      .ham-label {
+    /* width: 40px;
+    height: 50px; */
+    display: block;
+    /* position: absolute;
+    left: 60px;
+    top: 15px; */
+
+  }
+
+  /* ////// 還沒按漢堡按鈕 全底背景//////*/
+    .nav-btn-all {
+        /* 這個寬度必須要自由伸縮btn紐才可以推margin */
+        width: 100%;
+        
+    }
+  .nav-btn-all {
+    width: 100%;
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 0;
+  }
+
+  .nav-btn {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  
+  #hamSwitch:checked~.nav-btn-all {
+    display: block;
+}
+}
+

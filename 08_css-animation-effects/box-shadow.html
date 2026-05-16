@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10.box-shadow</title>
+
+    <style>
+        .box {
+            width: 400px;
+            height: 100px;
+            border: 2px solid black;
+            margin-bottom: 30px;
+        }
+
+        .box-1 {
+            /* x     Y  (的偏移量) */
+            box-shadow: 10px 10px gray
+                /* box-shadow: none; */
+        }
+
+        .box-2 {
+            /* x     Y  模糊  color*/
+            box-shadow: 10px 10px 50px gray
+        }
+
+        .box-3 {
+            /* x     Y  模糊半徑  擴散半徑*/
+            box-shadow: 10px 10px 5px 10px gray
+        }
+
+        .box-4 {
+            /* x     Y  模糊半徑  擴散半徑                   inset 把陰影做在裡面*/
+            box-shadow: 20px 20px 50px 10px rgb(251, 20, 20) inset;
+        }
+
+        .box-5 {
+            /* x     Y  模糊半徑  擴散半徑                   多重陰影 多疊層*/
+            box-shadow:  5px 5px 8px blue , 10px 5px 8px rgb(252, 93, 45),15px 5px 8px rgb(97, 246, 77) , 30px 5px 8px rgb(4, 4, 2);
+        }
+
+        .box-6 {
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+clip-path: polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%);
+        }
+        
+        /* https://bennettfeely.com/clippy/* /
+        任意形狀的html插圖
+    </style>
+</head>
+
+<body>
+
+    <div class="box box-1"></div>
+    <div class="box box-2"></div>
+    <div class="box box-3"></div>
+    <div class="box box-4"></div>
+    <div class="box box-5"></div>
+    <div class="box-6"></div>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.簡易動畫-變色球</title>
+    <style>
+        .ball {
+            background-color: aqua;
+            width: 100px;
+            height: 100px;
+            border-radius: 80%;
+            /* 播放動畫 动画名称：彩球；*/
+            animation-name: color-ball;
+            /* 动画持续时间：5秒；*/
+            animation-duration: 5s;
+            /* 动画迭代次数：无限；*/
+            animation-iteration-count: infinite;
+        }
+
+        /* keyframes = 關鍵影格，
+        真正存在的那一幀 */
+        @keyframes color-ball {
+            0% {
+                background-color: red;
+            }
+
+            /* 0%~-50%之間由電腦去補間動畫 */
+            50% {
+                background-color: rgb(202, 235, 93);
+            }
+
+            100% {
+                background-color: rgb(74, 103, 244);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ball"></div>
+</body>
+
+
+</html>

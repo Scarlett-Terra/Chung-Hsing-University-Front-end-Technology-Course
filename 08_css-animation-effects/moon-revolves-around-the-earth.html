@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.月亮繞地球</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 把爆版隱藏  - 上班禁止用，只有做特效有缺失的時候不得已才做 ，切版RWD 不可以用*/
+            overflow: hidden;
+            background-color: black;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            background-color: salmon;
+            /* 善用display:flex 去置中，就少用margin:auto; */
+            /* margin: auto; */
+            position: relative;
+            background-image: url(./img/地球.avif);
+            background-size: cover;
+            border-radius: 50%;
+
+            /* 執行動畫的名字 */
+            animation-name: roll-box;
+            animation-duration:10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            
+        }
+
+        /* 繞球的話，要依照爸爸為基準去跑， */
+        .box-1 {
+            background-color: transparent;
+            width: calc(498px / 3);
+            height: calc(498px / 3);
+            position: absolute;
+            left: 50%;
+            top: 8%;
+            /* 把box位置移到 左上的對角線 */
+            transform: translate(-50%, -100%) ;
+            /* 執行動畫的名字 */
+            /* animation-name: roll-box;
+            animation-duration:10s; */
+            
+            background-image: url(./img/月亮-2.gif);
+            background-size: cover;
+            border-radius: 50%;
+        }
+
+        /* /////// 動畫 ////// */
+        @keyframes roll-box {
+            /* 先做起始值 */
+            0% {
+                left: 0;
+                top: 0;
+                transform: rotate(360deg);
+                background-size: cover;
+                border-radius: 50%;
+            }
+            
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="box-1"></div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    /* background-color: aquamarine; */
+}
+
+.all {
+    width: 100%;
+    height: 100%;
+    background-color: aqua;
+    display: flex;
+}
+
+.nav {
+    width: 366px;
+    background: linear-gradient(to top, pink, white);
+    flex-shrink: 0;
+    padding: 200px 70px;
+
+}
+
+.nav-left-img {
+    width: 80px;
+    height: 80px;
+    background-image: url(../img/Q-profile.jpg);
+    background-size: cover;
+    border-radius: 50%;
+    border: 3px double black;
+    margin: auto;
+    background-position: top;
+}
+
+.nav-left-img:hover {
+    transform: rotateY(180deg) scale(1.5);
+    transition: 0.5s;
+}
+
+.nav-right-all {
+    width: auto;
+    margin-right: 30px;
+    font-size: 25px;
+    /* background-color: palegreen; */
+    list-style-type: none;
+
+}
+
+.nav-right {
+    background-color: pink;
+    border: 4px inset;
+    height: 50px;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-right:hover {
+    background-color: antiquewhite;
+    color: blue;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+
+.main {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, pink, white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../img/橫向背景-5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+/* 三份照片 */
+.img-out {
+    /* position: absolute; */
+    width: 1000px;
+    height: 580px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.img-all {
+
+    width: calc((100% - 10px*2)/3);
+    height: 100%;
+    background-color: yellowgreen;
+    background-size: cover;
+    background-position: center;
+    border-radius: 40px;
+    border: 15px double rgb(249, 130, 245);
+}
+
+.img-all:hover {
+    transform: scale(0.8) rotateY(180deg);
+    transition: 1s;
+    border: none;
+}
+
+
+
+.img-1 {
+    background-image: url(../img/Q-milaoxu-5.jpg);
+
+}
+
+.img-2 {
+    margin: 0 10px;
+    background-image: url(../img/Q-milaoxu-7.jpg);
+
+}
+
+.img-3 {
+    background-image: url(../img/Q-milaoxu-4.jpg);
+}
+
+@media (max-width:1385px) {
+
+    /* 三份照片 */
+    .img-out {
+        width: 800px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+
+    .img-all {
+        height: calc((100% - 10px*2) / 2);
+    }
+
+    .img-1 {
+        width: 100%;
+
+    }
+
+    .img-2 {
+        width: calc(50% - 10px);
+    }
+
+    .img-3 {
+
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width:1200px) {
+    .all {
+        display: unset;
+    }
+
+    .nav {
+        width: 100%;
+        height: 100px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .nav-left-img {
+        margin: unset;
+        width: 80px;
+        height: 80px;
+    }
+
+    .nav-left-img:hover {
+        transform: rotateY(180deg) scale(0.9);
+    }
+
+    .nav-right-all {
+        margin-right: 0px;
+        width: 60%;
+        height: auto;
+        /* background-color: palegreen; */
+        display: flex;
+        justify-content: end;
+        padding: 0;
+    }
+
+    .nav-right {
+        background-color: pink;
+        width: auto;
+        padding: 10px 20px;
+        height: 40px;
+        font-size: 20px;
+        letter-spacing: 0px;
+        margin-right: 10px;
+    }
+
+    .img-out {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+
+
+@media (max-width:680px) {
+    .ham-label {
+        width: 50px;
+        height: 50px;
+        background-color: rgb(243, 137, 243);
+        border-radius: 10px;
+        position: relative;
+        margin-top: 25px;
+        margin-left: 20px;
+        /* display: none; */
+    }
+    .main {
+        position: relative;
+    }
+
+    /* 外框img 需要先100% 寬跟高的伸展 */
+    .img-out {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+    }
+
+    /* 最後在共用的img 寬100%。高這個時候才切三塊出來 */
+    .img-all {
+
+        width: 100%;
+        height: calc(100% / 3);
+        display: flex;
+        flex: none;
+    }
+
+    .img-1,
+    .img-2,
+    .img-3 {
+        width: 100%;
+        display: flex;
+        flex: none;
+    }
+
+    .nav {
+        width: auto;
+        height: 100px;
+        padding: 0;
+
+    }
+
+    .nav-left-img {
+        margin: auto;
+
+    }
+
+
+    .nav-right-all {
+        margin-right: 0px;
+        position: absolute;
+        top: 75px;
+        width: 100%;
+        height: 100px;
+        /* background-color: palegreen; */
+        padding: 0;
+        display: none;
+        /* 先預設關起來，要開在設定#ham-swish~ 找到兄弟all 再開 */
+        flex-wrap: wrap;
+        z-index: 1;
+    }
+
+    .nav-right {
+        background-color: rgb(252, 208, 248);
+        width: 100%;
+        padding: 0px;
+        height: 60px;
+        font-size: 20px;
+        /* letter-spacing: 0px; */
+        margin-right: 0px;
+        margin-bottom: 0px;
+        opacity: 0.9;
+        border-radius: 15px;
+        
+    }
+
+    .nav-right:hover {
+        transform: scale(0.95);
+    }
+    
+}
+
+/* 漢堡按鈕標籤 */
+/* 底圖 */
+@media (max-width:680px) {
+    
+    .ham-label{
+        display: block;
+    }
+    
+
+    .ham-label .line {
+        width: 40px;
+        height: 5px;
+        background-color: black;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: 0.2s;
+    }
+
+    .ham-label .line-1 {
+        top: 25%;
+    }
+
+    .ham-label .line-2 {
+        top: 50%;
+    }
+
+    .ham-label .line-3 {
+        top: 75%;
+    }
+
+    /* 按下去發生的事件 */
+    #ham-swich:checked+label .line-2 {
+        display: none;
+    }
+
+    #ham-swich:checked+label .line-1 {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    #ham-swich:checked+label .line-3 {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }   
+    #ham-swich:checked~.nav-right-all{
+        display: flex; 
+        /* 這個跟block 都可以開，但是flex 可以操作更多東西 */
+    }
+
+}

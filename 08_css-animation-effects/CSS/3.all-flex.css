@@ -1,0 +1,403 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.all {
+    background-color: sandybrown;
+    width: 100%;
+    height: 100%;
+    /* 並列的方法 */
+    display: flex;
+}
+
+/* 1200寬度目的是因為，快爆版就要變，
+768是平板的寬度，但是需要提早變版 */
+@media (max-width:1200px) {
+    .all {
+        flex-direction: column;
+    }
+}
+
+
+
+/* 導覽頁面，記得要固定padding 然後置中 */
+.nav {
+    background-color: skyblue;
+    width: 366px;
+    height: 100%;
+    /* 彈性不被壓縮寬度=0;，寬度固定366px */
+    flex-shrink: 0;
+    padding: 80px 70px;
+}
+
+@media (max-width:1200px) {
+    .nav {
+        width: 100%;
+        height: 100px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width:640px) {
+    .nav {
+        position: relative;
+    }
+}
+
+
+
+.logo {
+    width: 150px;
+    height: 150px;
+    background-color: sandybrown;
+    /* 內縮完，最後水平置中就好 */
+    margin: auto;
+    margin-bottom: 50px;
+    background-image: url(../img/man-1.jpg);
+    background-size: cover;
+    border-radius: 50%;
+
+}
+
+@media (max-width:1200px) {
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin: unset;
+        /* margin: unset; = 0; 不設置外距的意思 
+           flex : unset; 也是不設置彈性的意思*/
+        /* 不需要margin:aoto;圖片會被擠壓到中間，寬高縮小即可 */
+    }
+}
+
+/* 最後一個@media 才可以 position */
+@media (max-width:640px) {
+    .logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.logo:hover {
+    transform: scale(0.8) rotateY(360deg);
+    transition: 1s;
+}
+
+/* 後面才影響排列，才把hover用media */
+@media (max-width:640px) {
+    .logo:hover {
+
+        transform: translate(-50%, -50%) scale(0.8) rotateY(360deg);
+        ;
+    }
+}
+
+
+.nav-btn-all {
+    /* background-color: purple; */
+    width: 100%;
+    /* 沒設定高度，內容才會自己伸展 */
+}
+
+@media (max-width:1200px) {
+
+    .nav-btn-all {
+        /* background-color: rgb(9, 9, 9); */
+        width: auto;
+        /* 用flex做，最後復原要用flex回來 */
+        display: flex;
+        /* 沒設定高度，內容才會自己伸展 */
+        justify-content: end;
+        align-items: center;
+
+    }
+}
+
+@media (max-width:640px) {
+
+    .nav-btn-all {
+        display: block;
+        /* width: 100%; */
+        /* display: flex;  不用這個。因為需要各占一列需要block*/
+        /* position: absolute;
+        top: 100px;
+        left: 0;
+        flex-wrap: wrap; */
+    }
+}
+
+
+
+
+.nav-btn {
+    width: auto;
+    height: 70px;
+    margin-bottom: 10px;
+    /* padding: 10px 0;  */
+    /*不要用padding因為會擠壓，不好變化*/
+    opacity: 0.8;
+    background-color: rgb(252, 246, 143);
+    
+    font-size: 32px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(39, 1, 255);
+    font-weight: bolder;
+    /* 立體感inset 3px 的厚度 */
+    border: 4px inset;
+}
+
+@media (max-width:1200px) {
+    .nav-btn {
+        padding: 0 10px;
+        margin-bottom: 0;
+        margin-left: 10px;
+        
+        /* unset當0 也可以 */
+        /* 縮小才不會版面太擁擠 */
+        /* margin-left: 10px; */
+    }
+}
+
+/* @media (max-width:640px) {
+    .nav-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+} */
+
+/* container 用 flex:1; 全部右邊剩餘100%都給container */
+.container {
+    background-color: slateblue;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    /* 讓裡面容器直接對齊置中 */
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.container-outside {
+    width: 957px;
+    height: 570px;
+    background-color: seagreen;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* 記住要寫在container的下面，轉換media */
+
+/* 最大在1380才變版面，1381沒有變 */
+@media(max-width:1380px) {
+    .container-outside {
+        width: 800px;
+        /* display: flex; */
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+}
+
+/* 768寬度能看到完整圖就是成功了
+然後手機板縮小後 576左右可以換版面 */
+@media(max-width:1200px) {
+    .container-outside {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+/* !!!!!!找解答!!!!! */
+@media (max-width:640px) {
+    .container-outside {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.img {
+    width: calc((100% - 10px*2)/3);
+    /* 真實作法=扣除兩個空隙/3等分 */
+    height: 100%;
+    background-color: chartreuse;
+    background-size: cover;
+    /* top也是有置中的用意 */
+    background-position: top;
+    border-radius: 20px;
+
+}
+
+@media (max-width:1380px) {
+    .img {
+        height: calc((100% - 10px)/2);
+        /* calc(50% - 10px / 2); */
+
+    }
+}
+
+@media (max-width:640px) {
+    .img {
+        height: calc((100% - 10px)/2);
+        /* height: calc((50% - 5px)/2); */
+    }
+}
+
+/* 旋轉的秒數必須只能hover因為會爆版 */
+.img:hover {
+    transform: rotateY(180deg);
+    transition: 1s;
+}
+
+/* 兩個. = 代表外層的img資料夾的A.jpg檔案 
+        url(../img/A.jpg);*/
+.img-left {
+    background-color: salmon;
+    background-image: url(../img/A.jpg);
+}
+
+
+.img-mid {
+    background-color: red;
+    background-image: url(../img/B.jpg);
+}
+
+.img-right {
+    background-color: purple;
+    background-image: url(../img/C.jpg);
+}
+
+@media (max-width:1380px) {
+    .img-left {
+        width: 100%;
+    }
+
+    .img-mid,
+    .img-right {
+        width: calc(50% - 10px / 2);
+        /* width: calc((50% - 10px)/2); */
+    }
+}
+
+/* 把寬度100% + 高度100%自動除以3 = 個圖33% */
+@media (max-width:640px) {
+    .img {
+        width: 100%;
+        height: calc(100%/3);
+    }
+}
+
+/* <!-- ============漢堡按鈕=================--> */
+
+.ham-label {
+    width: 80px;
+    background-color: violet;
+    height: 80px;
+    /* display: block; */
+    /* 一開始要消失 用none */
+    display: none;
+    position: relative;
+}
+
+@media (max-width:640px) {
+    .ham-label {
+        display: block;
+    }
+}
+
+/* xxx yyy => y是後代，空格代表後代 
+        .ham-label 的裡面項目 .line*/
+.ham-label .line {
+    background-color: black;
+    width: 80px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    /* top: 50%; */
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+}
+
+.ham-label .line-1 {
+    top: 25%;
+}
+
+.ham-label .line-2 {
+    top: 50%;
+}
+
+.ham-label .line-3 {
+    top: 75%;
+}
+
+/* id的 checked 被按下去了+後面第一個兄弟姊妹sibling 同層級 的後代,.line-2 要顯示消失 */
+#hamSwitch:checked+label .line-2 {
+    display: none;
+}
+
+#hamSwitch:checked+label .line-1 {
+    /* 先移到正中央，才設旋轉 */
+    top: 50%;
+    /* 原本已有做的translate動作，必須先做 */
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#hamSwitch:checked+label .line-3 {
+    /* 先移到正中央，才設旋轉 */
+    top: 50%;
+    /* 原本已有做的translate動作，必須先做，負度數 */
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@media (max-width:640px) {
+    .nav-btn-all {
+        width: 100%;
+        flex-wrap: wrap;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        display: none;
+    }
+
+    .nav-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+/* 按下去 後面的同層兄弟 用 小波浪 (飄) 就觸發 ==>這個多寫了，不需要他*/
+/* #hamSwitch:checked~.nav-btn-all {
+    display: block;
+}
+ */
+@media (max-width:640px) {
+    /* 獨立橫向 都在640 才發生 */
+    #hamSwitch:checked~.nav-btn-all {
+        display: block;
+
+    }
+}
+
+/* <!-- ============漢堡按鈕=== end ==============--> */

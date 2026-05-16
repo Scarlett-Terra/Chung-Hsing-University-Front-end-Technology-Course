@@ -1,0 +1,106 @@
+/* ================= 基本 ================= */
+body {
+    margin: 0;
+    background: black;
+    
+}
+
+.game {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ================= 本體 ================= */
+.yellowBall {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: yellow;
+    border-radius: 50%;
+}
+.box{
+    background-color: #000000;
+    width: 30px;
+    height: 30px;
+    z-index: 2 ;
+    position: absolute;
+    right: 20%;
+    top: 30%;
+    transform: translate(100%,0) rotate(40deg);
+}
+.box-2{
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    z-index: 2 ;
+    position: absolute;
+    border-radius: 50%;
+    right: 20%;
+    top: 33%;
+    transform: translate(100%,0) rotate(40deg);
+    border: 3px double brown;
+}
+.box-2:hover:before{
+    content: "";
+    background-color: red;
+    position: absolute;
+    border-radius: 50%;
+    right: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) rotate(40deg);
+    border: 3px double brown;
+    animation: box-2 3s infinite alternate;
+}
+/* ================= 嘴巴（用遮罩做） ================= */
+.yellowBall::before {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: yellow;
+    border-radius: 50%;
+    animation: yellowBall 3s infinite alternate;
+}
+
+
+/* ================= 眼睛 ================= */
+.yellowBall::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+    top: 20px;
+    left: 50px;
+}
+
+.yellowBall:hover:after {
+    content: "";
+    
+    background: red;
+    border: 3px solid black;
+    border-radius: 50%;
+    top: 15px;
+    left: 40px;
+    animation: yellowBall 2s infinite alternate;
+}
+@keyframes box-2{
+    0%{
+        transform:rotate(45deg) translate(5px, -5px);;
+    }
+}
+
+@keyframes yellowBall{
+    0%{
+        transform:rotate(45deg) translate(5px, -5px);;
+    }
+    
+}
+
