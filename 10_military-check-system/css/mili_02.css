@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 20, 0, 0.8), rgba(0, 10, 0, 0.9)),
+        url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=2070');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    overflow: hidden;
+}
+
+/* 1.亮黃陰影外框與立體懸浮 */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 223, 0, 0.4);
+    /* 亮黃色半透明邊框 */
+    border-radius: 20px;
+    padding: 30px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 223, 0, 0.2),
+        /* 外部亮黃光暈 */
+        inset 0 0 15px rgba(255, 223, 0, 0.1);
+    /* 內部質感光暈 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+    transform: translateY(-10px);
+    /* 2.立體漂浮感 */
+    box-shadow: 0 15px 30px rgba(255, 223, 0, 0.4);
+}
+
+#addBtn {
+    font-size: 22px;
+}
+
+#addBtn:hover {
+    transform: scale(0.9);
+}
+
+#historyList li {
+    list-style-type: none;
+    background-color: #846004;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.main-container {
+    display: flex;
+    gap: 40px;
+    z-index: 10;
+}
+
+/* 3.輸入框與按鈕 */
+input,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 223, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+button {
+    background: linear-gradient(135deg, #ffd700, #b8860b);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+/* 4.圖片顯示區域 */
+.image-box img {
+    max-width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#sparkleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999;
+}

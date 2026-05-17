@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>兵役判斷系統</title>
+    <link rel="stylesheet" href="./css/mili_02.css">
+</head>
+
+<body>
+    <!-- 1.仙女棒粒子背景 -->
+    <canvas id="sparkleCanvas"></canvas>
+
+    <div class="main-container">
+        <!-- 2.左側：操作區 -->
+        <div class="glass-panel left-panel">
+            <h2 class="title">兵役狀態查詢</h2>
+            <div class="input-group">
+                <input type="text" id="nameInput" placeholder="輸入姓名">
+                <input type="number" id="yearInput" placeholder="出生年份 (西元)">
+                <select id="genderSelect">
+                    <option value="male">男性</option>
+                    <option value="female">女性</option>
+                </select>
+                <button id="addBtn">分析兵役狀態</button>
+            </div>
+            <div class="history-container">
+                <h3>歷史紀錄 (最近 6 筆)</h3>
+                <ul id="historyList"></ul>
+            </div>
+        </div>
+
+        <!-- 3.右側：情境圖示區 -->
+        <div class="glass-panel right-panel">
+            <div id="statusResult" class="result-text">請輸入資料開始分析</div>
+            <div class="image-box">
+                <!-- 4.預設隱藏，由 JS 控制顯示 -->
+                <img id="statusImg" src="" alt="情境圖" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/mili_02.js"></script>
+</body>
+
+</html>
