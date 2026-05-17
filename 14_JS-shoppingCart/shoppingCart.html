@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☕ 咖啡購物車電商 APP </title>
+    <!-- 引入外部資源 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./index.css/shoppingCart.css">
+</head>
+
+<body class="light-mode"> <!-- 預設淺色模式 -->
+
+    <!-- 頂部通知條 (預設隱藏) -->
+    <div id="top-toast" class="toast-notification">下單完成！！</div>
+
+    <!-- 滿版導覽列 -->
+    <nav class="main-nav">
+        <div class="nav-left">
+            <div id="theme-toggle">淺色/深色 模式 >><i class="fa-solid fa-moon"></i></div>
+            <a href="#" class="nav-logo">回首頁</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-icon"><i class="fa-solid fa-user-plus"></i>
+                <span class="touch">加入會員</span>
+            </div>
+            <div class="nav-icon"><i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="touch">最近瀏覽</span>
+            </div>
+            <div class="nav-icon login-trigger"><i class="fa-solid fa-circle-user"></i>
+                <span class="touch">登入/註冊</span>
+            </div>
+            <div class="nav-icon cart-trigger">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- 搜尋與店家資訊 -->
+        <header class="shop-header">
+            <div class="logo-area">📖 墨香書咖</div>
+            <p class="p-text">營業時間：10:00 - 22:00</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="搜尋喜愛的書香餐點...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </header>
+
+        <!-- 加入會員 0 元外送活動框 -->
+        <div class="member-promo" id="openMemberPage">
+            <h3>加入會員享 0 元外送費 🚚</h3>
+            <p>點擊立即體驗專屬書香禮遇</p>
+        </div>
+
+        <!-- 最近瀏覽紀錄 (輪播) -->
+        <section class="recent-viewed">
+            <h4>最近瀏覽紀錄</h4>
+            <div class="horizontal-scroll" id="recentList">
+                <p class="empty-msg">目前尚無紀錄</p>
+            </div>
+        </section>
+
+        <!-- 促銷商品區 (輪播) -->
+        <section class="promo-section">
+            <h4>買一送一限時優惠 🎁</h4>
+            <div class="horizontal-scroll" id="promoList">
+                <!-- 由 JS 帶入測試商品 -->
+            </div>
+        </section>
+    </main>
+
+
+
+    <!-- 會員彈窗 (獨立) -->
+    <div id="member-overlay" class="full-page-overlay" style="display:none;">
+        <div class="overlay-content wood-box">
+            <!-- 關閉按鈕，我們改用 JS 綁定監聽，把 inline onclick 拿掉更專業 -->
+            <button class="close-btn" id="closeMember">返回導覽</button>
+
+            <h2>尊享書香・會員登錄</h2>
+            <p class="promo-subtext">登錄即享 0 元外送費與專屬書香禮遇 ☕</p>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-feather"></i> 墨客雅稱 (姓名)</label>
+                <input type="text" id="m-name" placeholder="如何稱呼您，例如：王大明">
+                <small class="error-text" id="name-err" style="display:none; color:red;">請注入您的雅稱</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-mobile-screen-button"></i> 傳書專線 (手機)</label>
+                <input type="tel" id="m-phone" placeholder="請輸入手機號碼 (需為數字)">
+                <small class="error-text" id="phone-err" style="display:none; color:red;">專線格式錯誤，請輸入有效數字</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-book-open"></i> 閱讀偏好 (選填)</label>
+                <select id="m-preference" class="wood-select">
+                    <option value="novel">文學小說與沉思</option>
+                    <option value="finance">商業財經與趨勢</option>
+                    <option value="healing">心靈療癒與咖啡</option>
+                    <option value="design">藝術設計與美學</option>
+                </select>
+            </div>
+
+            <button class="wood-btn" id="submitMember">確認登錄，開啟旅程</button>
+        </div>
+    </div>
+
+    <!-- 購物車結帳視窗 (獨立) -->
+    <div id="cart-overlay" class="full-page-overlay" style="display:none;">
+        <div class="overlay-content wood-box cart-modal">
+            <button class="close-btn" id="closeCart">繼續購物</button>
+            <h2>您的訂購清單</h2>
+
+            <div class="user-info-brief">
+                <p>收貨地址：<span id="display-address">台中市南區</span> <i class="fa-solid fa-pen" id="editAddress"
+                        style="cursor:pointer; margin-left:5px;"></i></p>
+                <p>訂購人：您本人</p>
+            </div>
+
+            <!-- 這裡改名為 render-area 避免與外層 ID 重複 -->
+            <div id="cart-items-render-area">
+                <!-- 購物車項目由 JS 動態產生 -->
+            </div>
+
+            <div class="cart-summary">
+                <hr>
+                <p>共 <span id="summary-qty">0</span> 份餐點</p>
+                <h3>總金額：$<span id="summary-total">0</span></h3>
+            </div>
+
+            <button class="wood-btn ready-btn" id="finalCheckout">我準備好了！</button>
+        </div>
+    </div>
+
+    <!-- 電腦版專用：底部快速結帳條 -->
+    <div id="desktop-bottom-bar" class="desktop-only-bar">
+        <div class="bar-info">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>購物車內有 <b id="bar-qty">0</b> 件餐點</span>
+        </div>
+        <button class="wood-btn" id="bar-checkout-btn">前往結帳</button>
+    </div>
+
+    <!-- 登入/註冊 聯動彈窗 (獨立) -->
+    <div id="auth-overlay" class="full-page-overlay" style="display:none;">
+        <!-- 預設為登入模式 (auth-mode-login) -->
+        <div class="overlay-content wood-box auth-box auth-mode-login" id="authBox">
+            <button class="close-btn" id="closeAuth">繼續購物</button>
+
+            <!-- 標題會動態感覺 -->
+            <h2 class="auth-title">墨香書咖 👑 閣下登錄</h2>
+            <p class="auth-subtitle">登錄以同步您的書香購物車與專屬禮遇</p>
+
+            <!-- 欄位 1：Email (登入/註冊共用) -->
+            <div class="form-group">
+                <label><i class="fa-solid fa-envelope"></i> 墨客信箱 (Email)</label>
+                <input type="email" id="auth-email" placeholder="example@email.com">
+                <small class="error-text" id="auth-email-err" style="display:none; color:red;"></small>
+            </div>
+
+            <!-- 欄位 2：雅稱 (只有【註冊模式】才會顯示，用 CSS 控制) -->
+            <div class="form-group register-only">
+                <label><i class="fa-solid fa-feather"></i> 墨客雅稱 (姓名)</label>
+                <input type="text" id="auth-name" placeholder="如何稱呼您，例如：王大明">
+                <small class="error-text" id="auth-name-err" style="display:none; color:red;">請輸入您的雅稱</small>
+            </div>
+
+            <!-- 欄位 3：密碼 (登入/註冊共用) -->
+            <div class="form-group">
+                <label><i class="fa-solid fa-lock"></i> 通關密語 (密碼)</label>
+                <input type="password" id="auth-password" placeholder="請輸入密碼">
+                <small class="error-text" id="auth-password-err" style="display:none; color:red;"></small>
+            </div>
+
+            <!-- 按鈕專區 -->
+            <div class="auth-action-area">
+                <button class="wood-btn" id="auth-primary-btn">確認登錄</button>
+
+                <!-- 切換模式的超連結 -->
+                <p class="auth-switch-text">
+                    <span class="login-text-group">初來乍到？ <a href="#" id="goToRegister">立即註冊專屬帳號</a></span>
+                    <span class="register-text-group">已是老書友？ <a href="#" id="goToLogin">返回登錄畫面</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 最近瀏覽紀錄 獨立彈窗 (新加入) -->
+    <div id="recent-overlay" class="full-page-overlay" style="display:none;">
+        <div class="overlay-content wood-box">
+            <button class="close-btn" id="closeRecent">關閉瀏覽</button>
+            <h2>📖 閣下的書香足跡</h2>
+            <p class="promo-subtext">紀錄您最近駐足品嚐的餐點與書目</p>
+
+            <!-- 瀏覽紀錄渲染區 -->
+            <div class="horizontal-scroll" id="popupRecentList">
+                <!-- 由 JS 動態帶入 -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./index.js/shoppingCart.js"></script>
+</body>
+
+</html>
