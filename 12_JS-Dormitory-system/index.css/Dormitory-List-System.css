@@ -1,0 +1,139 @@
+/* 基礎設定 */
+body {
+    background: #E3D5CA;
+    /* 暖米色書香背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.wood-box {
+    background: #D6CCC2;
+    /* 木質感底色 */
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow:
+        8px 8px 20px rgba(0, 0, 0, 0.2),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.3);
+    border: 3px solid #8B5E3C;
+    text-align: center;
+}
+
+.wood-title {
+    color: #5D4037;
+    font-size: 1.8rem;
+    background: #BCAAA4;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #5D4037;
+    text-shadow: 1px 1px 0px #fff;
+    margin-bottom: 30px;
+}
+
+/* 輸入框樣式 */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #A1887F;
+    background: #F5F5F5;
+}
+
+.pw-wrapper {
+    position: relative;
+}
+
+#togglePw {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #8D6E63;
+}
+
+/* 按鈕樣式 */
+.wood-btn {
+    background: #8B5E3C;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px #5D4037;
+}
+
+.wood-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px #5D4037;
+}
+
+/* 名單樣式 */
+#dormitoryUl {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.staff-li {
+    background: #EFEBE9;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 8px solid #ddd;
+}
+
+/* 狀態圓圈 */
+.status-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.dot-red {
+    background: #ff7675;
+}
+
+.dot-green {
+    background: #55efc4;
+}
+
+.dot-blue {
+    background: #74b9ff;
+}
+.dashboard{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.stat-item{
+    color: #9a2805d6;
+    background-color: #fab78d;
+    border-radius: 15px;
+    padding: 4px;
+    box-shadow:1px 2px 1px 1.5px #5D4037;
+}
+#addBtn{
+    background-color: #5D4037;
+    color: #D6CCC2;
+    margin-top: 15px;
+    width: 100px;
+    padding: 5px;
+    border-radius: 10px;
+}

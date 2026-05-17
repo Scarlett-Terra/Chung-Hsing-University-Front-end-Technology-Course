@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌲 宿舍名單管理系統 LV1</title>
+    <!-- 引入 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./index.css/Dormitory-List-System.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- 登入頁面 -->
+        <section id="login-page" class="wood-box">
+            <h1 class="wood-title">宿舍名單管理系統</h1>
+            <div class="input-group">
+                <label>帳號：</label>
+                <input type="text" id="accInput" placeholder="請輸入職員編號 (至少4位)">
+                <small id="accHint" class="hint-text"></small>
+            </div>
+            <div class="input-group">
+                <label>密碼：</label>
+                <div class="pw-wrapper">
+                    <input type="password" id="pwInput" placeholder="身分證末四碼 (至少6位)">
+                    <i class="fa-solid fa-eye" id="togglePw"></i>
+                </div>
+                <small id="pwHint" class="hint-text"></small>
+            </div>
+            <button id="loginBtn" class="wood-btn">登入系統</button>
+        </section>
+
+        <!-- 管理頁面 -->
+        <section id="admin-page" class="wood-box" style="display: none;">
+            <h1 class="wood-title">名單管理控制台</h1>
+
+            <!-- 儀表板 -->
+            <div class="dashboard">
+                <div class="stat-item">總容量: <span>50</span></div>
+                <div class="stat-item">已登記: <span id="stat-reg">0</span></div>
+                <div class="stat-item">在宿: <span id="stat-in" style="color: #2ecc71;">0</span></div>
+                <div class="stat-item">剩餘空位: <span id="stat-vac">50</span></div>
+            </div>
+
+            <div class="add-section">
+                <input type="text" id="newName" placeholder="輸入員工姓名...">
+                <button id="addBtn" class="wood-btn-sm">加入名單</button>
+            </div>
+
+            <ul id="dormitoryUl"></ul>
+        </section>
+    </div>
+
+    <script src="./index.js/Dormitory-List-System.js">
+
+    </script>
+</body>
+
+</html>
