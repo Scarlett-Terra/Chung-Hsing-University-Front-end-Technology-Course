@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>木質質感備忘錄 - LV1</title>
+    <!-- 引入 SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --wood-light: #f5e6d3;
+            --wood-dark: #d2b48c;
+            --text-main: #3d2b1f;
+            --line-color: #e0c9a6;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 背景模擬深色木質桌面 */
+            background: #2c1e14 url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: var(--text-main);
+        }
+
+        /* 書本容器 */
+        .book-container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--wood-light) url('https://www.transparenttextures.com/patterns/paper.png');
+            padding: 40px;
+            border-radius: 5px 20px 20px 5px;
+            box-shadow:
+                -10px 0 20px rgba(0, 0, 0, 0.5),
+                /* 書脊陰影 */
+                10px 10px 30px rgba(0, 0, 0, 0.3);
+            /* 整體浮起感 */
+            position: relative;
+            min-height: 600px;
+        }
+
+        /* 書脊線條 */
+        .book-container::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            text-align: center;
+            border-bottom: 2px double var(--wood-dark);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--wood-dark);
+            padding: 10px;
+            font-size: 16px;
+            outline: none;
+            color: var(--text-main);
+        }
+
+        #addBtn {
+            background: var(--wood-dark);
+            border: none;
+            color: rgb(103, 68, 3);
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+
+        }
+
+        button#addBtn:hover {
+            background: #b89b74;
+        }
+
+        /* 備忘錄列表 */
+        ul#memoList {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5px;
+            border-bottom: 1px solid var(--line-color);
+            transition: background 0.2s;
+        }
+
+        li:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 可編輯文字區塊 */
+        .memo-text {
+            flex: 1;
+            padding: 5px;
+            outline: none;
+            cursor: default;
+            /* 沒點擊時像正常 block */
+        }
+
+        .memo-text:focus {
+            cursor: text;
+            /* 點擊後出現文字游標 */
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 3px;
+        }
+
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: rgb(247, 106, 19);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="book-container">
+        <h2>📜 我的生活清單 </h2>
+
+        <div class="input-group">
+            <input type="text" id="memoInput" placeholder="今日要寫作業...">
+            <button id="addBtn">紀錄</button>
+        </div>
+
+        <ul id="memoList"></ul>
+    </div>
+
+    <script>
+        const memoInput = document.querySelector('#memoInput');
+        const addBtn = document.querySelector('#addBtn');
+        const memoList = document.querySelector('#memoList');
+
+        // 預設 6 條歷史紀錄
+        const defaultData = [
+            { id: 1, content: "今日要寫作業" },
+            { id: 2, content: "整理 JS 筆記" },
+            { id: 3, content: "預習 CSS Flexbox" },
+            { id: 4, content: "買咖啡豆" },
+            { id: 5, content: "洗衣服" },
+            { id: 6, content: "練習 SweetAlert2" }
+        ];
+
+        // 初始化資料：若 LocalStorage 沒資料就載入預設 6 條
+        let memoData = JSON.parse(localStorage.getItem("myMemos_v1")) || defaultData;
+
+        renderList();
+
+
+        // 2. 這是「加裝」的鍵盤功能：當 Enter 按下，去幫我點一下上面的按鈕
+        memoInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                addBtn.click(); // 這行會直接跳去執行上面的「滑鼠點擊」邏輯
+            }
+        });
+        // 新增功能
+        addBtn.addEventListener('click', () => {
+            const content = memoInput.value.trim();
+            if (content === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '內容不能為空白喔！',
+                    text: '請在筆記本上寫點什麼吧。',
+                    confirmButtonColor: '#d2b48c'
+                });
+                return;
+            }
+
+
+            const newMemo = {
+                id: Date.now(),
+                content: content
+            };
+
+            memoData.unshift(newMemo); // 新的排在最前面
+            saveAndRender();
+            memoInput.value = '';
+        });
+
+        // 監聽清單（刪除與修改）
+        memoList.addEventListener('click', (e) => {
+            const id = e.target.dataset.id;
+
+            // 刪除邏輯
+            if (e.target.classList.contains('delete-btn')) {
+                memoData = memoData.filter(item => item.id != id);
+                saveAndRender();
+            }
+        });
+
+        // 修改邏輯：當失去焦點 (blur) 時儲存
+        memoList.addEventListener('blur', (e) => {
+            if (e.target.classList.contains('memo-text')) {
+                const id = e.target.dataset.id;
+                const newContent = e.target.innerText.trim();
+
+                // 找到該筆資料更新
+                const index = memoData.findIndex(item => item.id == id);
+                if (index !== -1) {
+                    memoData[index].content = newContent;
+                    localStorage.setItem('myMemos_v1', JSON.stringify(memoData));
+                    console.log('已自動儲存修改');
+                }
+            }
+        }, true); // 使用事件捕獲
+
+        function saveAndRender() {
+            localStorage.setItem('myMemos_v1', JSON.stringify(memoData));
+            renderList();
+        }
+
+        function renderList() {
+            let str = '';
+            memoData.forEach((item) => {
+                str += `
+                    <li>
+                        <span class="memo-text" 
+                              contenteditable="true" 
+                              data-id="${item.id}">${item.content}</span>
+                        <button class="delete-btn" data-id="${item.id}">刪除</button>
+                    </li>
+                `;
+            });
+            memoList.innerHTML = str;
+        }
+    </script>
+</body>
+
+</html>
