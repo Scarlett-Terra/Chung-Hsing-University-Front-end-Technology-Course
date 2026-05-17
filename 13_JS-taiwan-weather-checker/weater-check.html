@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌲 全台氣象溫度查詢</title>
+    <style>
+        /* [保留你原本的所有 CSS 樣式，這裡不重複貼出以節省篇幅] */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Quicksand:wght@500;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0f2f1 0%, #f1f8e9 100%);
+            min-height: 100vh;
+            color: #2d3436;
+        }
+
+        .weather-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        #mainTitle {
+            font-size: 2.5rem;
+            color: #43a047;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-select,
+        #searchInput {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: 2px solid #8bc34a;
+            background: rgba(255, 255, 255, 0.8);
+            outline: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .history-section {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0 20px;
+            margin-bottom: 30px;
+            scrollbar-width: none;
+        }
+
+        .history-section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .weather-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .weather-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .card-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: #c8e6c9;
+            padding: 0 15px;
+            border-radius: 15px;
+        }
+
+        .temp-box {
+            font-size: 1.6rem;
+            color: #e67e22;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .status-box {
+            font-size: 1.1rem;
+            color: #636e72;
+            line-height: 1.6;
+        }
+
+        .history-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            cursor: pointer;
+        }
+
+        .history-mini-card {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid white;
+        }
+
+        .history-city-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2d3436;
+            background: #ffffff;
+            padding: 2px 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="weather-container">
+        <h1 id="mainTitle">🌲 森林氣象站</h1>
+        <div class="filter-section">
+            <div class="search-bar">
+                <select id="regionSelect" class="filter-select">
+                    <option value="全部">🌏 所有地區</option>
+                    <option value="北區">📍 北部地區</option>
+                    <option value="中區">📍 中部地區</option>
+                    <option value="南區">📍 南部地區</option>
+                    <option value="東區離島">📍 東部離島</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="輸入城市關鍵字 (如：臺)...">
+            </div>
+            <div id="historyList" class="history-section"></div>
+        </div>
+        <div id="weatherGrid" class="grid-layout"></div>
+    </div>
+
+    <script>
+        const weatherUrl = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWA-18831451-202A-466A-8700-10FE143501B0';
+        let weatherData = [];
+        // 初始化歷史紀錄，確保它是物件陣列
+        let history = JSON.parse(localStorage.getItem('weatherHistory')) || [];
+
+        const regions = {
+            "北區": ["臺北市", "新北市", "基隆市", "桃園市", "新竹市", "新竹縣", "宜蘭縣"],
+            "中區": ["苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣"],
+            "南區": ["嘉義市", "嘉義縣", "臺南市", "高雄市", "屏東縣", "澎湖縣"],
+            "東區離島": ["花蓮縣", "臺東縣", "金門縣", "連江縣"]
+        };
+
+        async function getData() {
+            try {
+                const res = await fetch(weatherUrl);
+                const data = await res.json();
+                weatherData = data.records.location;
+                renderHistory();
+                filterData(); // 初始渲染全部
+            } catch (e) { console.error("資料抓取失敗", e); }
+        }
+
+        // 渲染主卡片：加上 onclick="addToHistory"
+        function renderCards(dataArray) {
+            const container = document.getElementById('weatherGrid');
+            if (dataArray.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; color: #666;">找不到相關城市，再試試看其他關鍵字吧！</p>`;
+                return;
+            }
+
+            container.innerHTML = dataArray.map(loc => {
+                const wx = loc.weatherElement[0].time[0].parameter.parameterName;
+                const minT = loc.weatherElement[2].time[0].parameter.parameterName;
+                const maxT = loc.weatherElement[4].time[0].parameter.parameterName;
+                const pop = loc.weatherElement[1].time[0].parameter.parameterName;
+                const ci = loc.weatherElement[3].time[0].parameter.parameterName;
+
+                return `
+                    <div class="weather-card" onclick="addToHistory('${loc.locationName}')">
+                        <div class="card-title">${loc.locationName}</div>
+                        <div class="temp-box">🌡️ ${minT}° - ${maxT}°C</div>
+                        <div class="status-box">
+                            <p>🌤️ <b>狀態：</b>${wx}</p>
+                            <p>💧 <b>降雨：</b>${pop}%</p>
+                            <p>🧘 <b>舒適：</b>${ci}</p>
+                        </div>
+                        <small style="color: #999;">點擊卡片收藏至紀錄 👆</small>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 核心邏輯：點擊卡片後加入歷史紀錄
+        function addToHistory(locName) {
+            const targetData = weatherData.find(l => l.locationName === locName);
+            if (!targetData) return;
+
+            const weatherInfo = {
+                name: targetData.locationName,
+                wx: targetData.weatherElement[0].time[0].parameter.parameterName,
+                temp: `${targetData.weatherElement[2].time[0].parameter.parameterName}` // 取低溫代表
+            };
+
+            // 檢查重複 (依據 name)
+            history = history.filter(item => item.name !== locName);
+            history.unshift(weatherInfo);
+
+            if (history.length > 8) history.pop(); // 保持 8 個紀錄
+            localStorage.setItem('weatherHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (history.length === 0) {
+                list.innerHTML = `<p style="color:#999; margin:0 auto;">尚未收藏任何城市 (點擊下方卡片即可收藏)</p>`;
+                return;
+            }
+            list.innerHTML = history.map(item => `
+                <div class="history-item" onclick="quickSearch('${item.name}')">
+                    <div class="history-mini-card">
+                        <span style="font-size: 1.5rem;">🌤️</span>
+                        <span style="font-size: 0.9rem; color: #e67e22; font-weight:bold;">${item.temp}°</span>
+                    </div>
+                    <div class="history-city-name">${item.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function quickSearch(cityName) {
+            document.getElementById('searchInput').value = cityName;
+            document.getElementById('regionSelect').value = "全部";
+            filterData();
+        }
+
+        // 篩選邏輯：支援模糊搜尋 (包含文字即可)
+        function filterData() {
+            const region = document.getElementById('regionSelect').value;
+            const search = document.getElementById('searchInput').value.trim();
+
+            const filtered = weatherData.filter(loc => {
+                const matchReg = region === "全部" || regions[region].includes(loc.locationName);
+                // 使用 includes 達成模糊搜尋
+                const matchSearch = loc.locationName.includes(search);
+                return matchReg && matchSearch;
+            });
+            renderCards(filtered);
+        }
+
+        // 監聽器設定
+        document.getElementById('regionSelect').addEventListener('change', filterData);
+
+        // 改用 input 事件，達成「打一個字就搜尋一個字」
+        document.getElementById('searchInput').addEventListener('input', filterData);
+
+        getData();
+    </script>
+</body>
+
+</html>
