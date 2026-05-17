@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>幻彩靈眸 - 色弱檢測遊戲</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div id="gamePanel">
+            <div class="status-bar">
+                <div>LV: <span id="levelText">1</span></div>
+                <div class="timer">⏱️ <span id="timeText">60</span>s</div>
+                <div>Score: <span id="scoreText">0</span></div>
+            </div>
+            <div id="gameGrid" class="grid-container"></div>
+        </div>
+
+        <div id="resultPanel" class="hidden">
+            <h2>檢測結束</h2>
+            <div class="result-box">
+                <p>總 Score: <span id="finalScore">0</span></p>
+                <p>總 LV: <span id="finalLevel">0</span></p>
+                <div id="rankImageBox">
+                    <img id="rankImg" src="" alt="等級圖片">
+                </div>
+
+                <hr>
+                <h3>📜 歷史戰績</h3>
+                <ul id="historyList"></ul> <button id="restartBtn">再重複遊戲一次!!</button>
+            </div>
+        </div>
+    </div>
+    <script src="./script.js">
+    </script>
+</body>
+
+</html>
