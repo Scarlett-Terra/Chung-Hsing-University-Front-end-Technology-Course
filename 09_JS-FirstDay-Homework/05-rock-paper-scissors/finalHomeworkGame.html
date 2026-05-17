@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜拳對決 - 優化版</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --gold: #B38728;
+            --jade: #2d5a27;
+            --bg-dark: #1a1a1a;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background:
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(0, 20, 50, 0.85) 70%, rgba(0, 10, 30, 1) 100%),
+                url('https://images.unsplash.com/photo-1511497584788-8767fe771d21?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 記分板 */
+        .scoreboard {
+            display: flex;
+            gap: 50px;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            z-index: 10;
+        }
+
+        .score-num {
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* 中央對決舞台 */
+        .stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            transition: all 0.8s ease;
+        }
+
+        .npc-container {
+            position: relative;
+            perspective: 1000px;
+            text-align: center;
+        }
+
+        #npc-character {
+            margin: 15px 0;
+            width: 280px;
+            height: 280px;
+            object-fit: contain;
+            border-radius: 20px;
+            transform: rotateX(10deg);
+            filter: drop-shadow(10px 10px 20px rgba(241, 166, 166, 0.7));
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: rotateY(180deg);
+        }
+
+        /* 狀態效果 */
+        .npc-win-active {
+            transform: scale(1.1) rotateY(10deg) !important;
+            filter: drop-shadow(0 0 20px #fff700) brightness(1.2) !important;
+        }
+
+        .npc-lose-active {
+            transform: translateY(30px) scale(0.9) rotateX(20deg) !important;
+            filter: grayscale(100%) brightness(0.7) !important;
+        }
+
+        .debug-text {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .player-controls {
+            margin-bottom: 50px;
+            display: flex;
+            gap: 30px;
+            z-index: 10;
+        }
+        .btn-choice img:active{
+            transform: rotate(-90deg) scale(1.6);
+            border-radius: 20px;
+        }
+
+        .btn-choice {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid white;
+            border-radius: 20px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-choice img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .btn-choice:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .btn-choice.active {
+            border-color: #fff700;
+            box-shadow: 0 0 20px #fff700;
+            background: rgba(179, 135, 40, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* 動畫元素 */
+        .star {
+            position: absolute;
+            color: #fff700;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 100;
+            animation: star-burst 1s forwards ease-out;
+        }
+
+        @keyframes star-burst {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .depression-mode {
+            filter: grayscale(50%) brightness(60%);
+        }
+
+        .firefly-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .firefly {
+            position: absolute;
+            background: #e6ffad;
+            border-radius: 50%;
+            animation: drift linear infinite, flash ease-in-out infinite;
+        }
+
+        @keyframes flash {
+
+            0%,
+            100% {
+                opacity: 0.1;
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 15px 4px rgba(230, 255, 173, 0.8);
+            }
+        }
+
+        @keyframes drift {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-100px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="firefly-box" class="firefly-container"></div>
+
+    <div class="scoreboard">
+        <div style="text-align:center">
+            <div>玩家得分</div>
+            <div id="player-score" class="score-num">0</div>
+        </div>
+        <div style="text-align:center">
+            <div>電腦得分</div>
+            <div id="comp-score" class="score-num">0</div>
+        </div>
+    </div>
+
+    <div class="stage" id="main-stage">
+        <div id="game-status"
+            style="font-size: 1.8rem; color: var(--pink); margin-bottom: 20px; font-weight: bold; text-shadow: 2px 2px 4px goldenrod;">
+            五戰三勝制：先得 3 分者勝！
+        </div>
+
+        <div class="npc-container">
+            <img id="npc-character" src="./img/剪刀、石頭、布圖片.png" alt="電腦狀態">
+        </div>
+        <div id="comp-choice-text" class="debug-text">準備好了嗎？</div>
+    </div>
+
+    <div class="player-controls">
+        <button class="btn-choice" onclick="playGame('rock', this)">
+            <img src="./img/石頭.png" alt="石頭">
+        </button>
+        <button class="btn-choice" onclick="playGame('scissors', this)">
+            <img src="./img/剪刀.png" alt="剪刀">
+        </button>
+        <button class="btn-choice" onclick="playGame('paper', this)">
+            <img src="./img/布.png" alt="布">
+        </button>
+    </div>
+
+    <script>
+        // JS 老師提醒：請確保圖片路徑與資料夾名稱完全一致
+        const IMGS = {
+            npc: {
+                rock: "./img/石頭圖片.png",
+                scissors: "./img/剪刀圖片.png",
+                paper: "./img/布圖片.png",
+                lose: "./img/活人...jpg", // 玩家贏，電腦難過
+                win: "./img/normal.png"     // 電腦贏，電腦得意
+            }
+        };
+
+        let pScore = 0;
+        let cScore = 0;
+        let isPlaying = false;
+
+        async function playGame(pChoice, clickedElement) {
+            if (isPlaying) return;
+            isPlaying = true;
+
+            const npc = document.querySelector('#npc-character');
+            const statusText = document.querySelector('#game-status');
+            const stage = document.querySelector('#main-stage');
+
+            // 1. 玩家點擊特效
+            document.querySelectorAll('.btn-choice').forEach(btn => btn.classList.remove('active'));
+            clickedElement.classList.add('active');
+            createStar(clickedElement);
+
+            // 2. 移除上一局的崩潰或得意狀態，恢復準備姿勢
+            npc.className = '';
+            stage.classList.remove('depression-mode');
+            statusText.innerText = "猜拳中...";
+
+            setTimeout(() => {
+                const choices = ['rock', 'scissors', 'paper'];
+                const cChoice = choices[Math.floor(Math.random() * 3)];
+
+                // 顯示電腦這局出的拳頭圖片 (而不是崩潰圖)
+                npc.src = IMGS.npc[cChoice];
+
+                const textMap = { 'rock': '石頭', 'scissors': '剪刀', 'paper': '布' };
+                document.querySelector('#comp-choice-text').innerText = `電腦出了：${textMap[cChoice]}`;
+
+                // 3. 勝負判定
+                const playerWin =
+                    (pChoice === 'rock' && cChoice === 'scissors') ||
+                    (pChoice === 'scissors' && cChoice === 'paper') ||
+                    (pChoice === 'paper' && cChoice === 'rock');
+
+                if (pChoice === cChoice) {
+                    statusText.innerText = "平手！再次交鋒";
+                } else if (playerWin) {
+                    pScore++;
+                    statusText.innerText = "妳贏了這回合！";
+                } else {
+                    cScore++;
+                    statusText.innerText = "電腦贏了這回合！";
+                }
+
+                // 更新記分板
+                document.querySelector('#player-score').innerText = pScore;
+                document.querySelector('#comp-score').innerText = cScore;
+
+                // 4. 關鍵修改：檢查是否「最終結束」
+                setTimeout(() => {
+                    if (pScore >= 3 || cScore >= 3) {
+                        // 只有在這裡（最終勝負已定）才顯示特殊表情
+                        if (pScore >= 3) {
+                            npc.src = IMGS.npc.lose; // 玩家總冠軍，電腦才大哭
+                            npc.classList.add('npc-lose-active');
+                            stage.classList.add('depression-mode');
+                        } else {
+                            npc.src = IMGS.npc.win; // 電腦總冠軍，電腦才得意
+                            npc.classList.add('npc-win-active');
+                        }
+
+                        // 延遲一點點再跳出 SweetAlert 視窗
+                        setTimeout(checkGameOver, 500);
+                    } else {
+                        // 如果遊戲還沒結束，準備下一局
+                        isPlaying = false;
+                        // 這裡可以選擇要不要自動恢復成初始圖案，或是讓玩家看清楚比數後再按
+                        setTimeout(() => {
+                            statusText.innerText = "下一回合，請出拳！";
+                        }, 1000);
+                    }
+                }, 800);
+            }, 600);
+        }
+
+        function checkGameOver() {
+            const isPlayerFinalWin = pScore >= 3;
+
+            Swal.fire({
+                title: isPlayerFinalWin ? '🎉 恭喜！妳獲得最終勝利' : '💀 遺憾！妳輸掉了對決',
+                text: isPlayerFinalWin ? `比數 ${pScore}：${cScore}，妳展現了驚人的運氣！` : `比數 ${pScore}：${cScore}，電腦贏了，快去磨練一下再來吧！`,
+                icon: isPlayerFinalWin ? 'success' : 'error',
+                confirmButtonText: '重新挑戰',
+                allowOutsideClick: false,
+                background: '#1a1a1a',
+                color: '#fff',
+                confirmButtonColor: '#B38728'
+            }).then(() => {
+                resetGame();
+            });
+        }
+
+        function resetGame() {
+            pScore = 0;
+            cScore = 0;
+            isPlaying = false;
+            document.querySelector('#player-score').innerText = 0;
+            document.querySelector('#comp-score').innerText = 0;
+            document.querySelector('#game-status').innerText = "五戰三勝制：先得 3 分者勝！";
+            document.querySelector('#comp-choice-text').innerText = "準備好了嗎？";
+
+            const npc = document.querySelector('#npc-character');
+            npc.src = "./img/剪刀、石頭、布圖片.png";
+            npc.className = '';
+            document.querySelector('#main-stage').classList.remove('depression-mode');
+            document.querySelectorAll('.btn-choice').forEach(btn => btn.classList.remove('active'));
+        }
+
+        // 星星效果
+        function createStar(element) {
+            const rect = element.getBoundingClientRect();
+            for (let i = 0; i < 8; i++) {
+                const star = document.createElement('div');
+                star.innerHTML = '★';
+                star.className = 'star';
+                star.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+                star.style.setProperty('--y', (Math.random() - 0.5) * 200 - 50 + 'px');
+                star.style.left = (rect.left + rect.width / 2) + 'px';
+                star.style.top = (rect.top + rect.height / 2) + 'px';
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 1000);
+            }
+        }
+
+        // 螢火蟲效果
+        function createFireflies() {
+            const container = document.getElementById('firefly-box');
+            for (let i = 0; i < 50; i++) {
+                const f = document.createElement('div');
+                f.className = 'firefly';
+                const size = Math.random() * 3 + 2;
+                f.style.width = size + 'px';
+                f.style.height = size + 'px';
+                f.style.left = Math.random() * 100 + '%';
+                f.style.top = Math.random() * 100 + '%';
+                f.style.animationDuration = (Math.random() * 10 + 10) + 's, ' + (Math.random() * 3 + 2) + 's';
+                container.appendChild(f);
+            }
+        }
+
+        window.addEventListener('load', createFireflies);
+    </script>
+</body>
+
+</html>

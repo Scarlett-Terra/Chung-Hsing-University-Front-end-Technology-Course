@@ -1,0 +1,44 @@
+/* 1. 醫女懸浮立體感 */
+.medical-girl-float {
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3)); /* 增加深邃陰影 */
+    animation: floatUpDown 3s infinite ease-in-out;
+    transform-style: preserve-3d;
+}
+
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0) rotate(2deg); }
+    50% { transform: translateY(-20px) rotate(-2deg); }
+}
+
+/* 2. 魔法撲克牌系統 */
+.magic-btn {
+    background: none; border: none; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    perspective: 1000px;
+}
+
+
+.magic-btn img {
+    width: 100px; border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* 點擊放大 10% 效果 */
+.magic-btn:active {
+    transform: scale(1.1); /* 放大 10% */
+}
+
+.magic-btn:hover {
+    transform: translateY(-15px) rotateY(10deg); /* 懸浮翻轉感 */
+}
+
+/* 4. 兩側計分板佈局 */
+.side-score {
+    position: absolute; top: 10%; width: 120px; padding: 15px;
+    background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+    border-radius: 20px; border: 3px solid #8B4513; text-align: center;
+}
+.player-side { left: 20px; border-left: 10px solid #2E8B57; }
+.computer-side { right: 20px; border-right: 10px solid #F7DC6F; }
+
+.score-number { font-size: 2.5rem; font-weight: bold; color: #8B4513; }
