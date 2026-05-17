@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>簡易學生成績平均系統</title>
+
+<style>
+/* =========================
+   STEP 1️⃣ 基本設定
+========================= */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd6e0, #6e4a04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* =========================
+   STEP 2️⃣ 容器 + 玻璃卡片
+========================= */
+.container {
+  width: 90%;
+  max-width: 420px;
+}
+
+.card {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* =========================
+   STEP 3️⃣ UI 樣式
+========================= */
+.title {
+  text-align: center;
+  color: #ff6b81;
+}
+
+.form-group {
+  margin-top: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-style {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  background: #ff6b81;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,107,129,0.5);
+}
+
+/* =========================
+   STEP 4️⃣ 結果顯示
+========================= */
+.result {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.grade-A { color: #2ecc71; }
+.grade-B { color: #3498db; }
+.grade-C { color: #f1c40f; }
+.grade-D { color: #e67e22; }
+.grade-F { color: #e74c3c; }
+
+.warning {
+  color: red;
+  font-weight: bold;
+}
+
+/* 圖片 */
+.result img {
+  width: 120px;
+  margin-top: 10px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   STEP 5️⃣ RWD
+========================= */
+@media (max-width:480px){
+  .result img { width: 90px; }
+}
+
+@media (min-width:768px){
+  .container { max-width: 600px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h1 class="title">📊 AI 學生成績分析</h1>
+
+<!-- STEP 1️⃣ 姓名 -->
+<div class="form-group">
+<label for="nameInput">學生姓名</label>
+<input id="nameInput" class="input-style" type="text" placeholder="請輸入姓名">
+</div>
+
+<!-- STEP 2️⃣ 三科 -->
+<div class="form-group">
+<label for="score1Input">數學</label>
+<input id="score1Input" class="input-style" type="number">
+</div>
+
+<div class="form-group">
+<label for="score2Input">社會</label>
+<input id="score2Input" class="input-style" type="number">
+</div>
+
+<div class="form-group">
+<label for="score3Input">國文</label>
+<input id="score3Input" class="input-style" type="number">
+</div>
+
+<button id="calculateBtn" class="btn">✨ 開始分析</button>
+
+<!-- STEP 4️⃣ 結果 -->
+<div id="resultBox" class="result" aria-live="polite"></div>
+
+</div>
+</div>
+
+<script>
+/* =========================
+   STEP 1️⃣ 監聽按鈕
+========================= */
+document.getElementById("calculateBtn").addEventListener("click", function(){
+
+  const nameValue = document.getElementById("nameInput").value.trim();
+  const s1 = Number(document.getElementById("score1Input").value);
+  const s2 = Number(document.getElementById("score2Input").value);
+  const s3 = Number(document.getElementById("score3Input").value);
+
+  /* =========================
+     STEP 2️⃣ 防呆
+  ========================= */
+  if (!nameValue || isNaN(s1) || isNaN(s2) || isNaN(s3)) {
+    alert("⚠️ 請輸入完整且正確資料");
+    return;
+  }
+
+  if ([s1,s2,s3].some(v => v < 0 || v > 100)) {
+    alert("⚠️ 分數需在 0~100");
+    return;
+  }
+
+  /* =========================
+     STEP 3️⃣ 計算平均
+  ========================= */
+  const avg = ((s1 + s2 + s3) / 3).toFixed(1);
+
+  /* =========================
+     STEP 4️⃣ 等第 + 訊息 + 圖片
+  ========================= */
+  let grade = "";
+  let gradeClass = "";
+  let message = "";
+  let imageUrl = "";
+
+  if (avg >= 90) {
+    grade = "A";
+    gradeClass = "grade-A";
+    message = "🎓 有機會加入哈佛學院！";
+    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ40wheCoSacADTUAjX9I5VQN2AGg4pWRTGg&s";
+  }
+  else if (avg >= 80) {
+    grade = "B";
+    gradeClass = "grade-B";
+    message = "🌟 表現優秀，持續保持！";
+    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwZd2KBvRhz3qT_FkBeMl6pEP3dkQD7o3ChA&s";
+  }
+  else if (avg >= 70) {
+    grade = "C";
+    gradeClass = "grade-C";
+    message = "📈 發展有望，可以持續學習！";
+    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuZZnoqPpVbC2fDQrQckveIyVJofWoZHRL6w&s";
+  }
+  else if (avg >= 60) {
+    grade = "D";
+    gradeClass = "grade-D";
+    message = "💪 可以再繼續努力！";
+    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkPPkGwz09z91C__4SjEaDnbnVEr9lgB64A&s";
+  }
+  else {
+    grade = "F";
+    gradeClass = "grade-F";
+    message = "⚠️ 不及格！請加強學習";
+    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZvxqXLhi7DIusHDaOOdSfmsha1uRquD2UA&s";
+  }
+
+  /* =========================
+     STEP 5️⃣ 顯示結果
+  ========================= */
+  const html = `
+    <p>👤 您的名字：${nameValue}</p>
+    <p>📊 平均成績：${avg}</p>
+    <p class="${gradeClass}">🎯 等第：${grade}</p>
+    <p class="${gradeClass}">${message}</p>
+    <img src="${imageUrl}" alt="等第 ${grade} 圖示">
+  `;
+
+  document.getElementById("resultBox").innerHTML = html;
+
+});
+</script>
+
+</body>
+</html>

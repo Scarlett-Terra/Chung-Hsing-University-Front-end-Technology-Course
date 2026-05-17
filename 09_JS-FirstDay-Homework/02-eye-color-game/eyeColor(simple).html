@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progressive Color Vision Test</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: radial-gradient(circle at top, #120018, #000);
+            color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 760px;
+            padding: 20px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .title {
+            text-align: center;
+            color: #ff4fd6;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(45deg, #ff2bd6, #6a00ff);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            color: #00ffd5;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .tile {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.12s;
+        }
+
+        .tile:hover {
+            transform: scale(1.08);
+        }
+
+        /* RESULT */
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        #animalIcon {
+            transition: transform 0.3s ease;
+        }
+
+        #animalIcon:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .result {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- START -->
+        <div id="startPanel" class="panel">
+            <h1 class="title">Color Vision Test</h1>
+            <p>Find the different tile</p>
+            <button id="startBtn" class="button">PLAY</button>
+        </div>
+
+        <!-- GAME -->
+        <div id="gamePanel" class="panel" style="display:none">
+
+            <div class="header">
+                <div>Score: <span id="scoreText">0</span></div>
+                <div>⏳ <span id="timeText">60</span>s</div>
+            </div>
+
+            <div id="grid" class="grid"></div>
+
+        </div>
+
+        <!-- RESULT -->
+        <div id="resultPanel" class="panel result">
+
+            <h2 style="text-align:center;">測驗結果</h2>
+
+            <div id="scoreText" style="font-size:28px; text-align:center;"></div>
+
+            <!-- 動物 + 獎勵圖示 -->
+            <div id="animalBox" style="text-align:center; margin-top:20px;">
+                <div id="animalIcon" style="font-size:120px;"></div>
+                <div id="resultMessage" style="font-size:20px; margin-top:10px;"></div>
+            </div>
+
+            <button id="restartBtn" class="button">Play Again</button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        /* =========================
+        STATE
+        ========================= */
+        var score = 0;
+        var timeLeft = 60;
+        var timer = null;
+        var difficulty = 8;
+
+        var correctIndex = 0;
+
+        /* =========================
+        DOM
+        ========================= */
+        var startPanel = document.querySelector("#startPanel");
+        var gamePanel = document.querySelector("#gamePanel");
+        var resultPanel = document.querySelector("#resultPanel");
+
+        var startBtn = document.querySelector("#startBtn");
+        var restartBtn = document.querySelector("#restartBtn");
+
+        var grid = document.querySelector("#grid");
+        var scoreText = document.querySelector("#scoreText");
+        var timeText = document.querySelector("#timeText");
+
+        /* =========================
+        START
+        ========================= */
+        startBtn.addEventListener("click", function () {
+            startGame();
+        });
+
+        restartBtn.addEventListener("click", function () {
+            location.reload();
+        });
+
+        function startGame() {
+            startPanel.style.display = "none";
+            gamePanel.style.display = "block";
+
+            startTimer();
+            nextLevel();
+        }
+
+        /* =========================
+        TIMER
+        ========================= */
+        function startTimer() {
+
+            timer = setInterval(function () {
+                timeLeft--;
+                timeText.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        /* =========================
+        LEVEL SYSTEM（你要求重點）
+        ========================= */
+        function getGridSize(level) {
+
+            if (level === 1) return 2;
+            if (level === 2) return 3;
+            if (level === 3) return 4;
+            if (level === 4) return 5;
+            return 6; // 第5關以後固定36格
+        }
+
+        /* =========================
+        COLOR ENGINE
+        ========================= */
+        function randomHue() {
+            return Math.floor(Math.random() * 360);
+        }
+
+        function nextLevel() {
+
+            grid.innerHTML = "";
+
+            var size = getGridSize(score);
+            var total = size * size;
+
+            grid.style.gridTemplateColumns = "repeat(" + size + ", 1fr)";
+
+            var baseHue = randomHue();
+
+            correctIndex = Math.floor(Math.random() * total);
+
+            var baseS = 70;
+            var baseL = 55;
+
+            for (var i = 0; i < total; i++) {
+
+                var tile = document.createElement("div");
+                tile.className = "tile";
+
+                var l = baseL;
+
+                if (i === correctIndex) {
+
+                    // 異常 tile（明度差）
+                    l = baseL + (Math.random() > 0.5 ? 10 : -10);
+
+                } else {
+
+                    // 微 AI 隨機波動（避免視覺疲勞）
+                    l = baseL + (Math.random() * 2 - 1);
+                }
+
+                tile.style.background = "hsl(" + baseHue + "," + baseS + "%," + l + "%)";
+
+                tile.setAttribute("role", "button");
+                tile.setAttribute("tabindex", "0");
+
+                tile.addEventListener("click", function (index) {
+                    return function () {
+                        handleClick(index);
+                    };
+                }(i));
+
+                grid.appendChild(tile);
+            }
+        }
+
+        /* =========================
+        CLICK LOGIC
+        ========================= */
+        function handleClick(index) {
+
+            if (index === correctIndex) {
+                score++;
+                difficulty -= 0.2;
+                if (difficulty < 2) difficulty = 2;
+            } else {
+                difficulty += 0.3;
+            }
+
+            scoreText.textContent = score;
+
+            nextLevel();
+        }
+
+        /* =========================
+        END
+        ========================= */
+        function endGame() {
+
+            clearInterval(timer);
+
+            gamePanel.style.display = "none";
+            resultPanel.style.display = "block";
+
+            var animalIcon = document.querySelector("#animalIcon");
+            var resultMessage = document.querySelector("#resultMessage");
+            var scoreTextEl = document.querySelector("#scoreText");
+
+            scoreTextEl.textContent = "Score: " + score;
+
+            var result = getResult(score);
+
+            animalIcon.textContent = result.icon;
+            resultMessage.textContent = result.text;
+
+            animalIcon.style.fontSize = result.size + "px";
+        }
+        //🧠 情緒分級系統（核心）
+        function getResult(score) {
+
+            // 🐶 鼓勵型
+            if (score <= 30) {
+                return {
+                    icon: "🐶",
+                    text: "很好！你正在建立色彩辨識能力，繼續練習會更強 💪",
+                    size: 120
+                };
+            }
+
+            // 🐱 中等
+            if (score >= 31 && score < 56) {
+                return {
+                    icon: "🐱",
+                    text: "表現不錯！你的色彩敏感度已經很穩定 👍",
+                    size: 140
+                };
+            }
+
+            // 🏆 高分
+            return {
+                icon: "🏆",
+                text: "太優秀了！你是色彩辨識高手 🌈✨",
+                size: 170
+            };
+        }
+
+        /* =========================
+        ANIMAL SYSTEM
+        ========================= */
+        function getAnimal(score) {
+
+            if (score < 10) return "🐶 Basic Vision";
+            if (score < 20) return "🐱 Normal Vision";
+            if (score < 30) return "🦇 Advanced Vision";
+            if (score < 40) return "🦅 Sharp Vision";
+            return "🐼 Master Vision";
+        }
+
+    </script>
+
+</body>
+
+</html>

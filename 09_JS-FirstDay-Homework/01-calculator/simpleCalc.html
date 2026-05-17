@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>🐹 黃金鼠魔幻計算機</title>
+
+    <style>
+        /* =========================
+ Step 1: 全域設定
+========================= */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #2b1055, #7597de);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .high-light {
+            color: lightgray;
+        }
+
+        /* =========================
+ Step 2: 主容器
+========================= */
+        .calculator {
+            width: 320px;
+            background: #1e1e2f;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        /* =========================
+ Step 3: 黃金鼠標題
+========================= */
+        .hamster {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: yellow;
+        }
+
+        /* =========================
+ Step 4: 顯示區
+========================= */
+        .display-area {
+            margin-bottom: 15px;
+        }
+
+        .display-area input {
+            width: 100%;
+            font-size: 2rem;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            text-align: right;
+            background: #000;
+            color: #0f0;
+        }
+
+        /* =========================
+ Step 5: 按鈕區
+========================= */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        /* 共用按鈕 */
+        .btn {
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 數字 */
+        .btn-number {
+            background: #444;
+            color: #fff;
+        }
+
+        /* 功能鍵 */
+        .btn-func {
+            background: gold;
+            color: black;
+        }
+
+        /* 0 變兩格 */
+        .btn-zero {
+            grid-column: span 2;
+        }
+
+        /* 等於鍵 */
+        .btn-equal {
+            background: #00e676;
+            color: black;
+        }
+
+
+        /* Hover */
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================
+ Step 6: RWD
+========================= */
+        @media (max-width: 480px) {
+            .calculator {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator" role="application">
+
+        <!-- Step 7: 黃金鼠 -->
+        <div class="hamster">🐹✨ 魔法計算機</div>
+
+        <!-- Step 8: 顯示區（無障礙） -->
+        <div class="display-area">
+            <label for="calcInput">
+                <span class="high-light"> 輸入區 </span>
+            </label>
+            <input id="calcInput" type="text" readonly aria-live="polite">
+        </div>
+        <!-- Step 9: 按鈕 -->
+        <div class="button-grid">
+
+            <!-- 第一排 -->
+            <button class="btn btn-func" data-action="clear">C</button>
+            <button class="btn btn-func" data-action="toggleSign">±</button>
+            <button class="btn btn-func" data-value="%">%</button>
+            <button class="btn btn-func" data-value="/">÷</button>
+
+            <!-- 第二排 -->
+            <button class="btn btn-number" data-value="7">7</button>
+            <button class="btn btn-number" data-value="8">8</button>
+            <button class="btn btn-number" data-value="9">9</button>
+            <button class="btn btn-func" data-value="*">×</button>
+
+            <!-- 第三排 -->
+            <button class="btn btn-number" data-value="4">4</button>
+            <button class="btn btn-number" data-value="5">5</button>
+            <button class="btn btn-number" data-value="6">6</button>
+            <button class="btn btn-func" data-value="-">−</button>
+
+            <!-- 第四排 -->
+            <button class="btn btn-number" data-value="1">1</button>
+            <button class="btn btn-number" data-value="2">2</button>
+            <button class="btn btn-number" data-value="3">3</button>
+            <button class="btn btn-func" data-value="+">＋</button>
+
+            <!-- 第五排（關鍵） -->
+            <button class="btn btn-number btn-zero" data-value="0">0</button>
+            <button class="btn btn-number" data-value=".">.</button>
+            <button class="btn btn-func btn-equal" data-action="calculate">＝</button>
+
+        </div>
+
+    </div>
+    </div>
+
+    <script>
+        /* =========================
+         Step 10: 變數
+        ========================= */
+        const calcInput = document.querySelector('#calcInput');
+        const buttons = document.querySelectorAll('.btn');
+
+        let currentInput = "";
+
+        /* =========================
+         Step 11: 事件監聽
+        ========================= */
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                const action = btn.dataset.action;
+
+                if (value) handleInput(value);
+                if (action) handleAction(action);
+            });
+        });
+
+        /* =========================
+         Step 12: 輸入處理
+        ========================= */
+        function handleInput(value) {
+            currentInput += value;
+            calcInput.value = currentInput;
+        }
+
+        /* =========================
+         Step 13: 動作處理
+        ========================= */
+        function handleAction(action) {
+            if (action === "clear") {
+                currentInput = "";
+                calcInput.value = "";
+            }
+
+            if (action === "calculate") {
+                calculateResult();
+            }
+        }
+
+        /* =========================
+         Step 14: 計算（含防呆）
+        ========================= */
+        function calculateResult() {
+
+            if (!currentInput) {
+                alert("🐹 黃金鼠提醒：請先輸入數字！");
+                return;
+            }
+
+            try {
+                let result = eval(currentInput);
+
+                if (!isFinite(result)) {
+                    alert("🐹 黃金鼠提醒：不能除以 0！");
+                    return;
+                }
+
+                calcInput.value = result;
+                currentInput = result.toString();
+
+            } catch (error) {
+                alert("🐹 黃金鼠提醒：輸入格式錯誤！");
+                currentInput = "";
+                calcInput.value = "";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

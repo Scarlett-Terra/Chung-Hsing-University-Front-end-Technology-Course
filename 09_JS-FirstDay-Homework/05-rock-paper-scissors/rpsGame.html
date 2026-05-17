@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> 動物剪刀石頭布</title>
+
+  <style>
+    /* ===== 1. 基本 ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: radial-gradient(circle, #0f2027, #1c1c1c, #300000);
+      color: white;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ===== 2. 容器 ===== */
+    .container {
+      width: 90%;
+      max-width: 500px;
+    }
+
+    /* ===== 3. 卡片 ===== */
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    /* ===== 4. 標題 ===== */
+    .title {
+      text-align: center;
+      color: #ff4d4d;
+    }
+
+    /* ===== 5. HP ===== */
+    .hp-bar {
+      margin: 10px 0;
+    }
+
+    .hp {
+      height: 10px;
+      background: red;
+    }
+
+    /* ===== 6. 手勢區 ===== */
+    .gesture-area {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+
+    .gesture {
+      font-size: 50px;
+      transition: transform 0.3s;
+    }
+
+    /* 出拳動畫 */
+    .animate {
+      animation: punch 0.5s ease;
+      transform: scale(1.5);
+    }
+
+    @keyframes punch {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.5);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* ===== 7. 選擇區 ===== */
+    .choice-group label {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px;
+      background: #222;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* ===== 8. 按鈕 ===== */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #ff4d4d;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* ===== 9. 結果 ===== */
+    .result {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    /* ===== RWD ===== */
+    @media (min-width:768px) {
+      .container {
+        max-width: 700px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <h1 class="title">🤖 獅、豹大戰、剪刀石頭布</h1>
+
+      <!-- 🦁 HP -->
+      <div>
+        <h3>🦁 獅子 HP血量值 🦁</h3>
+        <div class="hp-bar">
+          <div id="p1Hp" class="hp"></div>
+        </div>
+      </div>
+
+
+      <!-- 🐆 HP -->
+      <div>
+        <h3>🐆 豹 HP血量值 🐆</h3>
+        <div class="hp-bar">
+          <div id="p2Hp" class="hp"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:15px; text-align:center;">
+        🦁 獅子連勝：<span id="lionStreak">0</span><br>
+        🐆 豹連勝：<span id="leopardStreak">0</span><br>
+        🏆 最高紀錄：<span id="maxStreak">無</span>
+      </div>
+      <!-- ✊ 手勢顯示 -->
+      <div class="gesture-area">
+        <div>
+          <div>🦁</div>
+          <div id="p1Gesture" class="gesture">❔</div>
+        </div>
+
+        <div>
+          <div>🐆</div>
+          <div id="p2Gesture" class="gesture">❔</div>
+        </div>
+      </div>
+
+      <!-- 🎮 玩家1 -->
+      <div class="choice-group">
+        <p>玩家1（獅子）</p>
+
+        <label for="p1Rock">
+          <input id="p1Rock" type="radio" name="p1Choice" value="rock"> 石頭
+        </label>
+
+        <label for="p1Paper">
+          <input id="p1Paper" type="radio" name="p1Choice" value="paper"> 布
+        </label>
+
+        <label for="p1Scissors">
+          <input id="p1Scissors" type="radio" name="p1Choice" value="scissors"> 剪刀
+        </label>
+      </div>
+
+      <!-- 🎮 玩家2 -->
+      <div class="choice-group">
+        <p>玩家2（豹）</p>
+
+        <label for="p2Rock">
+          <input id="p2Rock" type="radio" name="p2Choice" value="rock"> 石頭
+        </label>
+
+        <label for="p2Paper">
+          <input id="p2Paper" type="radio" name="p2Choice" value="paper"> 布
+        </label>
+
+        <label for="p2Scissors">
+          <input id="p2Scissors" type="radio" name="p2Choice" value="scissors"> 剪刀
+        </label>
+      </div>
+
+      <button id="fightBtn" class="btn">⚡ 開戰 ⚡</button>
+
+      <div id="resultText" class="result" aria-live="polite"></div>
+
+    </div>
+  </div>
+
+  <script>
+    // ===== 1. 初始 HP =====
+    let p1HpValue = 10;
+    let p2HpValue = 10;
+
+
+    // ===== 2. 傷害表 =====
+    const damageMap = {
+      rock: { scissors: 3 },
+      scissors: { paper: 2 },
+      paper: { rock: 1 }
+    };
+
+    // ===== 3. 更新 HP =====
+    let lionStreak = 0;
+    let leopardStreak = 0;
+
+    let maxStreak = {
+      lion: 0,
+      leopard: 0
+    };
+
+    function updateStreakUI() {
+      document.querySelector("#lionStreak").textContent = lionStreak;
+      document.querySelector("#leopardStreak").textContent = leopardStreak;
+
+      let text = "平手紀錄";
+
+      if (maxStreak.lion > maxStreak.leopard) {
+        text = `🦁 獅子 ${maxStreak.lion} 連勝`;
+      } else if (maxStreak.leopard > maxStreak.lion) {
+        text = `🐆 豹 ${maxStreak.leopard} 連勝`;
+      }
+      document.querySelector("#maxStreakText").textContent = text;
+
+    }
+
+    function updateHp() {
+      document.getElementById("p1Hp").style.width = p1HpValue * 10 + "%";
+      document.getElementById("p2Hp").style.width = p2HpValue * 10 + "%";
+    }
+
+
+
+    // ===== 4. 手勢轉換 =====
+    function getGestureEmoji(choice) {
+      if (choice === "rock") return "✊";
+      if (choice === "paper") return "✋";
+      if (choice === "scissors") return "✌️";
+    }
+
+    // ===== 5. 顯示手勢動畫 =====
+    function showGesture(p1, p2) {
+      const p1El = document.getElementById("p1Gesture");
+      const p2El = document.getElementById("p2Gesture");
+
+      p1El.innerText = "❔";
+      p2El.innerText = "❔";
+
+      setTimeout(() => {
+        p1El.innerText = getGestureEmoji(p1);
+        p2El.innerText = getGestureEmoji(p2);
+
+        p1El.classList.add("animate");
+        p2El.classList.add("animate");
+
+        setTimeout(() => {
+          p1El.classList.remove("animate");
+          p2El.classList.remove("animate");
+        }, 500);
+
+      }, 300);
+    }
+
+    // ===== 6. 主邏輯 =====
+    document.getElementById("fightBtn").addEventListener("click", function () {
+
+      const p1Choice = document.querySelector('input[name="p1Choice"]:checked');
+      const p2Choice = document.querySelector('input[name="p2Choice"]:checked');
+
+      // 防呆
+      if (!p1Choice || !p2Choice) {
+        alert("請兩位玩家都選擇！");
+        return;
+      }
+
+      if (p1HpValue <= 0 || p2HpValue <= 0) {
+        alert("遊戲已結束");
+        return;
+      }
+
+      const p1 = p1Choice.value;
+      const p2 = p2Choice.value;
+
+      // 👉 手勢動畫
+      showGesture(p1, p2);
+
+      let result = "";
+
+      if (p1 === p2) {
+        result = "平手 🤝";
+      }
+      else if (damageMap[p1] && damageMap[p1][p2]) {
+        const dmg = damageMap[p1][p2];
+        p2HpValue -= dmg;
+        result = `🦁 獅子 🦁  攻擊成功  + ${dmg}`;
+
+        // 🦁 獅子勝
+        lionStreak += 1;
+        leopardStreak = 0;
+      } else {
+        const dmg = damageMap[p2][p1];
+        p1HpValue -= dmg;
+        result = `🐆 獵豹 🐆  攻擊成功 + ${dmg}`;
+
+        // 🐆 豹勝
+        leopardStreak += 1;
+        lionStreak = 0;
+      }
+      // 🏆 五、更新最高紀錄
+      if (lionStreak > maxStreak.lion) {
+        maxStreak.lion = lionStreak;
+      }
+
+      if (leopardStreak > maxStreak.leopard) {
+        maxStreak.leopard = leopardStreak;
+      }
+
+
+      updateHp();
+      updateStreakUI();
+
+      document.querySelector("#resultText").innerText = result;
+
+
+      // 勝負
+      if (p1HpValue <= 0) {
+        document.getElementById("resultText").innerText = "🐆 豹勝利！";
+      }
+      if (p2HpValue <= 0) {
+        document.getElementById("resultText").innerText = "🦁 獅子勝利！";
+      }
+
+    });
+
+    function resetGame() {
+      p1HpValue = 10;
+      p2HpValue = 10;
+
+      lionStreak = 0;
+      leopardStreak = 0;
+
+      updateHp();
+      updateStreakUI();
+
+      document.querySelector("#resultText").innerText = "⚡ 新戰局開始";
+    }
+
+
+    // 初始化
+    updateHp();
+  </script>
+
+</body>
+
+</html>
