@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="中興大學前端培訓班作業作品導覽，收錄 UI、CSS 與 JavaScript 練習。">
+  <meta name="description" content="中興大學前端培訓班作業作品導覽，收錄 UI、CSS、JavaScript 與 Vue 3 練習。">
   <title>前端培訓作品導覽 | Scarlett Yu</title>
   <style>
     :root {
@@ -191,6 +191,18 @@
       text-decoration: none;
     }
 
+    .demo-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+
+    .demo-links .demo-link {
+      margin-top: 0;
+    }
+
     .demo-link::after {
       content: "↗";
       transition: transform 180ms ease;
@@ -268,13 +280,13 @@
       <p class="eyebrow">Frontend Training Portfolio</p>
       <h1>中興大學前端培訓<br>作品導覽大廳</h1>
       <p class="hero-description">
-        收錄前端培訓期間完成的 14 項練習，從 HTML、CSS 響應式切版，到 JavaScript 資料處理與互動應用。
+        收錄前端培訓期間完成的 17 項練習，從 HTML、CSS 響應式切版，到 JavaScript 與 Vue 3 資料處理及互動應用。
         點選作品後會在新分頁開啟，不會中斷目前的瀏覽位置。
       </p>
       <div class="summary" aria-label="作品摘要">
-        <span>14 項練習</span>
+        <span>17 項練習</span>
         <span>RWD 響應式</span>
-        <span>JavaScript 應用</span>
+        <span>JavaScript / Vue 3 應用</span>
       </div>
     </div>
   </header>
@@ -299,8 +311,8 @@
 
         <article class="project-card">
           <span class="project-number">02</span>
-          <h3>計算機版面練習</h3>
-          <p>使用 CSS Grid 與按鍵配置完成計算機介面。</p>
+          <h3>Flex 排版練習</h3>
+          <p>使用 Flexbox 與按鍵配置完成計算機介面排版。</p>
           <a class="demo-link" href="./02_layout-practice-calc/final-calc.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
         </article>
 
@@ -341,8 +353,8 @@
 
         <article class="project-card">
           <span class="project-number">08</span>
-          <h3>CSS 動畫效果</h3>
-          <p>透過 keyframes 練習顏色、位移與循環動畫。</p>
+          <h3>CSS 改顏色變化</h3>
+          <p>透過 keyframes 練習 CSS 顏色漸變與循環變化。</p>
           <a class="demo-link" href="./08_css-animation-effects/Color-changing-ball.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
         </article>
       </div>
@@ -395,9 +407,45 @@
 
         <article class="project-card">
           <span class="project-number">14</span>
-          <h3>購物車網站</h3>
+          <h3>墨香書咖啡網站</h3>
           <p>包含會員介面、商品操作、數量調整與結帳流程練習。</p>
           <a class="demo-link" href="./14_JS-shoppingCart/shoppingCart.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="category" aria-labelledby="vue-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Vue 3 CDN Practice</p>
+          <h2 id="vue-title">Vue 3 互動應用</h2>
+        </div>
+        <p>第 15–17 題</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card">
+          <span class="project-number">15</span>
+          <h3>會員資料小卡產生器</h3>
+          <p>透過 Vue 3 表單綁定，即時產生會員姓名與級別資料卡。</p>
+          <a class="demo-link" href="./15_Vue3-CDN-memberCard/index.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">16</span>
+          <h3>我的收藏祕密花園</h3>
+          <p>整合收藏新增、分類統計、資料觀察與列表管理功能。</p>
+          <a class="demo-link" href="./16_Vue3-CDN-expense-tracker-memoirs/index.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">17</span>
+          <h3>Vue 3 計算機系列</h3>
+          <p>收錄簡易計算機與支援鍵盤操作的互動計算機。</p>
+          <div class="demo-links">
+            <a class="demo-link" href="./17_Vue3-CDN-Calculator-Series-Pack/simple-calc.html" target="_blank" rel="noopener noreferrer">簡易版</a>
+            <a class="demo-link" href="./17_Vue3-CDN-Calculator-Series-Pack/keyboard-calc.html" target="_blank" rel="noopener noreferrer">鍵盤版</a>
+          </div>
         </article>
       </div>
     </section>
