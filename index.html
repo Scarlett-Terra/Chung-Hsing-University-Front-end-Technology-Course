@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="中興大學前端培訓班作業作品導覽，收錄 UI、CSS 與 JavaScript 練習。">
+  <title>前端培訓作品導覽 | Scarlett Yu</title>
+  <style>
+    :root {
+      --navy: #172554;
+      --blue: #3154a5;
+      --orange: #e96524;
+      --orange-soft: #fff3e9;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --surface: rgba(255, 255, 255, 0.92);
+      --shadow: 0 16px 40px rgba(30, 41, 59, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 4%, rgba(255, 224, 201, 0.8), transparent 30rem),
+        radial-gradient(circle at 92% 10%, rgba(219, 228, 255, 0.9), transparent 32rem),
+        #f7f9fc;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: clamp(64px, 10vw, 112px) 0 56px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2.25rem, 6vw, 4.5rem);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-description {
+      max-width: 720px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+    }
+
+    .summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .summary span {
+      padding: 8px 14px;
+      border: 1px solid #fed7aa;
+      border-radius: 999px;
+      background: var(--orange-soft);
+      color: #9a3412;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    main {
+      padding-bottom: 88px;
+    }
+
+    .category + .category {
+      margin-top: 72px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      line-height: 1.25;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      position: relative;
+      display: flex;
+      min-height: 270px;
+      flex-direction: column;
+      padding: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .project-card::before {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange), #ffb15c);
+      content: "";
+    }
+
+    .project-card:hover {
+      border-color: #f7b27d;
+      box-shadow: 0 20px 45px rgba(30, 41, 59, 0.14);
+      transform: translateY(-5px);
+    }
+
+    .project-number {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 20px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--orange-soft);
+      color: var(--orange);
+      font-weight: 900;
+    }
+
+    .project-card h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.15rem;
+      line-height: 1.4;
+    }
+
+    .project-card p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .demo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .demo-link::after {
+      content: "↗";
+      transition: transform 180ms ease;
+    }
+
+    .demo-link:hover::after {
+      transform: translate(3px, -3px);
+    }
+
+    .demo-link:focus-visible {
+      border-radius: 4px;
+      outline: 3px solid #fdba74;
+      outline-offset: 4px;
+    }
+
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1000px) {
+      .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 8px;
+        white-space: normal;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card {
+        min-height: 230px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="page-shell">
+      <p class="eyebrow">Frontend Training Portfolio</p>
+      <h1>中興大學前端培訓<br>作品導覽大廳</h1>
+      <p class="hero-description">
+        收錄前端培訓期間完成的 14 項練習，從 HTML、CSS 響應式切版，到 JavaScript 資料處理與互動應用。
+        點選作品後會在新分頁開啟，不會中斷目前的瀏覽位置。
+      </p>
+      <div class="summary" aria-label="作品摘要">
+        <span>14 項練習</span>
+        <span>RWD 響應式</span>
+        <span>JavaScript 應用</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="category" aria-labelledby="visual-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">UI / CSS Practice</p>
+          <h2 id="visual-title">UI / CSS 視覺切版實戰</h2>
+        </div>
+        <p>第 01–08 題</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card">
+          <span class="project-number">01</span>
+          <h3>Microsoft RWD 仿切</h3>
+          <p>練習官方網站導覽、卡片配置與多裝置響應式切版。</p>
+          <a class="demo-link" href="./01_microsoft-rwd-showcase/microsoft-2-RWD.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">02</span>
+          <h3>計算機版面練習</h3>
+          <p>使用 CSS Grid 與按鍵配置完成計算機介面。</p>
+          <a class="demo-link" href="./02_layout-practice-calc/final-calc.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">03</span>
+          <h3>Position 定位練習</h3>
+          <p>熟悉 absolute、relative 與版面元素定位關係。</p>
+          <a class="demo-link" href="./03_layout-practice-position/position01.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">04</span>
+          <h3>Facebook 基礎仿切</h3>
+          <p>練習社群網站常見欄位、內容區塊與基礎排版。</p>
+          <a class="demo-link" href="./04_fb-basic-practice/fb-basic-all.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">05</span>
+          <h3>VH 視覺首頁</h3>
+          <p>運用視窗高度單位製作滿版 Hero 與首頁構圖。</p>
+          <a class="demo-link" href="./05_vh-hero-section/visual-homepage.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">06</span>
+          <h3>視差與文字陰影</h3>
+          <p>實作視差捲動、背景層次與文字陰影效果。</p>
+          <a class="demo-link" href="./06_vh-parallax-text-shadow/parallax+link.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">07</span>
+          <h3>漢堡選單與 Flex</h3>
+          <p>使用 label、checkbox 與 Flex 製作選單互動。</p>
+          <a class="demo-link" href="./07_hamburger-label-menu/hamburger-label+menu.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">08</span>
+          <h3>CSS 動畫效果</h3>
+          <p>透過 keyframes 練習顏色、位移與循環動畫。</p>
+          <a class="demo-link" href="./08_css-animation-effects/Color-changing-ball.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="category" aria-labelledby="javascript-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">JavaScript Practice</p>
+          <h2 id="javascript-title">JavaScript 核心邏輯與應用</h2>
+        </div>
+        <p>第 09–14 題</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card">
+          <span class="project-number">09</span>
+          <h3>JavaScript 基礎作業集</h3>
+          <p>整合計算機、色彩遊戲、成績判斷、BMI 與猜拳練習。</p>
+          <a class="demo-link" href="./09_JS-FirstDay-Homework/index.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">10</span>
+          <h3>軍事役別判斷系統</h3>
+          <p>依照輸入條件執行判斷，練習流程控制與結果呈現。</p>
+          <a class="demo-link" href="./10_JS-military-check-system/military.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">11</span>
+          <h3>備忘錄</h3>
+          <p>練習表單輸入、資料新增與畫面內容更新。</p>
+          <a class="demo-link" href="./11_JS-memorandum/memo.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">12</span>
+          <h3>宿舍管理系統</h3>
+          <p>以 JavaScript 處理宿舍名單資料與管理操作。</p>
+          <a class="demo-link" href="./12_JS-Dormitory-system/Dormitory-List-System.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">13</span>
+          <h3>台灣城市氣象查詢</h3>
+          <p>建立城市條件查詢介面，呈現即時氣象資料。</p>
+          <a class="demo-link" href="./13_JS-taiwan-weather-checker/weater-check.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">14</span>
+          <h3>購物車網站</h3>
+          <p>包含會員介面、商品操作、數量調整與結帳流程練習。</p>
+          <a class="demo-link" href="./14_JS-shoppingCart/shoppingCart.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page-shell">中興大學前端培訓作品整理 · Scarlett Yu</div>
+  </footer>
+</body>
+
+</html>
