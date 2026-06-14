@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites-我的收藏祕密花園</title>
+    <!-- 引入 Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- 引入 SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- 引入 FontAwesome 圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <style scoped>
+        :root {
+            --primary-color: #4a90e2;
+            --travel-color: #ff9f43;
+            --food-color: #ee5253;
+            --hotel-color: #10ac84;
+            --music-color: #5f27cd;
+            --movie-color: #01a3a4;
+            --bg-light: #f8f9fa;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            color: #333;
+            background: linear-gradient(135deg, #bdf672 0%, #bea6f6 50%, #f6f6a0 100%);
+
+            margin: 0;
+            padding: 20px;
+        }
+
+        
+
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 導覽列 */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        nav h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        /* 上半部網格 60% / 40% */
+        .top-grid {
+            display: grid;
+            grid-template-columns: 6fr 4fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .card-box h2 {
+            margin-top: 0;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        /* 表單元素 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .input-control:hover {
+            cursor: pointer;
+        }
+
+        .input-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .textarea-container {
+            position: relative;
+        }
+
+        .textarea-control {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .word-counter {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            font-size: 24px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating .active {
+            color: #f1c40f;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* 統計與結算資訊區 */
+        .stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-light);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .stat-item:hover {
+            transform: translateX(3px);
+        }
+
+        .stat-info-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* 篩選按鈕區 */
+        .filter-section {
+            background: #ebf3fa;
+            border: 1px solid #bcdcfa;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .btn-all {
+            background-color: #576574;
+        }
+
+        .btn-travel {
+            background-color: var(--travel-color);
+        }
+
+        .btn-foods {
+            background-color: var(--food-color);
+        }
+
+        .btn-hotel {
+            background-color: var(--hotel-color);
+        }
+
+        .btn-music {
+            background-color: var(--music-color);
+        }
+
+        .btn-movie {
+            background-color: var(--movie-color);
+        }
+
+        /* 卡片網格與 Hover 特效 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .collection-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* 需求 4：刪除按鈕外觀 */
+        .delete-icon {
+            position: absolute;
+            top: 40%;
+            right: 10px;
+            background: rgba(238, 82, 83, 0.9);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+
+        .delete-icon:hover {
+            transform: scale(1.1);
+            background: rgba(238, 82, 83, 1);
+        }
+
+        /* 需求 7：圖片 Hover 效果 */
+        .img-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background-color: #ddd;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .collection-card:hover .card-img {
+            transform: scale(1.1);
+        }
+
+        /* 電影分類特殊標籤播放按鈕 */
+        .movie-play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 40px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .collection-card:hover .movie-play-overlay {
+            opacity: 1;
+        }
+
+        .card-tag {
+            color: white;
+            padding: 5px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+
+        .card-stars {
+            color: #f1c40f;
+            margin-bottom: 12px;
+        }
+
+        /* 需求 8：顯示更多按鈕 Hover 效果 */
+        .btn-more {
+            width: 100%;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn-more:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 已參加標籤 */
+        .joined-status {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        footer {
+            border: 2px dashed #bcdcfa;
+            background-color: #f4f9ff;
+            padding: 20px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            color: #4a90e2;
+            margin-top: 30px;
+        }
+
+        ;
+
+
+        /* 6. 修正下拉選單外觀：強制移除重複的雙下箭頭 */
+        .clean-select {
+            appearance: none;
+            /* 清空瀏覽器內建與框架可能重複的樣式 */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /* 重新定義專屬的單一下箭頭 SVG */
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2.25rem;
+        }
+
+        /* 視覺回饋優化 */
+        .card-hover-effect {
+            transition: transform 0.2s, background-color 0.2s;
+            border-radius: 8px;
+        }
+
+        .card-hover-effect:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        /* 4 & 5. 動態欄位展開時的淡入動畫 */
+        .motion-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .object-fit-cover {
+            object-fit: cover;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- 表頭 -->
+        <header>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-star" style="color: #ff9f43;"></i>
+                <h1>我的收藏祕密花園 
+                    <span style="font-size: 14px; color:#064ef6;">紀錄消費 & 回憶錄</span>
+                </h1>
+                <i class="fa-solid fa-heart" style="color: var(--food-color)"></i>
+                <i class="fa-solid fa-heart" style="color: var(--food-color)"></i>
+                <i class="fa-solid fa-heart" style="color: var(--food-color)"></i>
+            </div>
+            
+        </header>
+
+        <main>
+            <!-- 上半部結構 (60% / 40%) -->
+            <div class="top-grid">
+                <!-- 左：新增收藏 -->
+                <section class="card-box">
+                    <h2><i class="fa-solid fa-marker"></i> 新增收藏</h2>
+
+                    <div class="form-group">
+                        <label for="collect-name">名稱 (限50字)：</label>
+                        <input id="collect-name" class="input-control" type="text" v-model.trim="collectName"
+                            placeholder="請輸入名稱" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="choice-class">分類：</label>
+                        <select id="choice-class" class="input-control" v-model="choiceClass">
+                            <option value="" disabled selected>請選擇分類</option>
+                            <option value="旅遊">旅遊</option>
+                            <option value="美食">美食</option>
+                            <option value="旅館">旅館</option>
+                            <option value="音樂">音樂</option>
+                            <option value="電影">電影</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageUrl">圖片網址：</label>
+                        <input id="imageUrl" class="input-control" type="url" v-model="imageUrl"
+                            placeholder="可輸入網址添加圖片">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="short-info">簡短介紹 (限100字)：</label>
+                        <div class="textarea-container">
+                            <textarea id="short-info" class="textarea-control" v-model.trim="shortInfo"
+                                placeholder="請輸入簡短介紹..." maxlength="100"></textarea>
+                            <span class="word-counter">{{ shortInfo.length }} / 100 </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>推薦程度：</label>
+                        <div class="star-rating">
+                            <i v-for="num in 5" :key="num" class="fa-solid fa-star"
+                                :class="{ active: num <= recommendStars }" @click="recommendStars = num"></i>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-submit" @click="addCollect">確認新增收藏</button>
+                </section>
+
+                <!-- 右：統計資訊與體驗結算中心 -->
+                <section class="card-box">
+                    <h2><i class="fa-solid fa-chart-pie"></i> 統計與體驗結算</h2>
+
+                    <!-- 點擊觸發全品項彈窗展示 -->
+                    <div class="stat-item" @click="showAllItemsModal">
+                        <div class="stat-info-title">
+                            <i class="fa-solid fa-box-archive" style="color:var(--primary-color);"></i>
+                            <span>收藏總數 (點入看清單)</span>
+                        </div>
+                        <div class="stat-value">{{ totalCount }} 筆</div>
+                    </div>
+
+                    <div class="stat-item" style="border-left-color: #f1c40f;">
+                        <div class="stat-info-title">
+                            <i class="fa-solid fa-star-half-stroke" style="color:#f1c40f;"></i>
+                            <span>平均推薦星</span>
+                        </div>
+                        <div class="stat-value">{{ averageStars }} / 5</div>
+                    </div>
+
+                    <!-- 需求 1-3：點擊跳出圓餅圖視窗 -->
+                    <div class="stat-item" style="border-left-color: #a55eea;" @click="showChartModal">
+                        <div class="stat-info-title">
+                            <i class="fa-solid fa-pie-chart" style="color:#a55eea;"></i>
+                            <span>分類數據分佈圖 (點入查看)</span>
+                        </div>
+                        <div class="stat-value"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    </div>
+
+                    <!-- 需求 3 & 8：活動消費體驗累計總金額 -->
+                    <div class="stat-item"
+                        style="border-left-color: #10ac84; background-color: #e8f8f5; border-right: 1px solid #10ac84;">
+                        <div class="stat-info-title">
+                            <i class="fa-solid fa-wallet" style="color:#10ac84;"></i>
+                            <span>參加體驗總金額</span>
+                        </div>
+                        <div class="stat-value" style="color:#10ac84;">$ {{ totalExpenses }}</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 下半部：篩選列表功能區 -->
+            <section class="card-box filter-section">
+                <h2><i class="fa-solid fa-list-ul"></i> 收藏列表功能區</h2>
+                <span>分類篩選：</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn btn-all" :class="{ active: currentFilter === '全部' }"
+                        @click="currentFilter = '全部'">全部</button>
+                    <button class="filter-btn btn-travel" :class="{ active: currentFilter === '旅遊' }"
+                        @click="currentFilter = '旅遊'">旅遊</button>
+                    <button class="filter-btn btn-foods" :class="{ active: currentFilter === '美食' }"
+                        @click="currentFilter = '美食'">美食</button>
+                    <button class="filter-btn btn-hotel" :class="{ active: currentFilter === '旅館' }"
+                        @click="currentFilter = '旅館'">旅館</button>
+                    <button class="filter-btn btn-music" :class="{ active: currentFilter === '音樂' }"
+                        @click="currentFilter = '音樂'">音樂</button>
+                    <button class="filter-btn btn-movie" :class="{ active: currentFilter === '電影' }"
+                        @click="currentFilter = '電影'">電影</button>
+                </div>
+            </section>
+
+            <!-- 收藏卡片展示區 -->
+            <div class="cards-grid">
+                <div class="collection-card" v-for="(item, idx) in filteredCollections" :key="item.id">
+
+                    <!-- 需求 4：點擊觸發刪除功能 -->
+                    <button type="button" class="delete-icon" @click="deleteItem(item.id, item.name)" title="刪除此收藏">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+
+                    <div class="card-tag" :style="{ backgroundColor: getThemeColor(item.class) }">
+                        {{ item.class }}
+                    </div>
+
+                    <!-- 需求 7：圖片 Container 與 Hover 特效 -->
+                    <div class="img-container">
+                        <img :src="item.url || 'https://missxiao.com/wp-content/uploads/%E6%A4%B0%E6%BC%BF%E5%92%96%E5%93%A9%E9%A3%AF.jpg'"
+                            class="card-img" alt="收藏圖">
+                        <!-- 需求 5：電影分類特有播放視覺遮罩 -->
+                        <div v-if="item.class === '電影'" class="movie-play-overlay">
+                            <i class="fa-regular fa-circle-play"></i>
+                        </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <h3>{{ item.name }}</h3>
+                        <p class="card-desc">{{ item.desc }}</p>
+
+                        <div class="card-stars">
+                            <i v-for="n in 5" class="fa-solid fa-star"
+                                :style="{ color: n <= item.stars ? '#f1c40f' : '#ccc' }"></i>
+                            <span style="color: #666; font-size: 12px; margin-left: 5px;">({{ item.stars }}星)</span>
+                        </div>
+
+                        <!-- 行程體驗消費記錄標籤 -->
+                        <div v-if="item.hasJoined" class="joined-status"
+                            :style="{ backgroundColor: getThemeColor(item.class) + '15', color: getThemeColor(item.class), border: '1px solid ' + getThemeColor(item.class) }">
+                            <i class="fa-solid fa-check-circle"></i> 已加入體驗 (花費: ${{item.expense}})
+                        </div>
+
+                        <!-- 需求 8：按鈕與主題色一致，白底，加入進階互動消費引導 -->
+                        <button type="button" class="btn-more" style="margin-top:10px;"
+                            :style="{ border: '2px solid ' + getThemeColor(item.class), color: getThemeColor(item.class) }"
+                            @click="showDetailAndAction(item)">
+                            顯示更多 / 體驗人生
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 頁尾 -->
+        <footer>
+            <span>{{ footerMessage }}</span>
+        </footer>
+    </div>
+
+    <script setup>
+        const { createApp, ref, computed, watch } = Vue;
+
+        createApp({
+            setup() {
+                const collectName = ref('');
+                const choiceClass = ref('');
+                const imageUrl = ref('');
+                const shortInfo = ref('');
+                const recommendStars = ref(5);
+                // 篩選主題
+                const currentFilter = ref('全部');
+                const lastAction = ref('init');
+
+                // 基礎結構擴充：加入唯一的 id，以及消費紀錄相關欄位 (hasJoined, expense, details)
+                const defaultData = [
+                    { id: 1, name: '檳城古蹟大探索', class: '旅遊', url: '', desc: '保留著英國喬治人文世界文化，是個古老鄉鎮，與古蹟融合。', stars: 5, hasJoined: true, expense: 15000, details: { date: '2026-07-15' } },
+                    { id: 2, name: '馬來西亞咖哩嫩雞飯', class: '美食', url: '', desc: '新鮮多汁的雞肉，加上靈魂咖哩香氣十足，令人吃了回味無窮。', stars: 4, hasJoined: true, expense: 280, details: { address: '台中市西區公益路100號' } },
+                    { id: 3, name: '泰國曼谷打拋豬超值套餐', class: '美食', url: '', desc: '正宗泰式酸辣口味，九層塔與打拋醬完美結合，超開胃下飯！', stars: 5, hasJoined: false, expense: 0, details: {} },
+                    { id: 4, name: '台中富比世頂級大飯店', class: '旅館', url: '', desc: '飯店帶有復古風格，中心內部像閣樓大氣，價錢CP值高！', stars: 4, hasJoined: false, expense: 0, details: {} },
+                    { id: 5, name: '星際效應三部曲(加長版)', class: '電影', url: 'https://www.youtube.com/embed/2LqzF5WauAw', desc: '諾蘭經典科幻神作，關於愛、時間與重力的偉大宇宙冒險。', stars: 5, hasJoined: false, expense: 0, details: {} }
+                ];
+
+                const collections = ref(JSON.parse(localStorage.getItem('my_collections_v2')) || defaultData);
+
+                watch(collections, (newVal) => {
+                    localStorage.setItem('my_collections_v2', JSON.stringify(newVal));
+                }, { deep: true });
+
+                // 建立新收藏
+                const addCollect = () => {
+                    if (!collectName.value || !choiceClass.value || !shortInfo.value) {
+                        Swal.fire({ icon: 'error', title: '錯誤提示', text: '基本欄位（名稱、分類、介紹）都必須填寫喔！', border: '2px solid red' });
+                        return;
+                    }
+
+                    const newCollection = {
+                        id: Date.now(), // 用時間戳當唯一識別碼
+                        name: collectName.value,
+                        class: choiceClass.value,
+                        url: imageUrl.value,
+                        desc: shortInfo.value,
+                        stars: recommendStars.value,
+                        hasJoined: false,
+                        expense: 0,
+                        details: {}
+                    };
+
+                    collections.value.unshift(newCollection);
+                    lastAction.value = 'add';
+
+                    Swal.fire({ icon: 'success', title: '新增成功！', text: `「${collectName.value}」已經成功歸類到 ${choiceClass.value}！`, timer: 1500, showConfirmButton: false });
+
+                    // 清空
+                    collectName.value = ''; choiceClass.value = ''; imageUrl.value = ''; shortInfo.value = ''; recommendStars.value = 5;
+                };
+
+                // 需求 4：刪除收藏功能
+                const deleteItem = (id, name) => {
+                    Swal.fire({
+                        title: '確定要刪除嗎？',
+                        text: `刪除後「${name}」的收藏與消費體驗數據將無法還原！`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ee5253',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: '對，刪除它！',
+                        cancelButtonText: '取消'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const index = collections.value.findIndex(item => item.id === id);
+                            if (index !== -1) {
+                                collections.value.splice(index, 1);
+                                lastAction.value = 'delete';
+                                Swal.fire('已成功刪除！', `「${name}」已移出您的收藏展示館。`, 'success');
+                            }
+                        }
+                    });
+                };
+
+                // 篩選功能
+                const filteredCollections = computed(() => {
+                    if (currentFilter.value === '全部') return collections.value;
+                    return collections.value.filter(item => item.class === currentFilter.value);
+                });
+
+                // 統計數據
+                const totalCount = computed(() => collections.value.length);
+                const averageStars = computed(() => {
+                    if (collections.value.length === 0) return '0.0';
+                    const sum = collections.value.reduce((acc, item) => acc + item.stars, 0);
+                    return (sum / collections.value.length).toFixed(1);
+                });
+
+                // 需求 3 & 8：計算體驗總金額
+                const totalExpenses = computed(() => {
+                    return collections.value.reduce((sum, item) => sum + (Number(item.expense) || 0), 0);
+                });
+
+                // 需求 1-3：使用 Chart.js 在彈窗內繪製圓餅圖
+                const showChartModal = () => {
+                    // 先計算各類別數量
+                    const classes = ['旅遊', '美食', '旅館', '音樂', '電影'];
+                    const counts = classes.map(c => collections.value.filter(item => item.class === c).length);
+
+                    Swal.fire({
+                        title: '📊 館內收藏數據分析圖',
+                        html: '<div style="width:100%; max-width:320px; margin:0 auto;"><canvas id="pieChartCanvas"></canvas></div>',
+                        showConfirmButton: true,
+                        confirmButtonText: '關閉視窗',
+                        didOpen: () => {
+                            const ctx = document.getElementById('pieChartCanvas').getContext('2d');
+                            new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                    labels: classes,
+                                    datasets: [{
+                                        data: counts,
+                                        backgroundColor: ['#ff9f43', '#ee5253', '#10ac84', '#5f27cd', '#01a3a4']
+                                    }]
+                                },
+                                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                            });
+                        }
+                    });
+                };
+
+                // 需求 6：點擊收藏總數，用精美彈窗網格顯示所有收藏標題與狀態
+                const showAllItemsModal = () => {
+                    let listHtml = `<div style="text-align:left; max-height:400px; overflow-y:auto; padding:10px;">`;
+                    collections.value.forEach((item, index) => {
+                        const color = getThemeColor(item.class);
+                        const statusText = item.hasJoined ? ` ✅ 已體驗($${item.expense})` : ' 📋 尚未體驗';
+                        listHtml += `
+                            <div style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:between; align-items:center; gap:10px;">
+                                <span style="background:${color}; color:white; padding:2px 8px; font-size:12px; border-radius:4px; font-weight:bold;">${item.class}</span>
+                                <strong style="flex-grow:1; color:#2c3e50;">${item.name}</strong>
+                                <span style="font-size:13px; color:#666;">${statusText}</span>
+                            </div>`;
+                    });
+                    listHtml += `</div>`;
+
+                    Swal.fire({
+                        title: '🗂 全館收藏清單總覽',
+                        html: listHtml,
+                        confirmButtonText: '回展示館'
+                    });
+                };
+
+                // 需求 3, 5, 8：顯示更多資訊與深度消費體驗
+                const showDetailAndAction = (item) => {
+                    lastAction.value = 'view';
+                    let customFormHtml = '';
+
+                    // 需求 5：若為電影且有設定連結，則提供 YouTube 影片嵌入預覽
+                    if (item.class === '電影' && item.url) {
+                        customFormHtml += `
+                            <div style="margin-bottom:15px; border-radius:8px; overflow:hidden;">
+                                <iframe width="100%" height="220" src="${item.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>`;
+                    }
+
+                    // 根據不同的分類建立特殊延伸表單欄位
+                    if (item.class === '美食') {
+                        customFormHtml += `
+                            <div style="text-align:left; background:#fff5f5; padding:15px; border-radius:8px; border:1px solid #fab1a0;">
+                                <h4 style="color:#ee5253; margin-top:0;"><i class="fa-solid fa-utensils"></i> 美食購外送服務體驗</h4>
+                                <label style="font-weight:bold;">📍 請輸入外送地址：</label>
+                                <input id="swal-address" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.details.address || ''}" placeholder="填寫完整送達地址">
+                                <label style="font-weight:bold; margin-top:5px; display:block;">💰 訂單餐點總金額 ($)：</label>
+                                <input id="swal-expense" type="number" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.expense || 250}">
+                            </div>`;
+                    } else if (item.class === '旅遊') {
+                        customFormHtml += `
+                            <div style="text-align:left; background:#fff9f2; padding:15px; border-radius:8px; border:1px solid #ffeaa7;">
+                                <h4 style="color:#ff9f43; margin-top:0;"><i class="fa-solid fa-plane"></i> 旅行團報名體驗系統</h4>
+                                <label style="font-weight:bold;">📅 選擇預計出發日期：</label>
+                                <input id="swal-date" type="date" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.details.date || '2026-06-01'}">
+                                <label style="font-weight:bold; margin-top:5px; display:block;">💰 團費結算金額 ($)：</label>
+                                <input id="swal-expense" type="number" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.expense || 12000}">
+                            </div>`;
+                    } else if (item.class === '旅館') {
+                        customFormHtml += `
+                            <div style="text-align:left; background:#e8f8f5; padding:15px; border-radius:8px; border:1px solid #55efc4;">
+                                <h4 style="color:#10ac84; margin-top:0;"><i class="fa-solid fa-hotel"></i> 飯店客房線上預訂系統</h4>
+                                <label style="font-weight:bold;">📅 選擇預計入住日期：</label>
+                                <input id="swal-date" type="date" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.details.date || '2026-06-01'}">
+                                <label style="font-weight:bold; margin-top:5px; display:block;">💰 預估住房總費用 ($)：</label>
+                                <input id="swal-expense" type="number" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.expense || 3200}">
+                            </div>`;
+                    } else {
+                        // 音樂、電影等基礎類別
+                        customFormHtml += `
+                            <div style="text-align:left; background:#f8f9fa; padding:15px; border-radius:8px; border:1px solid #dee2e6;">
+                                <h4 style="color:var(--primary-color); margin-top:0;"><i class="fa-solid fa-ticket"></i> 線上票券預購體驗</h4>
+                                <label style="font-weight:bold;">💰 消費或購票總金額 ($)：</label>
+                                <input id="swal-expense" type="number" class="swal2-input" style="width:90%; margin:8px 0;" value="${item.expense || 300}">
+                            </div>`;
+                    }
+
+                    Swal.fire({
+                        title: item.name,
+                        html: `
+                            <p style="color:#666; font-size:15px; line-height:1.6;">${item.desc}</p>
+                            <hr style="border:none; border-top:1px dashed #ccc; margin:15px 0;">
+                            ${customFormHtml}
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: '💾 儲存並加入結算中心',
+                        cancelButtonText: '先看看就好',
+                        confirmButtonColor: getThemeColor(item.class),
+                        preConfirm: () => {
+                            // 收集視窗內表單填寫的最新數據
+                            const exp = document.querySelector('#swal-expense') ? document.querySelector('#swal-expense').value : 0;
+                            const addr = document.querySelector('#swal-address') ? document.querySelector('#swal-address').value : null;
+                            const dt = document.querySelector('#swal-date') ? document.querySelector('#swal-date').value : null;
+
+                            return { expense: exp, address: addr, date: dt };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 更新 Vue 響應式陣列資料中對應物件的欄位
+                            const target = collections.value.find(c => c.id === item.id);
+                            if (target) {
+                                target.hasJoined = true;
+                                target.expense = Number(result.value.expense) || 0;
+                                if (result.value.address) target.details.address = result.value.address;
+                                if (result.value.date) target.details.date = result.value.date;
+
+                                lastAction.value = 'join';
+                                Swal.fire('加總完畢！', '已成功更新您的結算中心帳目。', 'success');
+                            }
+                        }
+                    });
+                };
+
+                const getThemeColor = (type) => {
+                    switch (type) {
+                        case '旅遊': return '#ff9f43';
+                        case '美食': return '#ee5253';
+                        case '旅館': return '#10ac84';
+                        case '音樂': return '#5f27cd';
+                        case '電影': return '#01a3a4';
+                        default: return '#576574';
+                    }
+                };
+
+                const footerMessage = computed(() => {
+                    if (collections.value.length === 0) return '目前還沒有任何收藏項目，快來新增你的第一筆收藏吧！';
+                    if (lastAction.value === 'add') return '🎉 新收藏入庫！別忘了點擊「顯示更多」規劃它的專屬體驗行程喔！';
+                    if (lastAction.value === 'delete') return '🗑 已成功移除項目。結算中心已重新調整財務總金額！';
+                    if (lastAction.value === 'join') return `💰 結算成功！目前您的全館人生體驗預算已累計達：$ ${totalExpenses.value} 元！`;
+                    return `✨ 歡迎回到收藏空間！目前共有 ${totalCount.value} 筆主題。點擊上方「數據分佈圖」可開啟 Chart.js 分析。`;
+                });
+
+                return {
+                    collectName, choiceClass, imageUrl, shortInfo, recommendStars, currentFilter,
+                    collections, filteredCollections, totalCount, averageStars, totalExpenses,
+                    addCollect, deleteItem, showChartModal, showAllItemsModal, showDetailAndAction, getThemeColor, footerMessage
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

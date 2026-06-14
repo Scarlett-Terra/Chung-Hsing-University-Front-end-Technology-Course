@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員資料小卡產生器</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --primary-color: #0e62f3;
+            --vip-gold: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            --card-white: #569bb3;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* 主舞台：左右並排且置中 */
+        #app {
+            display: flex;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            gap: 40px;
+            width: 800px;
+            box-sizing: border-box;
+        }
+
+        /* 左邊：輸入表單區 */
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-section h1 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #3498db;
+        }
+
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        /* 右邊：電子會員卡預覽區 */
+        .preview-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #edf2f7;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        /* 會員卡主體 */
+        .member-card {
+            background: var(--card-white);
+            width: 280px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            text-align: center;
+            transition: all 0.5s ease;
+            /* 變身 VIP 時有平滑漸變效果 */
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        /* 👑 VIP 模式啟動時的加權衣服 */
+        .vip-theme {
+            background: var(--vip-gold);
+            color: #252424;
+            transform: scale(1.03);
+
+        }
+
+        /* 大頭貼樣式 */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .member-card h2 {
+            margin: 10px 0 5px 0;
+            font-size: 1.4rem;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: #aaaeb4;
+            color: #391fca;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* VIP 卡片時的等級標籤顏色調整 */
+        .vip-theme .level-badge {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ec4812;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 15px 0;
+        }
+
+        .vip-theme hr {
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* VIP 大禮包區域 */
+        .vip-package {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            animation: popIn 0.4s ease;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 引導用戶的提示框 */
+        .guide-box {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+        }
+
+        /* ⚪ 一般會員：低調溫和的灰色調 */
+        .member-card.level-general {
+            background: #bfbfc1;
+            color: #334155;
+        }
+
+        .member-card.level-general .level-badge {
+            background: #cbd5e1;
+            color: #194a4d;
+        }
+
+        /* 🔵 中級會員：沉穩舒適的藍綠色（你原本的經典色） */
+        .member-card.level-intermediate {
+            background: #569bb3;
+            color: #ffffff;
+        }
+
+        .member-card.level-intermediate .level-badge {
+            background: #ffffff;
+            color: #2c5282;
+        }
+
+        /* 🔴 高級會員：時尚迷人的玫瑰紫紅，開始有精緻感 */
+        .member-card.level-advanced {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #f3b378;
+        }
+
+        .member-card.level-advanced .level-badge {
+            background: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        /* 👑 VIP會員：金黃色漸層（加上文字陰影與微放大效果） */
+        .member-card.level-vip {
+            background: var(--vip-gold);
+            color: #252424;
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(243, 156, 18, 0.3);
+        }
+
+        .member-card.level-vip .level-badge {
+            background: rgba(255, 255, 255, 0.4);
+            color: #ec4812;
+        }
+
+        /* 💡 重點 1：卡片本體必須加上相對定位，裝飾品才不會飛走 */
+        .member-card {
+            position: relative;
+            /* 你原本的 card 其他樣式保持不變 */
+        }
+
+        /* 💡 重點 2：只有當卡片同時擁有 .level-vip 時，才啟動 ::before 偽元素 */
+        .member-card.level-vip::before {
+            content: '🎀';
+            /* 這裡可以直接塞 Emoji 皇冠或蝴蝶結  👑*/
+            position: absolute;
+            top: -10px;
+            /* 向上飄出卡片一點點，視覺效果更有層次 */
+            left: -5px;
+            /* 向左飄出一點點 */
+            font-size: 2rem;
+            /* 調整皇冠的大小 */
+            z-index: 20;
+            /* 確保它壓在最上層，不會被大頭貼遮住 */
+            transform: rotate(-20deg);
+            /* 讓皇冠歪歪的戴，看起來比較生動活潑 */
+            filter: drop-shadow(0 2px 5px rgba(247, 248, 248, 0.3));
+            /* 加上陰影質感更好 */
+        }
+
+        /* 💡 重點 1：外層卡片一樣要相對定位，且要把超出的緞帶藏起來 */
+        .member-card {
+            position: relative;
+            overflow: hidden;
+            /* 💡 關鍵：把超出正方形卡片角落的緞帶切齊 */
+        }
+
+        /* 💡 重點 2：當是 VIP 時，在卡片右上角拉出一條斜線 */
+        .member-card.level-vip::after {
+            content: 'VIP';
+            /* 緞帶上的字，也可以放蝴蝶結 Emoji */
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            width: 120px;
+            background: linear-gradient(45deg, #fa56fa, #f39c12);
+            /* 黃金閃亮漸層 */
+            color: rgb(251, 250, 250);
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            line-height: 24px;
+            transform: rotate(45deg);
+            /* 💡 關鍵：旋轉 45 度變成斜條 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 15;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="form-section">
+            <h1>會員級別資料卡</h1>
+
+            <div class="form-group">
+                <label for="userName">姓名：( 限20字內 )</label>
+                <input id="userName" type="text" v-model.trim="userName" placeholder="請輸入姓名" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="userAge">年齡：( 限制18 - 120歲 )</label>
+                <input id="userAge" type="number" v-model.number="userAge" placeholder="請輸入年齡" max="120" min="18"
+                    @input="handleAgeInput" @blur="checkFinalAge">
+            </div>
+
+            <div class="form-group">
+                <label for="memberLevel">會員等級：</label>
+                <!-- disabled 預設灰色+已停用狀態，selected 預設選中，但禁止選取，強迫使用者選擇會員 -->
+                <select id="memberLevel" v-model="memberLevel">
+                    <option value="" disabled selected>請選擇等級</option>
+                    <option value="一般會員">一般會員 (C)</option>
+                    <option value="中級會員">中級會員 (B)</option>
+                    <option value="高級會員">高級會員 (A)</option>
+                    <option value="VIP會員">VIP會員 (Vip)</option>
+                </select>
+            </div>
+
+
+            <!-- img也是用url  因為網址用外部網址載入-->
+            <div class="form-group">
+                <label for="imgRef">頭像圖片網址：</label>
+                <input id="imgRef" type="url" v-model.trim="imgRef" placeholder="可貼上網路圖片連結">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label for="showInfo">
+                    <input type="checkbox" id="showInfo" v-model="isShowInfomation">
+                    顯示詳細資料卡
+                </label>
+            </div>
+
+            <div class="form-group checkbox-group">
+                
+                <label for="vipStatus">
+                    <input type="checkbox" id="vipStatus" v-model="openVipStatus">
+                    啟用 VIP 尊榮模式
+                </label>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <!-- 綁定class {vip-theme主題的class : 否則就不顯示 class:vip-theme主題} -->
+            <div v-show="isShowInfomation" class="member-card" :class="{ 'level-general': memberLevel === '一般會員',
+             'level-intermediate': memberLevel === '中級會員',
+             'level-advanced': memberLevel === '高級會員',
+             'level-vip': memberLevel === 'VIP會員' || openVipStatus }">
+
+                <img :src="imgRef || 'https://img.shetu66.com/2024/01/20/170570251287012420.jpg'"
+                    :alt="imgRef ? '自訂頭像' : '預設頭像'" class="avatar">
+                <!-- 優先顯示 : 使用者姓名， || 如果客戶都沒填寫=''空字串的話，就顯示:'神秘會員' 頂替 '' 空字串 [先看左 || 在看右]-->
+                <h2>名字 : {{ userName || '神祕會員' }}</h2>
+                <div class="level-badge">{{ memberLevel || '未分級' }}</div>
+
+                <p style="font-size: 0.9rem;">
+                    今年：{{ userAge || '幾' }} 歲</p>
+                <hr>
+                <p>親愛的 {{ userName || '貴賓您好' }}，歡迎光臨！</p>
+
+                <div style="margin-top: 15px; font-size: 0.9rem;">
+
+                    <div v-show="memberLevel === '一般會員'" style="color: #4a5568;">
+                        🛒 享基礎商品 95 折優惠<br>
+                        🌱 獲得迎新紅利 50 點
+                    </div>
+
+                    <div v-show="memberLevel === '中級會員'">
+                        🚀 享全館商品 9 折優惠<br>
+                        📦 享每月 1 次免運費券
+                    </div>
+
+                    <div v-show="memberLevel === '高級會員'">
+                        🔥 享全館商品 85 折優惠<br>
+                        ⚡ 享有新品優先搶購權
+                    </div>
+
+                    <div v-show="memberLevel === 'VIP會員' || openVipStatus" class="vip-package">
+                        🎉 <b>VIP 尊榮大禮包</b> 🎉
+                        <div style="margin-top: 5px; text-align: left;">
+                            🎫 萬元全球機票折價券<br>
+                            🎁 年度滿額尊榮黑卡禮<br>
+                            ✈️ 免費升等出國商務艙
+                        </div>
+                    </div>
+
+                    <div v-show style="color: #a0aec0; font-style: italic;">
+                        請選擇等級以解鎖會員特權
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div v-show class="guide-box">
+                <p>💡 提示：請勾選左側的
+                    <br>
+                    <b>「顯示詳細資料卡」</b>
+                    <br>來開啟您的專屬電子會員卡！
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                // 給予合理的初始預設值，寫程式更不容易報錯
+                const userName = ref('');
+                const userAge = ref();
+                const memberLevel = ref('');
+
+                // 每次鍵盤敲擊、輸入數字時，都會執行這個函式
+                const handleAgeInput = () => {
+                    if (userAge.value === '' || userAge.value === null) return;
+
+                    // 超過 120 直接斬斷只剩 120 歲
+                    if (userAge.value > 120) {
+                        userAge.value = 120;
+                    }
+                    // 輸入負數直接變 18
+                    if (userAge.value < 0) {
+                        userAge.value = 18;
+                    }
+                };
+
+                // 在 script setup 加上這個
+                const checkFinalAge = () => {
+                    // 當滑鼠點到旁邊、離開輸入框時，如果低於 18 歲，才強制彈回 18
+                    if (userAge.value !== '' && userAge.value < 18) {
+                        userAge.value = 18;
+                    }
+                };
+                // 預設給一張隨機小圖，避免一開始空圖案
+                const imgRef = ref('');
+
+                // 布林值開關，初始都先設定成關閉 (false)
+                const isShowInfomation = ref(true);
+                const openVipStatus = ref(false);
+
+                return {
+                    userName,
+                    userAge,
+                    memberLevel,
+                    imgRef,
+                    isShowInfomation,
+                    openVipStatus,
+                    checkFinalAge,
+                    handleAgeInput,
+                };
+            },
+        }).mount('#app');
+    </script>
+    <!-- 
+    1.改姓名: 限定字數
+    2.年齡:限制18-120歲數內
+    3.RWD
+    4.頭像拉掉(如果沒有寫任何東西，如果有，才放圖)
+    5.vip黃卡，用spolight ?  -->
+
+</body>
+
+</html>

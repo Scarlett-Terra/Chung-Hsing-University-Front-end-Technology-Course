@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frozen Calculator - Vue3</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --btn-num: rgba(62, 61, 61, 0.866);
+            --btn-op: #e07e0f;
+            /* 冰藍色運算鍵 */
+            --btn-special: #e0e0e0;
+            /* 灰白色功能鍵 */
+            --text-color: #ffffff;
+            --negative-red: #ff7675;
+            /* 負數用的柔和紅 */
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-gradient);
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ❄️ 雪花背景特效 */
+        .snow {
+            position: absolute;
+            top: -10px;
+            color: rgb(253, 209, 209);
+            user-select: none;
+            z-index: 0;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+
+        /* 🧊 計算機主體 */
+        .calc-wrapper {
+            z-index: 10;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            width: 320px;
+        }
+
+        .display {
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            box-sizing: border-box;
+            color: rgb(242, 223, 13);
+            font-size: 2.5rem;
+            font-weight: 300;
+            overflow: hidden;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            height: 65px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgb(248, 245, 245);
+            background: var(--btn-num);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            font-weight: bolder;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            background: rgb(40, 204, 240);
+        }
+
+        /* 特殊按鍵顏色 */
+        .btn-op {
+            background: var(--btn-op);
+            color: #e7e8eb;
+            font-weight: bold;
+        }
+
+        .btn-special {
+            background: var(--btn-special);
+            color: #2964da;
+
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+        }
+
+        /* 0 占兩格 */
+
+
+
+        /* 簡單的歷史紀錄區樣式 (加在 .calc-wrapper 後面) */
+        .history-list {
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        /* 關鍵：正負數顏色設定 */
+        .is-negative {
+            color: var(--negative-red);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="snow-container"></div>
+
+    <div id="app">
+        <div class="calc-wrapper">
+            <div class="display">{{ current || '0' }}</div>
+
+            <div class="btn-grid">
+                <button @click="clear" class="btn-special">C</button>
+                <button @click="sign" class="btn-special">+/-</button>
+                <button @click="percent" class="btn-special">%</button>
+                <button @click="divide" class="btn-op">÷</button>
+
+                <button @click="append('7')">7</button>
+                <button @click="append('8')">8</button>
+                <button @click="append('9')">9</button>
+                <button @click="times" class="btn-op">×</button>
+
+                <button @click="append('4')">4</button>
+                <button @click="append('5')">5</button>
+                <button @click="append('6')">6</button>
+                <button @click="minus" class="btn-op">−</button>
+
+                <button @click="append('1')">1</button>
+                <button @click="append('2')">2</button>
+                <button @click="append('3')">3</button>
+                <button @click="add" class="btn-op">+</button>
+
+                <button @click="append('0')" class="btn-zero">0</button>
+                <button @click="dot">.</button>
+                <button @click="equal" class="btn-op">=</button>
+
+            </div>
+
+        </div>
+        <div class="history-list">
+            <div v-for="(item, index) in history" :key="index">
+                {{ item.formula }} =
+                <span :class="{'is-negative': item.result < 0}">{{ item.result }}</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const current = ref('');
+                const previous = ref(null);
+                const operator = ref(null);
+                const operatorClicked = ref(false);
+                const history = ref([]);
+                const currentOp = ref(''); // 用來存 + - * / 的符號
+
+                // 1. 清除
+                const clear = () => {
+                    current.value = '';
+                    previous.value = null;
+                    operator.value = null;
+                };
+
+                // 2. 正負號
+                const sign = () => {
+                    current.value = current.value.charAt(0) === '-' ?
+                        current.value.slice(1) : `-${current.value}`;
+                };
+
+                // 3. 百分比
+                const percent = () => {
+                    current.value = `${parseFloat(current.value) / 100}`;
+                };
+
+                // 4. 數字輸入
+                const append = (number) => {
+                    if (operatorClicked.value) {
+                        current.value = '';
+                        operatorClicked.value = false;
+                    }
+                    current.value = `${current.value}${number}`;
+                };
+
+                // 5. 小數點
+                const dot = () => {
+                    if (current.value.indexOf('.') === -1) {
+                        append('.');
+                    }
+                };
+
+                // 6. 運算邏輯輔助
+                const setPrevious = () => {
+                    previous.value = current.value;
+                    operatorClicked.value = true;
+                };
+
+                // 7. 各種運算子（記得存下符號給歷史紀錄用）
+                const divide = () => {
+                    operator.value = (a, b) => a / b;
+                    currentOp.value = '÷';
+                    setPrevious();
+                };
+                const times = () => {
+                    operator.value = (a, b) => a * b;
+                    currentOp.value = '×';
+                    setPrevious();
+                };
+                const minus = () => {
+                    operator.value = (a, b) => a - b;
+                    currentOp.value = '−';
+                    setPrevious();
+                };
+                const add = () => {
+                    operator.value = (a, b) => a + b;
+                    currentOp.value = '+';
+                    setPrevious();
+                };
+
+                // 8. 等於（計算並寫入紀錄）
+                const equal = () => {
+                    if (!operator.value || !previous.value || !current.value) return;
+
+                    const res = operator.value(parseFloat(previous.value), parseFloat(current.value));
+
+                    // 將過程塞進歷史紀錄
+                    history.value.unshift({
+                        formula: `${previous.value} ${currentOp.value} ${current.value}`,
+                        result: res
+                    });
+
+                    current.value = `${res}`;
+                    previous.value = null;
+                    operator.value = null;
+                };
+
+                // 回傳給 HTML 使用
+                return {
+                    current, clear, sign, percent, append, dot,
+                    divide, times, minus, add, equal,
+                    history
+                };
+            } // setup 結束
+        }).mount('#app');
+
+        // ❄️ 純原生 JS 快速生成雪花
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.classList.add('snow');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            container.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnow, 100);
+    </script>
+</body>
+
+</html>

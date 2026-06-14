@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易計算機</title>
+    <style>
+        :root {
+            --primary-blue: #3498db;
+            --soft-bg: #f0f4f8;
+            --negative-red: #ff7675;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            /* 啟動 Flex 佈局 */
+            justify-content: center;
+            /* 水平置中 */
+            align-items: center;
+            /* 垂直置中 */
+            background-color: var(--soft-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .calc-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        /* 輸入框區域 */
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-blue);
+            /* 點擊時邊框變藍色 */
+        }
+
+        .operator-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin: 0 15px;
+        }
+
+        /* 按鈕樣式 */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-grid button {
+            padding: 15px;
+            border: none;
+            background: #e1f5fe;
+            color: #0288d1;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-grid button:hover {
+            background: #b3e5fc;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        /* 結果字體 */
+        h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        /* 負數變紅 */
+        .is-negative {
+            color: var(--negative-red) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 上菜 -->
+    <div id="app" class="calc-container">
+        <h2>簡易計算機</h2>
+
+        <div class="input-group">
+            <input type="number" v-model="num1">
+            <span class="operator-display">{{ currentOpText }}</span>
+            <input type="number" v-model="num2">
+        </div>
+
+        <div class="btn-grid">
+            <button @click="setOp('+')">+</button>
+            <button @click="setOp('-')">-</button>
+            <button @click="setOp('*')">×</button>
+            <button @click="setOp('/')">÷</button>
+        </div>
+
+        <button class="submit-btn" @click="calculate">計算結果</button>
+
+        <h2 :class="{ 'is-negative': result < 0 }">
+            結果：{{ result }}
+        </h2>
+    </div>
+
+    <!-- 引入 Vue -->
+    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                // 準備我們的資料籃子
+                const num1 = ref(15);          // 第一個數字
+                const num2 = ref(25);          // 第二個數字
+                const currentOpText = ref('?'); // 中間顯示的符號（預設是問號）
+                const result = ref(0);        // 最後算出來的答案
+
+                // 邏輯 A：點了按鈕，就把符號換掉
+                const setOp = (op) => {
+                    currentOpText.value = op;
+                };
+
+                // 邏輯 B：按下計算，開始根據符號做動作
+                const calculate = () => {
+                    const n1 = parseFloat(num1.value);
+                    const n2 = parseFloat(num2.value);
+                    const op = currentOpText.value;
+
+                    if (op === '+') result.value = 
+                    n1 + n2;
+                    else if (op === '-') result.value = n1 - n2;
+                    else if (op === '*') result.value = n1 * n2;
+                    else if (op === '/') result.value = n1 / n2;
+                    else alert('請先選擇運算符號喔！');
+                };
+
+                return {
+                    num1, num2, currentOpText, result,
+                    setOp, calculate
+                };
+            }
+        }).mount('#app');
+
+    </script>
+
+</body>
+
+</html>
