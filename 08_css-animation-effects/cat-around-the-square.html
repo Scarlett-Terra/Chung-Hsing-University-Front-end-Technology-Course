@@ -13,11 +13,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+            background: #f8fafc;
         }
 
         .box {
-            width: 500px;
-            height: 500px;
+            width: clamp(210px, 64vmin, 500px);
+            height: clamp(210px, 64vmin, 500px);
             background-color: salmon;
             /* 善用display:flex 去置中，就少用margin:auto; */
             /* margin: auto; */
@@ -30,8 +32,8 @@
         /* 繞球的話，要依照爸爸為基準去跑， */
         .box-1 {
             background-color: aquamarine;
-            width: 100px;
-            height: 100px;
+            width: clamp(50px, 15vmin, 100px);
+            height: clamp(50px, 15vmin, 100px);
             position: absolute;
             left: 0;
             top: 0;

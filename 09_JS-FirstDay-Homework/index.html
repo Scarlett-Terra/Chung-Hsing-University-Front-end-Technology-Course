@@ -4,50 +4,208 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的第一週 JS 作業集錦</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: sans-serif;
-            background: #f5f5f5;
-            text-align: center;
-            padding: 50px;
+            min-height: 100vh;
+            margin: 0;
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background: #eef1f5;
+            padding: 48px 20px;
+            color: #1f2937;
         }
 
         .menu-card {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: min(720px, 100%);
+            margin: 0 auto;
+            padding: 36px;
+            border-radius: 16px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
         }
 
-        a {
-            display: block;
-            margin: 15px 0;
-            color: #8B5A2B;
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+            letter-spacing: 0;
+        }
+
+        .title-mark {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            border-radius: 12px;
+            background-color: #2563eb;
+            color: white;
+            font-size: 1.35rem;
+            vertical-align: middle;
+        }
+
+        hr {
+            margin: 24px 0;
+            border: 0;
+            border-top: 1px solid #d7dce3;
+        }
+
+        .menu-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .menu-link {
+            display: grid;
+            grid-template-columns: 72px 1fr 34px;
+            align-items: center;
+            min-height: 70px;
+            padding: 12px 18px 12px 14px;
+            border: 1px solid #dce2ea;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            color: #1f2937;
             text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-align: left;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
         }
 
-        a:hover {
-            color: #d4a373;
+        .menu-link:hover {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.16);
+            transform: translateY(-2px);
+        }
+
+        .menu-link:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14);
+        }
+
+        .menu-link:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.35);
+            outline-offset: 3px;
+        }
+
+        .menu-number {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background-color: #d66834;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+        .menu-link:hover .menu-number {
+            background-color: #405bf3;
+        }
+
+        .menu-text {
+            line-height: 1.35;
+        }
+
+        .menu-arrow {
+            justify-self: end;
+            width: 12px;
+            height: 12px;
+            border-top: 3px solid #64748b;
+            border-right: 3px solid #64748b;
+            transform: rotate(45deg);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .menu-link:hover .menu-arrow {
+            border-color: #2563eb;
+            transform: translateX(4px) rotate(45deg);
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .menu-card {
+                padding: 24px 16px;
+                border-radius: 14px;
+            }
+
+            .title-mark {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                font-size: 1.1rem;
+            }
+
+            .menu-link {
+                grid-template-columns: 56px 1fr 24px;
+                min-height: 64px;
+                padding: 10px 14px 10px 10px;
+                font-size: 1.12rem;
+            }
+
+            .menu-number {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="menu-card">
-        <h1> JS前端實戰第一天作業 🎁</h1>
+        <h1>JS前端實戰第一天作業 <span class="title-mark">JS</span></h1>
         <hr>
         <!-- 點擊後，會自動飛進各個資料夾讀取裡面的 index.html -->
-        <a href="./01-calculator/simpleCalc.html" target="_blank">🧮 1. 簡易計算機</a>
-        <a href="./02-eye-color-game/eyeColor(simple).html" target="_blank">👁️ 2. 初學者色弱遊戲 EyeColor</a>
-        <a href="./02-eye-color-game/eyeWeek(Final).html" target="_blank">👁️ 2-1. 色弱遊戲進階完整版 </a>
-        <a href="./03-student-score/studentScore.html" target="_blank">📝 3. 學生分數查詢系統</a>
-        <a href="./04-bmi-calculator/bmi.html" target="_blank">⚖️ 4. BMI 線上計算機</a>
-        <a href="./05-rock-paper-scissors/rpsGame.html" target="_blank">🤝 5. 剪刀石頭布 (雙人玩家PK版)</a>
-        <a href="./05-rock-paper-scissors/finalHomeworkGame.html" target="_blank">✊ 5-1. 剪刀石頭布-2 (電腦對玩家 - 最終更新版)</a>
+        <div class="menu-list">
+            <a class="menu-link" href="./01-calculator/simpleCalc.html" target="_blank">
+                <span class="menu-number">01</span>
+                <span class="menu-text">簡易計算機</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./02-eye-color-game/eyeColor(simple).html" target="_blank">
+                <span class="menu-number">02</span>
+                <span class="menu-text">初學者色弱遊戲 EyeColor</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./02-eye-color-game/eyeWeek(Final).html" target="_blank">
+                <span class="menu-number">2-1</span>
+                <span class="menu-text">色弱遊戲進階完整版</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./03-student-score/studentScore.html" target="_blank">
+                <span class="menu-number">03</span>
+                <span class="menu-text">學生分數查詢系統</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./04-bmi-calculator/bmi.html" target="_blank">
+                <span class="menu-number">04</span>
+                <span class="menu-text">BMI 線上計算機</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./05-rock-paper-scissors/rpsGame.html" target="_blank">
+                <span class="menu-number">05</span>
+                <span class="menu-text">剪刀石頭布 雙人玩家 PK 版</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <a class="menu-link" href="./05-rock-paper-scissors/finalHomeworkGame.html" target="_blank">
+                <span class="menu-number">5-1</span>
+                <span class="menu-text">剪刀石頭布 電腦對玩家最終版</span>
+                <span class="menu-arrow"></span>
+            </a>
+        </div>
     </div>
 </body>
 

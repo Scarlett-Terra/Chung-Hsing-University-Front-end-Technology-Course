@@ -17,30 +17,56 @@
     <!-- CSS -->
     <style scoped>
         :root {
-            --primary-color: #4a90e2;
+            --primary-color: #3d7c5f;
             --travel-color: #ff9f43;
             --food-color: #ee5253;
             --hotel-color: #10ac84;
             --music-color: #5f27cd;
             --movie-color: #01a3a4;
-            --bg-light: #f8f9fa;
+            --bg-light: #f4f7f1;
             --border-radius: 12px;
+            --garden-ink: #22362f;
+            --garden-muted: #6f8177;
+            --garden-card: rgba(255, 255, 255, 0.82);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            color: #333;
-            background: linear-gradient(135deg, #bdf672 0%, #bea6f6 50%, #f6f6a0 100%);
-
+            color: var(--garden-ink);
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 12% 12%, rgba(255, 255, 255, 0.65), transparent 26%),
+                radial-gradient(circle at 86% 8%, rgba(225, 238, 203, 0.72), transparent 28%),
+                radial-gradient(circle at 10% 86%, rgba(175, 204, 174, 0.45), transparent 32%),
+                linear-gradient(135deg, #e8efe4 0%, #cfdccc 48%, #edf0e5 100%);
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 18% 22%, rgba(67, 111, 76, 0.12) 0 8%, transparent 20%),
+                radial-gradient(ellipse at 74% 24%, rgba(50, 91, 67, 0.1) 0 7%, transparent 21%),
+                radial-gradient(ellipse at 78% 78%, rgba(67, 111, 76, 0.1) 0 10%, transparent 24%);
+            filter: blur(10px);
+            opacity: 0.8;
+            z-index: -1;
+        }
 
         #app {
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
 
         /* 導覽列 */
@@ -53,6 +79,26 @@
             border-radius: var(--border-radius);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             margin-bottom: 25px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: var(--border-radius);
+            box-shadow: 0 18px 45px rgba(53, 80, 65, 0.1);
+            padding: 18px 22px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(14px);
+        }
+
+        header>div {
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #274436;
+            line-height: 1.25;
         }
 
         nav h1 {
@@ -70,11 +116,12 @@
         }
 
         .card-box {
-            background: white;
+            background: var(--garden-card);
+            backdrop-filter: blur(14px);
             border-radius: var(--border-radius);
             padding: 25px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 16px 38px rgba(53, 80, 65, 0.1);
         }
 
         .card-box h2 {
@@ -101,10 +148,12 @@
 
         .input-control {
             width: 100%;
+            min-height: 44px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #b9c7bc;
             border-radius: 6px;
-            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.86);
+            font-size: 16px;
         }
 
         .input-control:hover {
@@ -125,10 +174,11 @@
             width: 100%;
             height: 80px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #b9c7bc;
             border-radius: 6px;
-            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.86);
             resize: none;
+            font-size: 16px;
         }
 
         .word-counter {
@@ -196,8 +246,8 @@
 
         /* 篩選按鈕區 */
         .filter-section {
-            background: #ebf3fa;
-            border: 1px solid #bcdcfa;
+            background: rgba(232, 241, 226, 0.82);
+            border: 1px solid rgba(118, 146, 123, 0.28);
             padding: 20px;
             margin-bottom: 25px;
         }
@@ -259,11 +309,12 @@
         }
 
         .collection-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.84);
+            backdrop-filter: blur(12px);
             border-radius: var(--border-radius);
             overflow: hidden;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.74);
+            box-shadow: 0 16px 34px rgba(53, 80, 65, 0.11);
             display: flex;
             flex-direction: column;
             position: relative;
@@ -395,13 +446,13 @@
         }
 
         footer {
-            border: 2px dashed #bcdcfa;
-            background-color: #f4f9ff;
+            border: 2px dashed rgba(99, 130, 102, 0.38);
+            background-color: rgba(246, 250, 242, 0.78);
             padding: 20px;
             text-align: center;
             border-radius: var(--border-radius);
             font-weight: bold;
-            color: #4a90e2;
+            color: #3d7c5f;
             margin-top: 30px;
         }
 
@@ -452,6 +503,102 @@
 
         .object-fit-cover {
             object-fit: cover;
+        }
+
+        @media (max-width: 860px) {
+            body {
+                padding: 14px;
+            }
+
+            header {
+                padding: 16px;
+            }
+
+            header h1 {
+                font-size: 1.55rem;
+            }
+
+            .top-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .card-box {
+                padding: 20px;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                margin-bottom: 16px;
+            }
+
+            header>div {
+                align-items: flex-start !important;
+            }
+
+            header h1 {
+                font-size: 1.35rem;
+            }
+
+            header h1 span {
+                display: block;
+                margin-top: 4px;
+                font-size: 0.82rem !important;
+            }
+
+            .card-box {
+                padding: 16px;
+                border-radius: 10px;
+            }
+
+            .card-box h2 {
+                font-size: 1.1rem;
+                line-height: 1.35;
+            }
+
+            .filter-buttons {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                flex: 1 1 calc(50% - 8px);
+                min-height: 42px;
+                padding: 10px 12px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .delete-icon {
+                top: 12px;
+            }
+
+            .img-container {
+                height: 160px;
+            }
+
+            .btn-submit,
+            .btn-more {
+                min-height: 46px;
+                font-size: 1rem;
+            }
+
+            .stat-item {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
         }
     </style>
 

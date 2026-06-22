@@ -17,16 +17,188 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #e0f2f1 0%, #f1f8e9 100%);
             min-height: 100vh;
             color: #2d3436;
+            background: #dff3f1;
+            overflow-x: hidden;
+            position: relative;
         }
 
         .weather-container {
+            position: relative;
+            z-index: 2;
             max-width: 1100px;
             margin: 0 auto;
             padding: 40px 20px;
             text-align: center;
+        }
+
+        .weather-sky {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 88% 8%, rgba(255, 255, 255, 0.95) 0 4%, rgba(255, 242, 169, 0.5) 8%, transparent 22%),
+                linear-gradient(160deg, #2d7fd6 0%, #5eb1f6 48%, #a9ddff 100%);
+            animation: skyMood 15s ease-in-out infinite;
+        }
+
+        .weather-sky::before,
+        .weather-sky::after {
+            content: "";
+            position: absolute;
+            inset: -20%;
+        }
+
+        .weather-sky::before {
+            background:
+                radial-gradient(ellipse at 18% 66%, rgba(255, 255, 255, 0.98) 0 10%, rgba(255, 255, 255, 0.72) 16%, transparent 31%),
+                radial-gradient(ellipse at 30% 60%, rgba(255, 255, 255, 0.92) 0 11%, transparent 27%),
+                radial-gradient(ellipse at 64% 28%, rgba(255, 255, 255, 0.98) 0 9%, rgba(255, 255, 255, 0.68) 15%, transparent 30%),
+                radial-gradient(ellipse at 88% 6%, rgba(255, 255, 255, 0.95) 0 12%, transparent 28%),
+                radial-gradient(ellipse at 8% 86%, rgba(255, 255, 255, 0.78) 0 7%, transparent 20%);
+            filter: blur(3px);
+            opacity: 0.95;
+            animation: cloudDrift 15s linear infinite;
+        }
+
+        .weather-sky::after {
+            background:
+                repeating-linear-gradient(8deg,
+                    transparent 0 42px,
+                    rgba(255, 255, 255, 0.18) 43px 45px,
+                    transparent 46px 80px);
+            opacity: 0;
+            mix-blend-mode: screen;
+            animation: weatherLayer 15s ease-in-out infinite;
+        }
+
+        .weather-haze {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 50% 78%, rgba(255, 255, 255, 0.58) 0 18%, transparent 46%),
+                linear-gradient(90deg, rgba(160, 171, 178, 0.08), rgba(255, 255, 255, 0.24), rgba(123, 139, 151, 0.1));
+            filter: blur(12px);
+            opacity: 0;
+            animation: hazeFlow 15s ease-in-out infinite;
+        }
+
+        .weather-lightning {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background:
+                linear-gradient(115deg, transparent 0 48%, rgba(255, 255, 255, 0.95) 49%, transparent 51%),
+                radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.8) 0 2%, transparent 18%);
+            opacity: 0;
+            mix-blend-mode: screen;
+            animation: lightningFlash 15s steps(1, end) infinite;
+        }
+
+        @keyframes skyMood {
+            0%, 18% {
+                background:
+                    radial-gradient(circle at 88% 8%, rgba(255, 255, 255, 0.95) 0 4%, rgba(255, 242, 169, 0.5) 8%, transparent 22%),
+                    linear-gradient(160deg, #2d7fd6 0%, #5eb1f6 48%, #a9ddff 100%);
+            }
+
+            22%, 38% {
+                background:
+                    radial-gradient(circle at 16% 15%, rgba(255, 255, 255, 0.16) 0 8%, transparent 22%),
+                    linear-gradient(135deg, #71869d 0%, #a4b6bf 48%, #d4d9d2 100%);
+            }
+
+            42%, 58% {
+                background:
+                    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.88) 0 2%, transparent 16%),
+                    linear-gradient(135deg, #263241 0%, #536578 48%, #a7b7be 100%);
+            }
+
+            62%, 78% {
+                background:
+                    radial-gradient(circle at 12% 20%, rgba(255, 240, 154, 0.42) 0 6%, transparent 17%),
+                    linear-gradient(135deg, #92c7d0 0%, #d7e6de 52%, #f5e6bd 100%);
+            }
+
+            82%, 100% {
+                background:
+                    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.18) 0 8%, transparent 20%),
+                    linear-gradient(135deg, #b8c2bd 0%, #d9ded7 55%, #eee8d8 100%);
+            }
+        }
+
+        @keyframes cloudDrift {
+            0% {
+                transform: translate3d(-4%, 0, 0);
+                opacity: 0.58;
+            }
+
+            40% {
+                opacity: 0.82;
+            }
+
+            100% {
+                transform: translate3d(7%, -2%, 0);
+                opacity: 0.62;
+            }
+        }
+
+        @keyframes weatherLayer {
+            0%, 18% {
+                opacity: 0;
+                transform: translate3d(0, 0, 0);
+            }
+
+            22%, 38% {
+                opacity: 0.12;
+                transform: translate3d(-3%, 0, 0);
+            }
+
+            42%, 58% {
+                opacity: 0;
+            }
+
+            62%, 78% {
+                opacity: 0.22;
+                transform: translate3d(10%, 0, 0);
+            }
+
+            82%, 100% {
+                opacity: 0.08;
+                transform: translate3d(-4%, 0, 0);
+            }
+        }
+
+        @keyframes hazeFlow {
+            0%, 60% {
+                opacity: 0;
+                transform: translateX(-6%);
+            }
+
+            66%, 100% {
+                opacity: 0.72;
+                transform: translateX(6%);
+            }
+        }
+
+        @keyframes lightningFlash {
+            0%, 41%, 47%, 51%, 57%, 100% {
+                opacity: 0;
+            }
+
+            43%, 53% {
+                opacity: 0.92;
+            }
+
+            45%, 55% {
+                opacity: 0.18;
+            }
         }
 
         #mainTitle {
@@ -62,6 +234,7 @@
             padding: 10px 0 20px;
             margin-bottom: 30px;
             scrollbar-width: none;
+            justify-content: center;
         }
 
         .history-section::-webkit-scrollbar {
@@ -73,23 +246,69 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             justify-content: center;
+            perspective: 1200px;
         }
 
         .weather-card {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 30px;
+            position: relative;
+            overflow: visible;
+            isolation: isolate;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.38)),
+                radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.95), transparent 32%);
+            backdrop-filter: blur(18px) saturate(1.2);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: 28px;
             padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow:
+                0 24px 50px rgba(39, 71, 97, 0.16),
+                0 8px 18px rgba(39, 71, 97, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.85);
+            transform: translateZ(0);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
             text-align: left;
             cursor: pointer;
         }
 
+        .weather-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            border-radius: inherit;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.65), transparent 35%, transparent 68%, rgba(255, 255, 255, 0.32));
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .weather-card::after {
+            content: "";
+            position: absolute;
+            right: -48px;
+            bottom: -48px;
+            width: 130px;
+            height: 130px;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(67, 160, 71, 0.16), transparent 68%);
+            pointer-events: none;
+        }
+
+        .weather-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
         .weather-card:hover {
-            transform: scale(1.03);
-            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-10px) scale(1.018);
+            border-color: rgba(255, 255, 255, 0.95);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)),
+                radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 1), transparent 32%);
+            box-shadow:
+                0 34px 70px rgba(39, 71, 97, 0.24),
+                0 14px 28px rgba(39, 71, 97, 0.14),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .card-title {
@@ -151,6 +370,9 @@
 </head>
 
 <body>
+    <div class="weather-sky"></div>
+    <div class="weather-haze"></div>
+    <div class="weather-lightning"></div>
 
     <div class="weather-container">
         <h1 id="mainTitle">🌲 森林氣象站</h1>

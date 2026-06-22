@@ -32,7 +32,6 @@
 
 body {
   margin: 0;
-  overflow-x: hidden;
 }
 
 .container {
@@ -45,8 +44,8 @@ body {
 }
 .container .box {
   background-color: #fff;
-  height: min(300px, calc(100vw - 40px));
-  width: min(300px, calc(100vw - 40px));
+  height: 300px;
+  width: 300px;
   position: relative;
   overflow: hidden;
 }
@@ -88,7 +87,7 @@ body {
 }
 .container .box h1 {
   margin: 0;
-  padding: 0;
+  padding: 20px;
   border-right: 2px solid black;
   position: absolute;
   left: 50%;
@@ -99,7 +98,6 @@ body {
   width: 0;
   background: linear-gradient(to loading, transparent, white);
   animation: loading 3s steps(10) infinite alternate;
-  font-size: clamp(1.5rem, 8vw, 2rem);
 }
 .container .box:hover {
   box-shadow: 0 0 1000px #ffffff;

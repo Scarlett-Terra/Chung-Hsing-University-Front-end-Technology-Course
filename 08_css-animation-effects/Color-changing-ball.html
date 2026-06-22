@@ -6,11 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5.簡易動畫-變色球</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
+
         .ball {
             background-color: aqua;
-            width: 100px;
-            height: 100px;
+            width: clamp(120px, 42vmin, 240px);
+            height: clamp(120px, 42vmin, 240px);
             border-radius: 80%;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18);
             /* 播放動畫 动画名称：彩球；*/
             animation-name: color-ball;
             /* 动画持续时间：5秒；*/

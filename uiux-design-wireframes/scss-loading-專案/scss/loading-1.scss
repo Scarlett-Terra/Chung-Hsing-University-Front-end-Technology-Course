@@ -1,0 +1,174 @@
+// ======動畫區=======
+// 往右跑
+@keyframes right {
+
+    50%,
+    100% {
+        left: 100%;
+    }
+
+    // 100%{
+    //     left:-100%;
+    // }
+}
+
+@keyframes bottom {
+
+    50%,
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes left {
+
+    50%,
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes top {
+
+    50%,
+    100% {
+        bottom: 100%;
+    }
+}
+
+@keyframes loading {
+    
+    from{ 
+        width: 0%; 
+    }
+    to  {
+        width: 10ch;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.container {
+    // 黑底盒子
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    .box {
+        background-color: #fff;
+        height: 300px;
+        width: 300px;
+        position: relative;
+        // 做動畫或Y軸的超出盒子外的全部隱藏
+        overflow: hidden;
+
+        .line-1 {
+            // 背景:線性漸層 往右 從透明開始 往右變 深橘色
+            background: linear-gradient(to right, transparent, orange);
+            width: 100%;
+            height: 10px;
+            position: absolute;
+            left: -100%;
+            top: 0;
+            //   名字     期間    線性等數         0s  交替:alternate
+            // animation: name duration timing-function delay iteration-count direction fill-mode;
+            animation: right 2s linear 0s infinite;
+        }
+
+
+        .line-2 {
+            // 背景:線性漸層 往右 從透明開始 往右變 深橘色
+            background: linear-gradient(to bottom, transparent, orange);
+            width: 10px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: -100%;
+            //   名字     期間    線性等數         0s  交替:alternate
+            // animation: name duration timing-function delay iteration-count direction fill-mode;
+            animation: bottom 2s linear 0.5s infinite;
+        }
+
+
+        .line-3 {
+            // 背景:線性漸層 往右 從透明開始 往右變 深橘色
+            background: linear-gradient(to left, transparent, orange);
+            width: 100%;
+            height: 10px;
+            position: absolute;
+            right: -100%;
+            bottom: 0;
+            //   名字     期間    線性等數         0s  交替:alternate
+            // animation: name duration timing-function delay iteration-count direction fill-mode;
+            animation: left 2s linear 1s infinite;
+        }
+
+        .line-4 {
+            // 背景:線性漸層 往右 從透明開始 往右變 深橘色
+            background: linear-gradient(to top, transparent, orange);
+            width: 10px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            bottom: -100%;
+            //   名字     期間    線性等數         0s  交替:alternate
+            // animation: name duration timing-function delay iteration-count direction fill-mode;
+            animation: top 2s linear 1.5s infinite;
+        }
+
+        h1 {
+            // font-size: 40px;
+            // text-align: center;
+            // line-height: 250px;
+            margin: 0;
+            padding: 20px;
+            border-right: 2px solid black;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); //交換方向
+
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+
+            background: linear-gradient(to loading, transparent, white);
+            // animation: loading 2s linear 0s infinite alternate;
+            animation: loading 3s steps(10) infinite alternate;
+        }
+
+        &:hover {
+            
+            box-shadow: 0 0 1000px #ffffff;
+
+            .line-1 {
+                background: linear-gradient(to right, transparent, black);
+            }
+
+            .line-2 {
+                background: linear-gradient(to bottom, transparent, black);
+            }
+
+            .line-3 {
+                background: linear-gradient(to left, transparent, black);
+            }
+
+            .line-4 {
+                background: linear-gradient(to top, transparent, black);
+            }
+        }
+    }
+
+}
+
+// ctrl + ~ = 開啟watching

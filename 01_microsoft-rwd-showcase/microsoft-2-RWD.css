@@ -1041,6 +1041,9 @@ footer section .nav .nav-out .nav-right a:focus {
 .five-icon ul li {
     width: 44px;
     height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ms-unset-line {
@@ -1050,6 +1053,15 @@ footer section .nav .nav-out .nav-right a:focus {
 
 .five-icon-big img {
     width: 20px;
+}
+
+.five-icon-big .swiper-arrow {
+    color: #000;
+    font-size: 20px;
+}
+
+.five-icon-big .swiper-arrow:hover {
+    transform: scale(1.5);
 }
 
 .five-icon-big img:hover {

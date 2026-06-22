@@ -4,6 +4,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
 let particles = [];
 window.addEventListener('mousemove', (e) => {
     for (let i = 0; i < 8; i++) {

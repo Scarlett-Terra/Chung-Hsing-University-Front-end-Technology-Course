@@ -30,7 +30,7 @@ loginBtn.addEventListener('click', () => {
                 loginPage.style.display = 'none';
                 adminPage.style.display = 'block';
                 gsap.from(adminPage, { opacity: 0, x: 100, duration: 0.6 });
-                render();
+                saveAndRender();
             }
         });
     } else {

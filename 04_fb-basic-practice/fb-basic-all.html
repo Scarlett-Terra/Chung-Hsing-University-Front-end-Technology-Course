@@ -10,6 +10,11 @@
             margin: 0;
             padding: 0;
             height: 3000px;
+            overflow-x: hidden;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         /* 有position只能用一次，不能再多加 */
@@ -646,6 +651,387 @@
             background-repeat: no-repeat;
 
         }
+
+        @media (max-width: 1024px) {
+            #banner {
+                width: 90%;
+            }
+
+            #search {
+                width: 44%;
+            }
+
+            #search-text {
+                font-size: 14px;
+            }
+
+            #add {
+                right: 230px;
+            }
+
+            #eddit {
+                right: 65px;
+            }
+
+            #arrow {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f2f5;
+            }
+
+            #nav-left {
+                width: 42%;
+            }
+
+            #nav-center {
+                display: none;
+            }
+
+            #nav-right {
+                width: 58%;
+            }
+
+            #search {
+                width: 40px;
+                left: 70px;
+            }
+
+            #search-text {
+                display: none;
+            }
+
+            #nav-right-myselfHomepage,
+            #nav-right-dingdong,
+            #nav-right-message,
+            #nav-right-ninedot {
+                width: 40px;
+                height: 40px;
+                top: 8px;
+                border-radius: 50%;
+            }
+
+            #nav-right-myselfHomepage {
+                right: 8px;
+                background-size: 46px;
+            }
+
+            #nav-right-dingdong {
+                right: 58px;
+            }
+
+            #nav-right-message {
+                right: 108px;
+            }
+
+            #nav-right-ninedot {
+                right: 158px;
+            }
+
+            #all {
+                height: auto;
+                min-height: 720px;
+            }
+
+            #banner {
+                width: 100%;
+                height: 260px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+
+            #carama {
+                width: 46px;
+                height: 36px;
+                right: 12px;
+                bottom: 12px;
+                border-radius: 18px;
+            }
+
+            #carama-img {
+                width: 46px;
+                height: 36px;
+            }
+
+            #carama-text {
+                display: none;
+            }
+
+            #avatar {
+                width: 132px;
+                height: 132px;
+                left: 50%;
+                bottom: -72px;
+                transform: translateX(-50%);
+            }
+
+            #avatar-camara {
+                width: 34px;
+                height: 34px;
+                background-size: 20px;
+            }
+
+            #name {
+                width: 100%;
+                height: auto;
+                left: 0;
+                bottom: -140px;
+                text-align: center;
+            }
+
+            #myName {
+                font-size: 28px;
+            }
+
+            #friendNumber {
+                font-size: 16px;
+                margin-top: 4px;
+            }
+
+            #add,
+            #eddit {
+                width: calc(50% - 18px);
+                height: 36px;
+                bottom: -195px;
+                border-radius: 8px;
+            }
+
+            #add {
+                left: 12px;
+                right: auto;
+            }
+
+            #eddit {
+                left: auto;
+                right: 12px;
+            }
+
+            #add-img,
+            #eddit-img {
+                width: 34px;
+                height: 36px;
+            }
+
+            #add-text,
+            #eddit-text {
+                left: 34px;
+                width: calc(100% - 34px);
+                height: 36px;
+                line-height: 36px;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            #arrow {
+                width: 48px;
+                height: 34px;
+                right: 12px;
+                bottom: -240px;
+                border-radius: 8px;
+            }
+
+            #arrow-img {
+                width: 48px;
+                height: 34px;
+                background-position: center;
+            }
+
+            #footer-button {
+                width: calc(100% - 24px);
+                height: 78px;
+                left: 12px;
+                bottom: -335px;
+            }
+
+            #footer-button-left {
+                width: calc(100% - 62px);
+                height: 100%;
+                position: relative;
+                overflow: visible;
+                white-space: normal;
+            }
+
+            #footer-button-left-post {
+                width: 120px;
+                height: 44px;
+                position: absolute;
+                left: 0;
+                top: 17px;
+                padding: 0 36px 0 16px;
+                border-radius: 8px;
+                background-color: #e4e6eb;
+                line-height: 44px;
+                text-align: left;
+                cursor: pointer;
+                transition: background-color 0.2s, color 0.2s;
+                user-select: none;
+            }
+
+            #footer-button-left-post:hover {
+                background-color: #d8dadf;
+            }
+
+            #footer-button-left-post:active {
+                background-color: #ccd0d5;
+            }
+
+            #footer-button-left-post::after {
+                content: "";
+                width: 8px;
+                height: 8px;
+                position: absolute;
+                right: 16px;
+                top: 15px;
+                border: solid #545454;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+                transition: top 0.2s, transform 0.2s;
+            }
+
+            #footer-menu-switch:checked+#footer-button-left-post {
+                background-color: #dbe7ff;
+                color: #0866ff;
+            }
+
+            #footer-menu-switch:checked+#footer-button-left-post::after {
+                top: 19px;
+                border-color: #0866ff;
+                transform: rotate(-135deg);
+            }
+
+            #footer-button-left-about,
+            #footer-button-left-friend,
+            #footer-button-left-photo,
+            #footer-button-left-reel,
+            #footer-button-left-status,
+            #footer-button-left-more {
+                display: none;
+                width: 150px;
+                height: 40px;
+                position: absolute;
+                left: 0;
+                padding: 0 16px;
+                background-color: #fff;
+                line-height: 40px;
+                text-align: left;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                z-index: 2;
+                cursor: pointer;
+            }
+
+            #footer-button-left-about:hover,
+            #footer-button-left-friend:hover,
+            #footer-button-left-photo:hover,
+            #footer-button-left-reel:hover,
+            #footer-button-left-status:hover,
+            #footer-button-left-more:hover {
+                background-color: #f0f2f5;
+            }
+
+            #footer-button-left-more {
+                padding-right: 24px;
+                position: absolute;
+            }
+
+            #footer-button-left-more-arrow {
+                display: none;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-about {
+                display: block;
+                top: 66px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-friend {
+                display: block;
+                top: 106px;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-photo {
+                display: block;
+                top: 146px;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-reel {
+                display: block;
+                top: 186px;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-status {
+                display: block;
+                top: 226px;
+            }
+
+            #footer-menu-switch:checked~#footer-button-left-more {
+                display: block;
+                top: 266px;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+
+            #footer-button-right {
+                width: 62px;
+            }
+
+            #footer-button-right-threeDot {
+                right: 0;
+                bottom: 24px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            #fb {
+                left: 12px;
+            }
+
+            #search {
+                left: 60px;
+            }
+
+            #nav-right-myselfHomepage {
+                display: none;
+            }
+
+            #nav-right-dingdong {
+                right: 8px;
+            }
+
+            #nav-right-message {
+                right: 58px;
+            }
+
+            #nav-right-ninedot {
+                right: 108px;
+            }
+
+            #banner {
+                height: 230px;
+            }
+
+            #avatar {
+                width: 120px;
+                height: 120px;
+                bottom: -66px;
+            }
+
+            #name {
+                bottom: -132px;
+            }
+
+            #myName {
+                font-size: 26px;
+            }
+
+            #add-text,
+            #eddit-text {
+                font-size: 11px;
+            }
+        }
     </style>
 </head>
 <!-- 超重要!!!!!!!! 檔案上傳過後，需要在下載 -> 在解壓縮zip -> 在重新打開，最後確認是否為正常狀態能開啟 -->
@@ -709,7 +1095,8 @@
             </div>
             <div id="footer-button">
                 <div id="footer-button-left">
-                    <div id="footer-button-left-post">貼文</div>
+                    <input type="checkbox" id="footer-menu-switch" hidden>
+                    <label for="footer-menu-switch" id="footer-button-left-post">貼文</label>
                     <div id="footer-button-left-about">關於</div>
                     <div id="footer-button-left-friend">朋友</div>
                     <div id="footer-button-left-photo">相片</div>
