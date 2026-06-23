@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UI/UX 設計線稿、海報分析、Flex 版面與 SCSS Loading 練習展示。">
+  <title>UI/UX Design Wireframes | Scarlett Yu</title>
+  <style>
+    :root {
+      --navy: #172554;
+      --blue: #3154a5;
+      --orange: #e96524;
+      --orange-soft: #fff3e9;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --surface: rgba(255, 255, 255, 0.94);
+      --shadow: 0 16px 40px rgba(30, 41, 59, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 231, 213, 0.95), transparent 30rem),
+        radial-gradient(circle at 90% 8%, rgba(219, 228, 255, 0.95), transparent 34rem),
+        #f7f9fc;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: clamp(52px, 9vw, 92px) 0 36px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      margin-bottom: 28px;
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2.1rem, 6vw, 4rem);
+      line-height: 1.14;
+    }
+
+    .intro {
+      max-width: 720px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.12rem);
+    }
+
+    main {
+      padding-bottom: 72px;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 28px 0 56px;
+    }
+
+    .quick-card,
+    .gallery-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .quick-card {
+      display: flex;
+      min-height: 190px;
+      flex-direction: column;
+      padding: 24px;
+    }
+
+    .quick-card h2,
+    .gallery-card h2 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.2rem;
+      line-height: 1.35;
+    }
+
+    .quick-card p,
+    .gallery-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .demo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      color: var(--blue);
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .demo-link::after {
+      content: "↗";
+    }
+
+    .section-title {
+      margin: 0 0 20px;
+      color: var(--navy);
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+      line-height: 1.25;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .gallery-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+
+    .gallery-card .content {
+      padding: 18px;
+    }
+
+    footer {
+      padding: 26px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 960px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .quick-links,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="page-shell">
+      <a class="back-link" href="../index.html">← 回作品導覽</a>
+      <p class="eyebrow">UI/UX Design Wireframes</p>
+      <h1>設計分析、視覺稿與互動版面練習</h1>
+      <p class="intro">
+        整理 UI/UX 課程中的美感分析、海報構圖、概念氛圍配對、出血裁切標記，以及可直接操作的 Flex 與 SCSS Loading 練習。
+      </p>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="quick-links" aria-label="互動練習">
+      <article class="quick-card">
+        <h2>Flex 響應式排版練習</h2>
+        <p>展示導覽列、人物資訊、圖片配置與手機版堆疊排版。</p>
+        <a class="demo-link" href="./flex-practice/flex-practice.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+      </article>
+
+      <article class="quick-card">
+        <h2>SCSS Loading 動畫</h2>
+        <p>以 SCSS 管理樣式，呈現可獨立展示的 Loading 動畫效果。</p>
+        <a class="demo-link" href="./scss-loading-專案/loading-1.html" target="_blank" rel="noopener noreferrer">開啟作品</a>
+      </article>
+    </section>
+
+    <section aria-labelledby="gallery-title">
+      <h2 class="section-title" id="gallery-title">設計圖稿總覽</h2>
+      <div class="gallery-grid">
+        <article class="gallery-card">
+          <img src="./01_Aesthetic-Analysis-Chart.jpg" alt="美感分析圖表">
+          <div class="content">
+            <h2>美感分析圖表</h2>
+            <p>整理視覺美感、構成元素與分析重點。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./02_Poster-layout-analysisdiagram.jpg" alt="海報版面分析圖">
+          <div class="content">
+            <h2>海報版面分析</h2>
+            <p>拆解海報構圖、視覺焦點與資訊層級。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./03_Illusion-Poster-colors-and-atmosphere.jpg" alt="錯視海報色彩與氛圍">
+          <div class="content">
+            <h2>錯視海報色彩</h2>
+            <p>探索色彩、視覺錯覺與氛圍設計。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./04_Mysterious-Technology-Poster.jpg" alt="神秘科技風海報">
+          <div class="content">
+            <h2>神秘科技海報</h2>
+            <p>以科技感、暗色調與光影建立主題視覺。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./05_Joyful-and-warm-Poster.jpg" alt="歡樂溫暖風格海報">
+          <div class="content">
+            <h2>歡樂溫暖海報</h2>
+            <p>練習溫暖色調與親和視覺語氣。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./06_1-Concept-and Atmosphere-Matching.jpg" alt="概念與氛圍配對圖一">
+          <div class="content">
+            <h2>概念氛圍配對 01</h2>
+            <p>將設計概念轉化為可感知的視覺方向。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./06_2-Concept-and Atmosphere-Matching.jpg" alt="概念與氛圍配對圖二">
+          <div class="content">
+            <h2>概念氛圍配對 02</h2>
+            <p>延伸不同氛圍設定與視覺語彙。</p>
+          </div>
+        </article>
+
+        <article class="gallery-card">
+          <img src="./07_Bleed-Cut-Mark.jpg" alt="出血裁切標記示意">
+          <div class="content">
+            <h2>出血裁切標記</h2>
+            <p>練習印刷出血、裁切線與輸出標記觀念。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page-shell">UI/UX Design Wireframes · Scarlett Yu</div>
+  </footer>
+</body>
+
+</html>
