@@ -47,10 +47,13 @@ let records = [];
 
 // 3.圖片路徑映射表 (請確保檔案名稱正確)
 const imgMap = {
-    "active": "./img/active.png",   // 服役中/待召
-    "young": "./img/young.png",     // 未到服役年齡
-    "retired": "./img/retired.png", // 役畢 / 免服役
-    "female": "./img/female.png"    // 女性免服役
+    "active": "./img/active.png",                         // 服役中/待召
+    "youngBoy": "./img/young-boy.jpg",                    // 未滿服役年齡 - 男童
+    "youngGirl": "./img/young-girl.png",                  // 未滿服役年齡 - 女童
+    "afterService": "./img/military-after-service.webp",  // 役畢後進入職場 - 壯年上班族男子
+    "femaleWorker": "./img/10_JS-military-female.jpg",    // 女性免服役 / 上班女子
+    "retiredMale": "./img/retired.png",                   // 超過65歲的退休男
+    "elderFemale": "./img/10_JS-military-elder.jpg"       // 老年生活的女生
 };
 
 document.getElementById('addBtn').addEventListener('click', () => {
@@ -67,23 +70,38 @@ document.getElementById('addBtn').addEventListener('click', () => {
 
     // 4.邏輯判斷
     if (gender === "female") {
-        status = "女性免服役";
-        imgKey = "female";
+        if (age < 18) {
+            status = "未到服役年齡";
+            imgKey = "youngGirl";
+        } else if (age >= 65) {
+            status = "女性免服役 / 老年生活";
+            imgKey = "elderFemale";
+        } else {
+            status = "女性免服役 / 進入職場";
+            imgKey = "femaleWorker";
+        }
     } else {
         if (age < 18) {
             status = "未到服役年齡";
-            imgKey = "young";
+            imgKey = "youngBoy";
         } else if (age >= 18 && age <= 26) {
             status = "服役中/待召";
             imgKey = "active";
+        } else if (age < 65) {
+            status = "役畢 / 進入職場";
+            imgKey = "afterService";
         } else {
-            status = "役畢 / 免服役";
-            imgKey = "retired";
+            status = "役畢 / 老年生活";
+            imgKey = "retiredMale";
         }
     }
 
     // 5.更新介面與圖片
     statusResult.innerHTML = `<h3>${name} (${age}歲)</h3><p>${status}</p>`;
+    statusImg.onerror = () => {
+        statusImg.onerror = null;
+        statusImg.src = "./img/active.png";
+    };
     statusImg.src = imgMap[imgKey];
     statusImg.style.display = "block";
 
